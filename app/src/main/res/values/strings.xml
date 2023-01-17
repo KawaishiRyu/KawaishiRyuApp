@@ -2,4 +2,6 @@
     <string name="app_name">Kawaishi Ryu</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="comenzemos">Comenzemos!</string>
+    <string name="frase_registro">Crea una cuenta y adentrate en el mundo del jiu jutsu</string>
 </resources>
