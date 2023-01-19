@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1016310040781",
+    "project_id": "jiu-jitsu-8987c",
+    "storage_bucket": "jiu-jitsu-8987c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016310040781:android:4cf0da0f93d70df39f8184",
+        "android_client_info": {
+          "package_name": "app.kawaishiryu.jiujitsu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1016310040781-4lokc0lnfr8c2j3c4tt7dkfln8voidlu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN8C6ZyNfUUirdjjt_RJbIRFWBrYDA20U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1016310040781-4lokc0lnfr8c2j3c4tt7dkfln8voidlu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
