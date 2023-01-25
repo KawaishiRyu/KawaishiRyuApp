@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Inicio"
+        />
+
+    <item
+        android:title="Ubicacion">
+        <menu>
+            <item
+                android:id="@+id/locationFragment"
+                android:icon="@drawable/ic_location"
+                android:title="Ubicacion del Dojo"
+                />
+
+        </menu>
+    </item>
+
+
+
+</menu>
