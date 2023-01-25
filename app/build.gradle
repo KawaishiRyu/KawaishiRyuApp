@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -10,7 +12,7 @@ android {
     defaultConfig {
         applicationId "app.kawaishiryu.jiujitsu"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -34,6 +36,12 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    //ViewBinding
+    viewBinding {
+        enabled = true
+    }
+
 }
 
 dependencies {
@@ -60,13 +68,19 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0' //Imagen circular
 
     // ViewModel MVVM
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 
     // LiveData MVVM
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+    //implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1") //Agregado
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.0-alpha04"
 
-    //Play services corutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4") //Retorna un objeto de tipo task
+    //Corrutinas
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
 
-
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
