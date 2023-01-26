@@ -8,10 +8,11 @@ import kotlinx.coroutines.tasks.await
 
 
 //Logica para loguear el usuario - Peticion a firebase
-class LoginDataSource (private val dataSource: LoginDataSource): LoginRepo{
+//class LoginDataSource (private val dataSource: LoginDataSource): LoginRepo{
+class LoginDataSource{
 
     //Hacemos consulta y con el await esperamos a q traiga la informacion del servidor
-    override suspend fun sign(email: String, password: String): FirebaseUser? {
+     suspend fun sign(email: String, password: String): FirebaseUser? {
         val authResult = FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password).await()
         return authResult.user
     }
