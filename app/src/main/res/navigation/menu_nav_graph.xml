@@ -14,5 +14,19 @@
         android:id="@+id/locationFragment"
         android:name="app.kawaishiryu.jiujitsu.view.LocationFragment"
         android:label="fragment_location"
-        tools:layout="@layout/fragment_location" />
+        tools:layout="@layout/fragment_location" >
+        <action
+            android:id="@+id/action_locationFragment_to_registerDojoFragment"
+            app:destination="@id/registerDojoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationDojoFragment"
+        android:name="app.kawaishiryu.jiujitsu.view.LocationDojoFragment"
+        android:label="fragment_location_dojo"
+        tools:layout="@layout/fragment_location_dojo" />
+    <fragment
+        android:id="@+id/registerDojoFragment"
+        android:name="app.kawaishiryu.jiujitsu.RegisterDojoFragment"
+        android:label="fragment_register_dojo"
+        tools:layout="@layout/fragment_register_dojo" />
 </navigation>

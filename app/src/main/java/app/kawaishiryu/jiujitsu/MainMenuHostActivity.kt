@@ -2,7 +2,9 @@ package app.kawaishiryu.jiujitsu
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,9 +12,9 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.databinding.ActivityMainMenuHostBinding
+import com.google.android.material.navigation.NavigationView
 
 class MainMenuHostActivity : AppCompatActivity() {
-
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainMenuHostBinding

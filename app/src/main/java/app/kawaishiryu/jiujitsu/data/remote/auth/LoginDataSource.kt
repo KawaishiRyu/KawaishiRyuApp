@@ -16,6 +16,4 @@ class LoginDataSource{
         val authResult = FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password).await()
         return authResult.user
     }
-
-
 }

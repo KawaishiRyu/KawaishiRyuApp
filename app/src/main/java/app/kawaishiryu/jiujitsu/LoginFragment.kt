@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.util.PatternsCompat
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -24,6 +25,7 @@ import app.kawaishiryu.jiujitsu.domain.auth.LoginRepoImpl
 import app.kawaishiryu.jiujitsu.presentation.auth.LoginScreenViewModel
 import app.kawaishiryu.jiujitsu.presentation.auth.LoginScreenViewModelFactory
 import app.kawaishiryu.jiujitsu.util.controlEmailAndPassword
+import app.kawaishiryu.jiujitsu.view.LocationFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -35,10 +37,9 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
+
     //Creamos una variable de Firebase Auth y con el metodo by lazy ejecuta tod lo q esta dentro de las llaves
     private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
-
-
 
     //Instanciamos la clase del viewModel
     private val viewModel by viewModels<LoginScreenViewModel> {
@@ -56,6 +57,7 @@ class LoginFragment : Fragment() {
 
         //Esta funcion lo que hace es programar los eventos que se realicen en el textview
         events()
+        intentLocation()
         return binding.root
     }
 
@@ -89,15 +91,15 @@ class LoginFragment : Fragment() {
         editTextPasswordId.addTextChangedListener(textWatcher)
 
         btnNavegar.setOnClickListener {
-            signIn(editTextEmailId.text.toString(),editTextPasswordId.text.toString())
+            signIn(editTextEmailId.text.toString(), editTextPasswordId.text.toString())
         }
 
 
     }
 
     private fun signIn(email: String, password: String) {
-        Log.i("email","$email")
-        Log.i("contraseña","$password")
+        Log.i("email", "$email")
+        Log.i("contraseña", "$password")
         viewModel.signIn(email, password)
             .observe(viewLifecycleOwner, Observer { result ->
 
@@ -106,14 +108,13 @@ class LoginFragment : Fragment() {
 
                     }
                     is LoginResult.Success -> {
-
                         val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
                         startActivity(intent)
 
                         Toast.makeText(
                             requireContext(),
                             "Bienvenido",
-                            Toast.LENGTH_SHORT
+                            Toast.LENGTH_LONG
                         ).show()
 
                     }
@@ -146,5 +147,9 @@ class LoginFragment : Fragment() {
     fun TextInputLayout.clearError() {
         error = null
         isErrorEnabled = false
+    }
+
+    fun intentLocation() {
+
     }
 }

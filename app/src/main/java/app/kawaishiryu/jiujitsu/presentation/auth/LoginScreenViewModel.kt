@@ -1,20 +1,16 @@
 package app.kawaishiryu.jiujitsu.presentation.auth
 
-import android.util.Log
 import androidx.lifecycle.*
 import app.kawaishiryu.jiujitsu.data.LoginResult
 import app.kawaishiryu.jiujitsu.domain.auth.LoginRepo
-import app.kawaishiryu.jiujitsu.domain.auth.LoginRepoImpl
 import com.google.firebase.auth.FirebaseUser
-import io.grpc.internal.SharedResourceHolder.Resource
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class LoginScreenViewModel(private val repo: LoginRepo) : ViewModel() {
 
 
-    fun signIn(email: String, password: String): LiveData<LoginResult<FirebaseUser?>>  =
+    fun signIn(email: String, password: String): LiveData<LoginResult<FirebaseUser?>> =
         liveData(viewModelScope.coroutineContext + Dispatchers.Main) {
 
             emit(LoginResult.Loading())
@@ -26,7 +22,6 @@ class LoginScreenViewModel(private val repo: LoginRepo) : ViewModel() {
 
                 emit(LoginResult.Failure(e))
             }
-
         }
 
 }
@@ -38,6 +33,7 @@ class LoginScreenViewModel(private val repo: LoginRepo) : ViewModel() {
 
 }*/
 
+//Se coloca porq no se puede inicializar un viewModel con valores adentro - La instancia del viewModel Siempre tiene q ser vacia
 class LoginScreenViewModelFactory(private val repo: LoginRepo): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return modelClass.getConstructor(LoginRepo::class.java).newInstance(repo)
