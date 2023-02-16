@@ -16,6 +16,8 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import app.kawaishiryu.jiujitsu.data.LoginResult
 import app.kawaishiryu.jiujitsu.data.remote.auth.LoginDataSource
@@ -55,6 +57,7 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         isUserLoggedIn()
 
+
         //Esta funcion lo que hace es programar los eventos que se realicen en el textview
         events()
         intentLocation()
@@ -92,6 +95,9 @@ class LoginFragment : Fragment() {
 
         btnNavegar.setOnClickListener {
             signIn(editTextEmailId.text.toString(), editTextPasswordId.text.toString())
+        }
+        btnRegister.setOnClickListener {
+            view!!.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
 

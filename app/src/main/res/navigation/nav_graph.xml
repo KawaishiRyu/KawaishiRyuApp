@@ -23,11 +23,24 @@
         android:id="@+id/registerFragment"
         android:name="app.kawaishiryu.jiujitsu.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_pictureFragmentUser"
+            app:destination="@id/pictureFragmentUser" />
+    </fragment>
     <fragment
         android:id="@+id/auxFragment"
         android:name="app.kawaishiryu.jiujitsu.AuxFragment"
         android:label="fragment_aux"
         tools:layout="@layout/fragment_aux" />
+    <fragment
+        android:id="@+id/pictureFragmentUser"
+        android:name="app.kawaishiryu.jiujitsu.view.PictureFragmentUser"
+        android:label="fragment_picture_user"
+        tools:layout="@layout/fragment_picture_user" >
+        <argument
+            android:name="currentUserRegister"
+            app:argType="app.kawaishiryu.jiujitsu.data.model.CurrentUser" />
+    </fragment>
 
 </navigation>

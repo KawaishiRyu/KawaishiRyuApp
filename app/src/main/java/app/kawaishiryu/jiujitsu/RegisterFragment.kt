@@ -1,59 +1,93 @@
 package app.kawaishiryu.jiujitsu
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import app.kawaishiryu.jiujitsu.core.RegisterViewModel
+import app.kawaishiryu.jiujitsu.core.RegisterViewModelState
+import app.kawaishiryu.jiujitsu.data.model.CurrentUser
+import app.kawaishiryu.jiujitsu.data.model.service.UserModel
+import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterBinding
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RegisterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class RegisterFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class RegisterFragment : Fragment(R.layout.fragment_register) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var binding: FragmentRegisterBinding
+    private val viewModel: RegisterViewModel by viewModels()
+
+    //Primero obtengo la instancia de Firebase
+    private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentRegisterBinding.bind(view)
+        var user1 = CurrentUser()
+
+
+        binding.btnregistro.setOnClickListener {
+            //Se creo
+            //Falta validaciones
+            user1.email = binding.teEmailUser.text.toString()
+            user1.password = binding.teContraseA.text.toString()
+            user1.name = binding.teNombreDeUsuario.text.toString()
+            user1.apellido = binding.teApellidoUser.text.toString()
+            Log.i("Useremail","${user1.email}")
+            viewModel.registrarUsuario(user1)
         }
+        startFlow()
+
+
+
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false)
-    }
+    private fun startFlow() {
+        Log.i("registro","Se Largo la corrutina la corrutina")
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RegisterFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RegisterFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.registerUserViewModelState.collect(){
+                    //Procesamos el item
+                    when(it){
+                        is RegisterViewModelState.RegisterUserSuccesfully ->{
+                            Toast.makeText(context, "Register succes", Toast.LENGTH_SHORT)
+                                .show()
+                            Log.i("Registro exitoso","Se registro bien")
+                        }
+
+                    }
                 }
             }
+        }
+
+       /*viewLifecycleOwner.lifecycleScope.launch {
+           viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+               viewModel.registerViewModelState.collect(){
+                   //Procesamos el Item
+                   when(it){
+                       is RegisterViewModelState.RegisterSuccesfully ->{
+                           //Registro exitoso
+                           Toast.makeText(context, "Register succes", Toast.LENGTH_SHORT)
+                               .show()
+                           Log.i("registro","Se registro")
+                       }
+
+                   }
+               }
+           }
+       }*/
+
     }
+
+
+
+
 }
