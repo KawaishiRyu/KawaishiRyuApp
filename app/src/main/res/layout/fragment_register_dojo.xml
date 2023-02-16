@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".RegisterDojoFragment">
+    tools:context=".view.RegisterDojoFragment">
 
     <ImageView
         android:id="@+id/ivDojosRegFrg"
@@ -54,8 +54,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/etUbication"
-            android:hint="Ubication" />
+            android:id="@+id/etPrice"
+            android:hint="Price" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -63,12 +63,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
 
 
 </LinearLayout>

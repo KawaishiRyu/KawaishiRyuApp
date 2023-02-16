@@ -21,12 +21,12 @@
     </fragment>
     <fragment
         android:id="@+id/locationDojoFragment"
-        android:name="app.kawaishiryu.jiujitsu.view.LocationDojoFragment"
+        android:name="app.kawaishiryu.jiujitsu.view.DetailLocationDojoFragment"
         android:label="fragment_location_dojo"
         tools:layout="@layout/fragment_location_dojo" />
     <fragment
         android:id="@+id/registerDojoFragment"
-        android:name="app.kawaishiryu.jiujitsu.RegisterDojoFragment"
+        android:name="app.kawaishiryu.jiujitsu.view.RegisterDojoFragment"
         android:label="fragment_register_dojo"
         tools:layout="@layout/fragment_register_dojo" />
 </navigation>
