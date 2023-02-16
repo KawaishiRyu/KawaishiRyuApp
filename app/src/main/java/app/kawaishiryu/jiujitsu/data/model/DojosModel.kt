@@ -8,6 +8,7 @@ class DojosModel {
         const val NAME_SENSEI_KEY = "NAME_SENSEI"
         const val NAME_DOJO_KEY = "NAME_DOJO"
         const val DOJO_IMAGE_URL_KEY = "DOJO_IMAGE_URL"
+        const val DOJO_IMAGE_PATH_URL_KEY = "DOJO_IMAGE_PATH_URL"
         const val DESCRIPTION_KEY = "DESCRIPTION"
         const val PRICE_KEY = "PRICE"
     }
@@ -16,6 +17,7 @@ class DojosModel {
     var nameSensei = ""
     var nameDojo = ""
     var dojoUrlImage = ""
+    var imagePathUrl = ""
     var description = ""
     var price = ""
 
@@ -27,6 +29,7 @@ class DojosModel {
         map[NAME_SENSEI_KEY] = nameSensei
         map[NAME_DOJO_KEY] = nameDojo
         map[DOJO_IMAGE_URL_KEY] = dojoUrlImage
+        map[DOJO_IMAGE_PATH_URL_KEY] = imagePathUrl
         map[DESCRIPTION_KEY] = description
         map[PRICE_KEY] = price
 
@@ -38,6 +41,7 @@ class DojosModel {
         nameSensei = map[NAME_SENSEI_KEY] as String
         nameDojo = map[NAME_DOJO_KEY] as String
         dojoUrlImage = map[DOJO_IMAGE_URL_KEY] as String
+        imagePathUrl = map[DOJO_IMAGE_PATH_URL_KEY] as String
         description = map[DESCRIPTION_KEY] as String
         price = map[PRICE_KEY] as String
     }

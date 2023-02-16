@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.whenCreated
 import app.kawaishiryu.jiujitsu.R
+import app.kawaishiryu.jiujitsu.core.DojoViewModelState
 import app.kawaishiryu.jiujitsu.data.model.DojosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterDojoBinding
 import app.kawaishiryu.jiujitsu.util.StoragePermission
@@ -52,27 +53,30 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo) {
                 viewModel.dojosViewModelState.collect {
                     // Process item
                     when (it) {
-                        is DojoViewModelState.RegisterSuccessfully -> {
-                            //Register succes
-                            Log.d("???", "${it.dojoModel}")
-                            Toast.makeText(context, "Register succes", Toast.LENGTH_SHORT)
-                                .show()
-                        }
                         is DojoViewModelState.Loading -> {
                             //show progresss here
+                            Log.d("???", "Cargando")
+                            showProgres()
+                        }
+
+                        is DojoViewModelState.RegisterSuccessfully -> {
+                            hideProgress()
+                            //Register succes
+                            Log.d("???", "fue exitoso ${it.dojoModel}")
+                            Toast.makeText(context, "Register succes", Toast.LENGTH_SHORT)
+                                .show()
                         }
 
                         is DojoViewModelState.Empty -> {
                             //Selected is empty
+                            Log.d("???", "Vacio")
+                            hideProgress()
                         }
                         is DojoViewModelState.Error -> {
                             Log.d("???", "Error")
+                            hideProgress()
                         }
 
-                        is DojoViewModelState.None -> Unit
-                        else -> {
-
-                        }
                     }
                 }
             }
@@ -110,18 +114,25 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo) {
         val uuid = getRandomUUIDString()
 
         modelDojo.uuId = uuid
-        modelDojo.dojoUrlImage = "NADA"
         modelDojo.nameSensei = binding.etSenseiName.text.toString().trim()
         modelDojo.nameDojo = binding.etNameDojo.text.toString().trim()
         modelDojo.description = binding.etDescription.text.toString().trim()
         modelDojo.price = binding.etPrice.text.toString().trim()
 
-        viewModel.register(modelDojo)
+        viewModel.register(imageSelectedUri, "${modelDojo.uuId}.jpg",modelDojo)
     }
 
     private fun getRandomUUIDString(): String {
         return UUID.randomUUID().toString().replace("-", "")
     }
+
+    private fun showProgres(){
+        binding.animationFrame.visibility = View.VISIBLE
+    }
+    private fun hideProgress(){
+        binding.animationFrame.visibility = View.GONE
+    }
+
 }
 
 
