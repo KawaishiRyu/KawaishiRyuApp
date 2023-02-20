@@ -33,8 +33,10 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo) {
     //Seleccionar imagen
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            Log.i("imagenes","Llego ahì")
             if (it.resultCode == Activity.RESULT_OK) {
                 imageSelectedUri = it.data?.data
+                Log.i("imagenes","$imageSelectedUri")
                 binding.ivDojosRegFrg.setImageURI(imageSelectedUri)
             }
         }

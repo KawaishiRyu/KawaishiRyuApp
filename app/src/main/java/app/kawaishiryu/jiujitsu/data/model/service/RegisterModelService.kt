@@ -14,17 +14,27 @@ import org.checkerframework.checker.units.qual.Current
 
 object RegisterModelService {
     //Registra los datos obtenidos de la otra corutina en firebase
+    //Registramos al usuario en la base de datos
     suspend fun register(userModel: UserModel): Void = withContext(Dispatchers.IO){
         return@withContext CloudFileStoreWrapper.replace(
             UserModel.CLOUD_FIRE_STORE_PATH,
-            userModel.id, //uuId as document path of firebase fire store database
+            userModel.currentUser.id, //uuId as document path of firebase fire store database
             userModel.toDictionary()
         )
     }
 
-    suspend fun registerUser(user: CurrentUser): Void = withContext(Dispatchers.IO){
+
+    suspend fun registerUser(user: CurrentUser): Boolean = withContext(Dispatchers.IO){
         Log.i("registrarUser","llego hasta aqui 2")
         return@withContext CloudFileStoreWrapper.registerComplete(user)
+    }
+
+    suspend fun signInUser(user: CurrentUser): Boolean = withContext(Dispatchers.IO){
+        return@withContext CloudFileStoreWrapper.signInUserComplete(user)
+    }
+
+    suspend fun loggedInUser(): Boolean = withContext(Dispatchers.IO){
+        return@withContext CloudFileStoreWrapper.loggedUser()
     }
 
 }

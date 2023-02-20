@@ -12,50 +12,23 @@ class UserModel {
         const val PASSWORD_USER_KEY = "PASSWORD_USER"
         const val EMAIL_USER_KEY = "EMAIL_USER"
         const val PICTURE_PROFILE_USER_KEY = "PICTURE_PROFILE_USER"
-        const val PATH_USER_key = "PATH"
-
 
     }
 
-    var id = ""
-    var nameUser = ""
-    var passwordUser = ""
-    var emailUser = ""
-    var pictureProfileUser = ""
-    var pathUser = ""
-
+    var currentUser: CurrentUser = CurrentUser()
 
 
     fun toDictionary(): MutableMap<String, Any> {
 
         val map = mutableMapOf<String, Any>()
 
-        map[ID_KEY] = id
-        map[NAME_USER_KEY] = nameUser
-        map[PASSWORD_USER_KEY] = passwordUser
-        map[EMAIL_USER_KEY] = emailUser
-        map[PICTURE_PROFILE_USER_KEY] = pictureProfileUser
-        map[PATH_USER_key] = pathUser
-
+        map[ID_KEY] = currentUser.id
+        map[NAME_USER_KEY] = currentUser.name
+        map[PASSWORD_USER_KEY] = currentUser.password
+        map[EMAIL_USER_KEY] = currentUser.email
+        //Esta en formato bit
+        map[PICTURE_PROFILE_USER_KEY] = currentUser.pictureProfile
         return map
     }
 
-    fun parcing(map: MutableMap<String, Any>): CurrentUser {
-        id = map[ID_KEY] as String
-        nameUser = map[NAME_USER_KEY] as String
-        passwordUser = map[PASSWORD_USER_KEY] as String
-        emailUser = map[EMAIL_USER_KEY] as String
-        pictureProfileUser = map[PICTURE_PROFILE_USER_KEY] as String
-        pathUser = map[PATH_USER_key] as String
-
-        return CurrentUser(
-            id = id,
-            name = nameUser,
-            apellido = "",
-            password = passwordUser,
-            email = emailUser,
-            pictureProfile = pictureProfileUser,
-            pathPictureProfile = pathUser
-        )
-    }
 }

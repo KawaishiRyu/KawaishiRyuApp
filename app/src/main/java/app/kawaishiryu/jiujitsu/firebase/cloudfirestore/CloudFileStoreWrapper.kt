@@ -30,6 +30,7 @@ object CloudFileStoreWrapper {
         return suspendCoroutine { continuacion->
             Firebase.firestore.collection(collectionPath).document(documentPath).set(map)
                 .addOnSuccessListener {
+                    //Se guarda en la app
                     continuacion.resume(it)
                 }
                 .addOnFailureListener {
@@ -38,43 +39,71 @@ object CloudFileStoreWrapper {
         }
     }
 
-    suspend fun select(collectionPath: String, conditionMap: MutableMap<String, Any>?, limit: Long = 1){
-        return suspendCoroutine {
-            val collectionReference = Firebase.firestore.collection(collectionPath)
-            var query = collectionReference.limit(limit)
-
-            conditionMap?.let {
-                it.forEach {map->
-                    query = collectionReference.whereEqualTo(map.key,map.value)
-                }
-            }
-
-            query.get().addOnSuccessListener {
-
-            }.addOnFailureListener {
-
-            }
-        }
-
-    }
 
     //Esta funcion lo que hace es registrar al usuario y avisar si esta lista o no
-    suspend fun registerComplete(user: CurrentUser): Void{
+    suspend fun registerComplete(user: CurrentUser): Boolean{
         return suspendCoroutine { continuacion ->
             firebaseAuth.createUserWithEmailAndPassword(user.email,user.password).addOnCompleteListener { task->
+
                 if(task.isSuccessful){
 
                     var user = firebaseAuth.currentUser
                     Log.i("usuario registrado","${user!!.email}")
                     Log.i("usuario registrado2", "${user.uid}")
+                continuacion.resume(task.isComplete)
                 }
 
             }.addOnFailureListener {
                 Log.i("registrarUsuarioError","${it}")
+                continuacion.resumeWithException(it)
             }
 
         }
     }
 
+    //Esta funcion nos sirve para poder ingresar de usuario
+
+    suspend fun signInUserComplete(user: CurrentUser): Boolean{
+        return suspendCoroutine { continuacion ->
+
+            firebaseAuth.signInWithEmailAndPassword(user.email,user.password).addOnCompleteListener { task->
+                if (task.isSuccessful){
+                    continuacion.resume(task.isComplete)
+                }
+            }.addOnFailureListener { error->
+                //Error de cuando logra ingresar
+                continuacion.resumeWithException(error)
+            }
+
+
+
+        }
+    }
+
+
+    //Esta funcion suspendida nos sierve para retornar verdaddero en el caso
+    //de que el usuario ya se encuentre activo
+
+    suspend fun loggedUser(): Boolean{
+        return suspendCoroutine { continuacion ->
+            if(firebaseAuth.currentUser != null){
+                continuacion.resume(true)
+            }else{
+
+
+            }
+        }
+    }
+
 }
+/*
+ firebaseAuth.currentUser?.let {
+            //Largamos lo actividad
+            /*val intent = Intent(requireContext(),MainMenuHostActivity::class.java)
+            startActivity(intent)*/
+            val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
+            startActivity(intent)
+            Toast.makeText(context, "Bienvenido de nuevo :)", Toast.LENGTH_SHORT).show()
+        }
+ */
 

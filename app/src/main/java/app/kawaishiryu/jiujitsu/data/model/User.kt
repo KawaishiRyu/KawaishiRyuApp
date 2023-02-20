@@ -12,5 +12,11 @@ data class CurrentUser(
     var email:String = "",
     var pictureProfile:String = "",
     var pathPictureProfile: String = ""
-):Parcelable
+):Parcelable{
+    companion object{
+        var userRegister = CurrentUser()
+    }
+}
+
+
 

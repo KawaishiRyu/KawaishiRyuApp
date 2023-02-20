@@ -12,17 +12,14 @@ import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-
-object StoragePermission {
-
+object CamarePermission {
     private const val PERMISSION_CODE = 0
-    private const val PERMISION = Manifest.permission.READ_EXTERNAL_STORAGE
-
-
-
-
+    private const val PERMISION = Manifest.permission.CAMERA
     private var isPermissionExplain = false
 
+
+    //Si es verdadero quiere decir que ya se abrio la camara
+    //Que el permiso fue aceptado
     fun hasPermission(context: Context): Boolean {
         return (ContextCompat.checkSelfPermission(
             context,
@@ -30,6 +27,8 @@ object StoragePermission {
         ) == PackageManager.PERMISSION_GRANTED)
     }
 
+
+    //Pedir permison
     fun requestPermission(context: Context) {
         ActivityCompat.requestPermissions(
             context as Activity,
@@ -74,5 +73,9 @@ object StoragePermission {
         intent.data = Uri.fromParts("package", activity.packageName, null)
         activity.startActivity(intent)
     }
+
+
 }
+
+
 
