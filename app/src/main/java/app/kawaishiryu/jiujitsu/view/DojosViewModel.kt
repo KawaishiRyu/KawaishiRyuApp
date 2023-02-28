@@ -14,10 +14,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-
 class DojosViewModel : ViewModel() {
 
-    private val _dojosViewModelState = MutableStateFlow<DojoViewModelState>(DojoViewModelState.None)
+    private val _dojosViewModelState = MutableStateFlow<DojoViewModelState>(DojoViewModelState.Empty)
     val dojosViewModelState: StateFlow<DojoViewModelState> = _dojosViewModelState
 
     fun register(imageUri: Uri?, imageFileName: String, dojoModel: DojosModel) =

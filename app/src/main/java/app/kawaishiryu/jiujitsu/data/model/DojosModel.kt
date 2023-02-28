@@ -1,6 +1,23 @@
 package app.kawaishiryu.jiujitsu.data.model
 
-class DojosModel {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class DojosModel(
+    var uuId: String = "",
+    var nameSensei: String = "",
+    var nameDojo: String = "",
+    var dojoUrlImage: String = "",
+    var imagePathUrl: String = "",
+    var description: String = "",
+    var price: String = "",
+    //Añadido
+    var numberWpp: String = "",
+    var instaUrl: String = "",
+    var facebookUrl: String = "",
+
+): Parcelable {
 
     companion object {
         const val CLOUD_FIRE_STORE_PATH = "DOJOS"
@@ -11,15 +28,12 @@ class DojosModel {
         const val DOJO_IMAGE_PATH_URL_KEY = "DOJO_IMAGE_PATH_URL"
         const val DESCRIPTION_KEY = "DESCRIPTION"
         const val PRICE_KEY = "PRICE"
+
+        const val NUMBER_WPP_KEY = "NUMBER_WPP"
+        const val INSTA_URL_KEY = "INSTA_URL"
+        const val FACEBOOK_URL_KET = "FACEBOOK_URL"
     }
 
-    var uuId = ""
-    var nameSensei = ""
-    var nameDojo = ""
-    var dojoUrlImage = ""
-    var imagePathUrl = ""
-    var description = ""
-    var price = ""
 
     fun toDictionary(): MutableMap<String, Any> {
 
@@ -32,6 +46,10 @@ class DojosModel {
         map[DOJO_IMAGE_PATH_URL_KEY] = imagePathUrl
         map[DESCRIPTION_KEY] = description
         map[PRICE_KEY] = price
+
+        map[NUMBER_WPP_KEY] = numberWpp
+        map[INSTA_URL_KEY] = instaUrl
+        map[FACEBOOK_URL_KET] = facebookUrl
 
         return map
     }

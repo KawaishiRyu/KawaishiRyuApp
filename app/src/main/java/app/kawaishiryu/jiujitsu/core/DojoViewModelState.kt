@@ -10,5 +10,5 @@ sealed class DojoViewModelState {
 
     object Empty : DojoViewModelState()
     object Loading : DojoViewModelState()
-    object None : DojoViewModelState()
+    //object None : DojoViewModelState()
 }

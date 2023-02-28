@@ -1,22 +1,83 @@
 package app.kawaishiryu.jiujitsu.view
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
-import app.kawaishiryu.jiujitsu.databinding.FragmentLocationDojoBinding
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
+import app.kawaishiryu.jiujitsu.databinding.FragmentDetailLocationDojoBinding
+import com.squareup.picasso.Picasso
 
-class DetailLocationDojoFragment : Fragment() {
 
-    private var binding: FragmentLocationDojoBinding? = null
+class DetailLocationDojoFragment :
+    Fragment(app.kawaishiryu.jiujitsu.R.layout.fragment_detail_location_dojo) {
+
+    private lateinit var binding: FragmentDetailLocationDojoBinding
+    val args: DetailLocationDojoFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentLocationDojoBinding.bind(view)
+
+        binding = FragmentDetailLocationDojoBinding.bind(view)
+
+        args.argumentos.let {
+            binding.tvNameDojo.text = it.nameDojo
+            binding.tvNameSensei.text = it.nameSensei
+            binding.tvDescription.text = it.description
+            binding.tvPrice.text = it.price
+            binding.tvFacebookUrl.text = it.facebookUrl
+            binding.tvInstaUrl.text = it.instaUrl
+            binding.tvNumeberWpp.text = it.numberWpp
+
+            Picasso.get().load(it.dojoUrlImage).into(binding.ivDojoDetail)
+
+            binding.tvNumeberWpp.setOnClickListener { view ->
+                openWpp(it.numberWpp)
+            }
+            binding.tvInstaUrl.setOnClickListener { view ->
+                openInsta(it.instaUrl)
+            }
+        }
 
     }
 
-    override fun onDestroyView() {
-        binding = null
-        super.onDestroyView()
+    private fun openWpp(numero: String) {
+        val url = "https://api.whatsapp.com/send?phone=+$numero"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+
+        try {
+            startActivity(intent)
+
+        }catch (e: ActivityNotFoundException){
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://api.whatsapp.com/send?phone=+$numero")
+                )
+            )
+        }
     }
+
+    private fun openInsta(user: String) {
+
+        val uri = Uri.parse("http://instagram.com/_u/$user")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+
+        intent.setPackage("com.instagram.android")
+
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://instagram.com/$user")
+                )
+            )
+        }
+    }
+
 }

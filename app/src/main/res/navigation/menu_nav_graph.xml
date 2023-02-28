@@ -18,12 +18,22 @@
         <action
             android:id="@+id/action_locationFragment_to_registerDojoFragment"
             app:destination="@id/registerDojoFragment" />
+        <action
+            android:id="@+id/action_locationFragment_to_locationDojoFragment"
+            app:destination="@id/locationDojoFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/locationDojoFragment"
         android:name="app.kawaishiryu.jiujitsu.view.DetailLocationDojoFragment"
         android:label="fragment_location_dojo"
-        tools:layout="@layout/fragment_location_dojo" />
+        tools:layout="@layout/fragment_detail_location_dojo" >
+
+        <argument
+            android:name="argumentos"
+            app:argType="app.kawaishiryu.jiujitsu.data.model.DojosModel" />
+    </fragment>
+
     <fragment
         android:id="@+id/registerDojoFragment"
         android:name="app.kawaishiryu.jiujitsu.view.RegisterDojoFragment"

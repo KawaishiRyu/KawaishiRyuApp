@@ -6,21 +6,21 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.whenCreated
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.core.DojoViewModelState
 import app.kawaishiryu.jiujitsu.data.model.DojosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterDojoBinding
 import app.kawaishiryu.jiujitsu.util.StoragePermission
-import kotlinx.coroutines.Dispatchers
+import com.hbb20.CountryCodePicker.PhoneNumberValidityChangeListener
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -45,6 +45,20 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo) {
         binding = FragmentRegisterDojoBinding.bind(view)
         initFlows()
         clickableEvent()
+
+        checKIsValidNumber()
+    }
+
+    private fun checKIsValidNumber() {
+        binding.ccp.registerCarrierNumberEditText(binding.etNumber)
+
+        binding.ccp.setPhoneNumberValidityChangeListener(PhoneNumberValidityChangeListener {
+            if (it){
+                binding.checkBox.setImageResource(R.drawable.check1)
+            }else{
+                binding.checkBox.setImageResource(R.drawable.error)
+            }
+        })
     }
 
     private fun initFlows() {
@@ -118,6 +132,10 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo) {
         modelDojo.nameDojo = binding.etNameDojo.text.toString().trim()
         modelDojo.description = binding.etDescription.text.toString().trim()
         modelDojo.price = binding.etPrice.text.toString().trim()
+        //Agregamos facebook, instagram, wpp
+        modelDojo.facebookUrl = binding.etFacebookUrl.text.toString().trim()
+        modelDojo.instaUrl = binding.etInstaUrl.text.toString().trim()
+        modelDojo.numberWpp = binding.ccp.fullNumber
 
         viewModel.register(imageSelectedUri, "${modelDojo.uuId}.jpg",modelDojo)
     }
