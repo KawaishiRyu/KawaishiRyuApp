@@ -18,6 +18,20 @@
 
         </menu>
     </item>
+    <item
+        android:title="Perfil de usuario">
+        <menu>
+            <item
+                android:id="@+id/profileUserFragment"
+                android:icon="@drawable/ic_account_circle"
+                android:title="Perfil"
+                />
+            <item
+                android:id="@+id/dialogSignOutUser"
+                android:icon="@drawable/ic_logout"
+                android:title="Cerrar sesion"/>
+        </menu>
+    </item>
 
 
 

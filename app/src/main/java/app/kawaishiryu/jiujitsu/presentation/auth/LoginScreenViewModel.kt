@@ -27,6 +27,28 @@ class LoginScreenViewModel() : ViewModel() {
     private var _loggedInUser = MutableStateFlow<ViewModelState>(ViewModelState.None)
     var loggedInUser = _loggedInUser.asStateFlow()
 
+     var prueba = MutableStateFlow<Boolean>(false)
+
+
+    //Esta funcion nos sirve para cuando el usuario esta logeado
+    fun userLogged() = viewModelScope.launch {
+
+        try {
+            //------------------------------------------------------------------------------------------------------------
+            var userLogged = async {
+                prueba.value = RegisterModelService.loggedInUser()
+            }
+            userLogged.await()
+            // Posible errror -------------------------------------------------------------------------------------------
+
+        } catch (e: Exception) {
+            _loggedInUser.value = ViewModelState.Error(e.message!!)
+
+        }
+    }
+
+
+
     fun signIn(user: CurrentUser) = viewModelScope.launch {
         //iniciamos el estado en cargando
         _signInUser.value = ViewModelState.Loading
@@ -53,19 +75,6 @@ class LoginScreenViewModel() : ViewModel() {
 
     }
 
-    fun userLogged() = viewModelScope.launch {
-        try {
-            var userLogged = async {
-                RegisterModelService.loggedInUser()
-            }
-            userLogged.await()
-            _loggedInUser.value = ViewModelState.Logged(true)
-
-        } catch (e: Exception) {
-            _loggedInUser.value = ViewModelState.Error(e.message!!)
-
-        }
-    }
 
 
     /*fun signIn(email: String, password: String): LiveData<LoginResult<FirebaseUser?>> =

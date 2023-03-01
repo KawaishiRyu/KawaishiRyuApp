@@ -29,4 +29,29 @@
         android:name="app.kawaishiryu.jiujitsu.view.RegisterDojoFragment"
         android:label="fragment_register_dojo"
         tools:layout="@layout/fragment_register_dojo" />
+    <fragment
+        android:id="@+id/profileUserFragment"
+        android:name="app.kawaishiryu.jiujitsu.view.ProfileUserFragment"
+        android:label="fragment_profile_user"
+        tools:layout="@layout/fragment_profile_user" >
+        <action
+            android:id="@+id/action_profileUserFragment_to_profileUserModifiedFragment"
+            app:destination="@id/profileUserModifiedFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/dialogSignOutUser"
+        android:name="app.kawaishiryu.jiujitsu.view.DialogSignOutUser"
+        android:label="DialogSignOutUser" />
+    <fragment
+        android:id="@+id/profileUserModifiedFragment"
+        android:name="app.kawaishiryu.jiujitsu.view.ProfileUserModifiedFragment"
+        android:label="fragment_profile_user_modified"
+        tools:layout="@layout/fragment_profile_user_modified" >
+        <action
+            android:id="@+id/action_profileUserModifiedFragment_to_profileUserFragment"
+            app:destination="@id/profileUserFragment" />
+        <argument
+            android:name="currentUserModifed"
+            app:argType="app.kawaishiryu.jiujitsu.data.model.CurrentUser" />
+    </fragment>
 </navigation>

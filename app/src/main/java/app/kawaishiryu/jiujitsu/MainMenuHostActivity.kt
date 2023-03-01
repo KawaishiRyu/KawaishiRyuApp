@@ -25,7 +25,7 @@ class MainMenuHostActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.homeFragment,R.id.locationFragment), binding.drawer
+            setOf(R.id.homeFragment,R.id.locationFragment,R.id.dialogSignOutUser,R.id.profileUserFragment), binding.drawer
         )
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment

@@ -43,14 +43,10 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
 
 
-    //Creamos una variable de Firebase Auth y con el metodo by lazy ejecuta tod lo q esta dentro de las llaves
-    private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
+
 
     //Instanciamos la clase del viewModel
     private val viewModel by viewModels<LoginScreenViewModel>()
-    /*
-
-     */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +61,6 @@ class LoginFragment : Fragment() {
         //Esta funcion lo que hace es programar los eventos que se realicen en el textview
         events()
         starFlow()
-        intentLocation()
         return binding.root
     }
 
@@ -73,16 +68,23 @@ class LoginFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.loggedInUser.collect(){
-                    when(it){
+                viewModel.prueba.collect(){
+                    if(it){
+                        //Tiramos el intent
+                        val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
+                        startActivity(intent)
+                        Toast.makeText(context, "Bienvenido de nuevo :)", Toast.LENGTH_SHORT).show()
+
+                    }
+                    /*when(it){
                         is ViewModelState.Logged->{
                             //Tiramos el intent
                             val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
                             startActivity(intent)
                             Toast.makeText(context, "Bienvenido de nuevo :)", Toast.LENGTH_SHORT).show()
-
                         }
-                    }
+                    }*/
+
                 }
             }
         }
@@ -165,26 +167,9 @@ class LoginFragment : Fragment() {
 
     //Verificamos si existe una cuenta
    private fun isUserLoggedIn() {
+        //----------------------------------------------------------------------
         viewModel.userLogged()
-        /*
-        //Verificamos que el usuario sea distinto de nulo
-        firebaseAuth.currentUser?.let {
-            //Largamos lo actividad
-            /*val intent = Intent(requireContext(),MainMenuHostActivity::class.java)
-            startActivity(intent)*/
-            val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
-            startActivity(intent)
-            Toast.makeText(context, "Bienvenido de nuevo :)", Toast.LENGTH_SHORT).show()
-        }*/
+        //----------------------------------------------------------------------
     }
 
-    //Limpia errores
-    fun TextInputLayout.clearError() {
-        error = null
-        isErrorEnabled = false
-    }
-
-    fun intentLocation() {
-
-    }
 }

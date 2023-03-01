@@ -33,6 +33,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     private lateinit var binding: FragmentRegisterBinding
     private val viewModel: RegisterViewModel by viewModels()
+    val currentUserRegister = UserModel()
     private var bitmapeado: Bitmap? = null
     //Creo un nuevo fragmentos
     //tiramos un intent para obtener los valores de la foto
@@ -52,7 +53,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentRegisterBinding.bind(view)
+        binding =FragmentRegisterBinding.bind(view)
 
 
         binding.btnPictureProfile.setOnClickListener {
@@ -60,10 +61,10 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         }
 
         startFlow()
-        binding.btnregistro.setOnClickListener {
+        binding.btnRegister.setOnClickListener {
             //Se creo
 
-            val currentUserRegister = UserModel()
+
 
 
 
@@ -79,7 +80,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             Log.i("foto", "${CurrentUser.userRegister.pictureProfile}")
 
             viewModel.registrarUsuario(currentUserRegister)
-            viewModel.registerUserCollectionDb(currentUserRegister)
         }
 
 
@@ -91,27 +91,22 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.registerUserViewModelState.collect() {
-                    //Procesamos el item
-                    when (it) {
-                        is ViewModelState.UserRegisterSuccesfully -> {
-                            Log.i("registro exitoso", "Se registro bien")
-                            //Subimos la colleccion a la base de datos de firebase
+            viewModel.registerUserViewModelState.collect(){
+                when(it){
+                    is ViewModelState.Loading ->{
+                        binding.tvRegistrarse.visibility = View.GONE
+                        binding.circularProgressIndicator.visibility = View.VISIBLE
+                        binding.tvWaiting.visibility = View.VISIBLE
+                    }
+                    is ViewModelState.UserRegisterSuccesfully ->{
+                        viewModel.profileUserDb.collect(){ userId ->
+                            currentUserRegister.currentUser.id = userId
+                            viewModel.registerUserCollectionDb(currentUserRegister)
                             baseDeDatosFirebase()
-
                         }
-                        is ViewModelState.Error -> {
-                            Toast.makeText(context, "Register succes", Toast.LENGTH_SHORT)
-                                .show()
-                            Log.i("se producio un error", "Se registro bien")
-
-                        }
-                        is ViewModelState.Loading -> {
-                            //Tendriamos que mostrar el progress bar
-                        }
-
                     }
                 }
+            }
             }
         }
 
@@ -124,8 +119,11 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     //Los estados posibles de
                     when(it){
                       is  ViewModelState.UserRegisterDbSyccesfully ->{
+                          binding.circularProgressIndicator.visibility = View.GONE
+                          binding.tvWaiting.visibility = View.GONE
+                          binding.tvDone.visibility = View.VISIBLE
                           //Se puso creo bien la base de datos
-                          Toast.makeText(context, "Se Päsa a navegacion", Toast.LENGTH_SHORT).show()
+                          Toast.makeText(context, "Se Pasa a navegacion", Toast.LENGTH_SHORT).show()
                           navigationUp()
                         }
                     }

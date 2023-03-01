@@ -150,14 +150,80 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnregistro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cornerRadius="50dp"
-        android:text="Continuar"
-        android:layout_gravity="center"
-        android:layout_marginTop="28dp"/>
+ <com.google.android.material.card.MaterialCardView
+     android:id="@+id/btnRegister"
+     android:layout_marginTop="18dp"
+     android:layout_width="match_parent"
+     android:layout_height="50dp"
+     app:cardCornerRadius="15dp"
+     >
+     <androidx.constraintlayout.widget.ConstraintLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+         <TextView
+             android:id="@+id/tvRegistrarse"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Registrate"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+             app:layout_constraintBottom_toBottomOf="parent"
+             android:textSize="14sp"
+             android:textColor="@color/black"
+             android:textStyle="bold"
+             android:gravity="center"
+             android:visibility="visible" />
+
+         <com.google.android.material.progressindicator.CircularProgressIndicator
+             android:id="@+id/circularProgressIndicator"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+             android:layout_marginStart="82dp"
+             android:layout_marginTop="2dp"
+             android:indeterminate="true"
+             android:layout_marginBottom="2dp"
+             android:visibility="gone"/>
+
+         <TextView
+             android:id="@+id/tvWaiting"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:gravity="start"
+             android:text="Espera unos segundos"
+             android:textColor="@color/black"
+             android:textSize="14sp"
+             android:textStyle="bold"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toEndOf="@+id/circularProgressIndicator"
+             app:layout_constraintTop_toTopOf="parent"
+             android:visibility="gone"/>
+         <TextView
+             android:id="@+id/tvDone"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Hecho"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+             app:layout_constraintBottom_toBottomOf="parent"
+             android:textSize="14sp"
+             android:textColor="@color/black"
+             android:textStyle="bold"
+             android:gravity="center"
+             android:visibility="gone"
+           />
+
+
+     </androidx.constraintlayout.widget.ConstraintLayout>
+
+ </com.google.android.material.card.MaterialCardView>
+
+
 
 
 </LinearLayout>

@@ -24,7 +24,7 @@ object RegisterModelService {
     }
 
 
-    suspend fun registerUser(user: CurrentUser): Boolean = withContext(Dispatchers.IO){
+    suspend fun registerUser(user: CurrentUser): String = withContext(Dispatchers.IO){
         Log.i("registrarUser","llego hasta aqui 2")
         return@withContext CloudFileStoreWrapper.registerComplete(user)
     }
@@ -35,6 +35,20 @@ object RegisterModelService {
 
     suspend fun loggedInUser(): Boolean = withContext(Dispatchers.IO){
         return@withContext CloudFileStoreWrapper.loggedUser()
+    }
+
+    suspend fun signOutUser(): Boolean = withContext(Dispatchers.IO){
+        return@withContext CloudFileStoreWrapper.signOut()
+    }
+
+    suspend fun dbColletionRefUser(id: String): CurrentUser = withContext(Dispatchers.IO){
+        return@withContext CloudFileStoreWrapper.obtenerDatosFirebase(UserModel.CLOUD_FIRE_STORE_PATH,id)
+    }
+
+    //utuilizamos una funcion suspendida
+
+    suspend fun modifiedCurrentUser(user: UserModel, id:String): Void = withContext(Dispatchers.IO){
+        return@withContext CloudFileStoreWrapper.modifiedCurrentUser(UserModel.CLOUD_FIRE_STORE_PATH,id,user.toDictionary())
     }
 
 }
