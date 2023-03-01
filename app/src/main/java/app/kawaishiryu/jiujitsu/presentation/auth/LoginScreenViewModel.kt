@@ -24,6 +24,9 @@ class LoginScreenViewModel() : ViewModel() {
     private var _signInUser = MutableStateFlow<ViewModelState>(ViewModelState.None)
     var signInUser = _signInUser.asStateFlow()
 
+    private var _pruebita: MutableStateFlow<Boolean> = MutableStateFlow<Boolean>(false)
+    var prueba = _pruebita.asStateFlow()
+
     private var _loggedInUser = MutableStateFlow<ViewModelState>(ViewModelState.None)
     var loggedInUser = _loggedInUser.asStateFlow()
 
@@ -59,9 +62,12 @@ class LoginScreenViewModel() : ViewModel() {
                 RegisterModelService.loggedInUser()
             }
             userLogged.await()
+            _pruebita.value = true
             _loggedInUser.value = ViewModelState.Logged(true)
 
         } catch (e: Exception) {
+            _pruebita.value = false
+            _loggedInUser.value = ViewModelState.Logged(false)
             _loggedInUser.value = ViewModelState.Error(e.message!!)
 
         }

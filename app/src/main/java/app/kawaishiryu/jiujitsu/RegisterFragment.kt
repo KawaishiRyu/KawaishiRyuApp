@@ -1,14 +1,11 @@
 package app.kawaishiryu.jiujitsu
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
@@ -23,8 +20,8 @@ import app.kawaishiryu.jiujitsu.data.model.CurrentUser
 import app.kawaishiryu.jiujitsu.data.model.service.UserModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterBinding
 import app.kawaishiryu.jiujitsu.util.CamarePermission
-import app.kawaishiryu.jiujitsu.util.StoragePermission
 import app.kawaishiryu.jiujitsu.util.getRandomUUIDString
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -33,6 +30,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     private lateinit var binding: FragmentRegisterBinding
     private val viewModel: RegisterViewModel by viewModels()
+    val currentUserRegister = UserModel()
     private var bitmapeado: Bitmap? = null
     //Creo un nuevo fragmentos
     //tiramos un intent para obtener los valores de la foto
@@ -60,10 +58,10 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         }
 
         startFlow()
-        binding.btnregistro.setOnClickListener {
+        binding.btnRegister.setOnClickListener {
             //Se creo
 
-            val currentUserRegister = UserModel()
+
 
 
 
@@ -72,14 +70,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             currentUserRegister.currentUser.password = binding.teContraseA.text.toString()
             currentUserRegister.currentUser.name = binding.teNombreDeUsuario.text.toString()
             currentUserRegister.currentUser.apellido= binding.teApellidoUser.text.toString()
-            currentUserRegister.currentUser.id = getRandomUUIDString()
+            //Posible solucion comentarle a efran o a esteban
             currentUserRegister.currentUser.pictureProfile = bitmapeado.toString()
 
             Log.i("Useremail", "${ currentUserRegister.currentUser.email}")
             Log.i("foto", "${CurrentUser.userRegister.pictureProfile}")
 
             viewModel.registrarUsuario(currentUserRegister)
-            viewModel.registerUserCollectionDb(currentUserRegister)
         }
 
 
@@ -91,27 +88,22 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.registerUserViewModelState.collect() {
-                    //Procesamos el item
-                    when (it) {
-                        is ViewModelState.UserRegisterSuccesfully -> {
-                            Log.i("registro exitoso", "Se registro bien")
-                            //Subimos la colleccion a la base de datos de firebase
+            viewModel.registerUserViewModelState.collect(){
+                when(it){
+                    is ViewModelState.Loading ->{
+                        binding.tvRegistrarse.visibility = View.GONE
+                        binding.circularProgressIndicator.visibility = View.VISIBLE
+                        binding.tvWaiting.visibility = View.VISIBLE
+                    }
+                    is ViewModelState.UserRegisterSuccesfully ->{
+                        viewModel.profileUserDb.collect(){ userId ->
+                            currentUserRegister.currentUser.id = userId
+                            viewModel.registerUserCollectionDb(currentUserRegister)
                             baseDeDatosFirebase()
-
                         }
-                        is ViewModelState.Error -> {
-                            Toast.makeText(context, "Register succes", Toast.LENGTH_SHORT)
-                                .show()
-                            Log.i("se producio un error", "Se registro bien")
-
-                        }
-                        is ViewModelState.Loading -> {
-                            //Tendriamos que mostrar el progress bar
-                        }
-
                     }
                 }
+            }
             }
         }
 
@@ -124,8 +116,11 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     //Los estados posibles de
                     when(it){
                       is  ViewModelState.UserRegisterDbSyccesfully ->{
+                          binding.circularProgressIndicator.visibility = View.GONE
+                          binding.tvWaiting.visibility = View.GONE
+                          binding.tvDone.visibility = View.VISIBLE
                           //Se puso creo bien la base de datos
-                          Toast.makeText(context, "Se Päsa a navegacion", Toast.LENGTH_SHORT).show()
+                          Toast.makeText(context, "Se Pasa a navegacion", Toast.LENGTH_SHORT).show()
                           navigationUp()
                         }
                     }
@@ -155,6 +150,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
 
     private fun navigationUp() {
+        //Creamos los datos y le pasamos al activityMain
         val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
         startActivity(intent)
     }
