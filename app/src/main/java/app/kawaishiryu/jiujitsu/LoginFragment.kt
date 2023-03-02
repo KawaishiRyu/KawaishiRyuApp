@@ -55,7 +55,6 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
-        isUserLoggedIn()
 
 
         //Esta funcion lo que hace es programar los eventos que se realicen en el textview
@@ -65,29 +64,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun starFlow() {
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.prueba.collect(){
-                    if(it){
-                        //Tiramos el intent
-                        val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
-                        startActivity(intent)
-                        Toast.makeText(context, "Bienvenido de nuevo :)", Toast.LENGTH_SHORT).show()
-
-                    }
-                    /*when(it){
-                        is ViewModelState.Logged->{
-                            //Tiramos el intent
-                            val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
-                            startActivity(intent)
-                            Toast.makeText(context, "Bienvenido de nuevo :)", Toast.LENGTH_SHORT).show()
-                        }
-                    }*/
-
-                }
-            }
-        }
 
 
 
@@ -165,11 +141,6 @@ class LoginFragment : Fragment() {
 
     }
 
-    //Verificamos si existe una cuenta
-   private fun isUserLoggedIn() {
-        //----------------------------------------------------------------------
-        viewModel.userLogged()
-        //----------------------------------------------------------------------
-    }
+
 
 }
