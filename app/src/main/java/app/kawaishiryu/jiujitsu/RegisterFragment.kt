@@ -7,6 +7,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
@@ -24,6 +26,7 @@ import app.kawaishiryu.jiujitsu.data.model.service.UserModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterBinding
 import app.kawaishiryu.jiujitsu.util.CamarePermission
 import app.kawaishiryu.jiujitsu.util.StoragePermission
+import app.kawaishiryu.jiujitsu.util.controlEmailAndPassword
 import app.kawaishiryu.jiujitsu.util.getRandomUUIDString
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -51,36 +54,30 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
 
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding =FragmentRegisterBinding.bind(view)
 
+        currentUserRegister.currentUser.email = binding.teEmailUser.text.toString()
+        currentUserRegister.currentUser.password = binding.teContraseA.text.toString()
+        currentUserRegister.currentUser.name = binding.teNombreDeUsuario.text.toString()
+        currentUserRegister.currentUser.apellido= binding.teApellidoUser.text.toString()
+        currentUserRegister.currentUser.id = getRandomUUIDString()
+        currentUserRegister.currentUser.pictureProfile = bitmapeado.toString()
 
-        binding.btnPictureProfile.setOnClickListener {
+        Log.i("Useremail", "${ currentUserRegister.currentUser.email}")
+        Log.i("foto", "${CurrentUser.userRegister.pictureProfile}")
+        binding.btnRegister.setOnClickListener {
+            viewModel.registrarUsuario(currentUserRegister)
+        }
+
+
+       binding.btnPictureProfile.setOnClickListener {
             permissiones()
         }
 
         startFlow()
-        binding.btnRegister.setOnClickListener {
-            //Se creo
-
-
-
-
-
-            //Falta validaciones
-            currentUserRegister.currentUser.email = binding.teEmailUser.text.toString()
-            currentUserRegister.currentUser.password = binding.teContraseA.text.toString()
-            currentUserRegister.currentUser.name = binding.teNombreDeUsuario.text.toString()
-            currentUserRegister.currentUser.apellido= binding.teApellidoUser.text.toString()
-            currentUserRegister.currentUser.id = getRandomUUIDString()
-            currentUserRegister.currentUser.pictureProfile = bitmapeado.toString()
-
-            Log.i("Useremail", "${ currentUserRegister.currentUser.email}")
-            Log.i("foto", "${CurrentUser.userRegister.pictureProfile}")
-
-            viewModel.registrarUsuario(currentUserRegister)
-        }
 
 
     }
@@ -104,6 +101,14 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                             viewModel.registerUserCollectionDb(currentUserRegister)
                             baseDeDatosFirebase()
                         }
+                    }
+                    is ViewModelState.Error ->{
+
+                        binding.circularProgressIndicator.visibility = View.GONE
+                        binding.tvWaiting.visibility = View.GONE
+                        binding.tvDone.text = it.message
+                        binding.tvDone.visibility = View.VISIBLE
+
                     }
                 }
             }
