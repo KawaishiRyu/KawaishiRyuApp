@@ -57,19 +57,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding =FragmentRegisterBinding.bind(view)
+        binding = FragmentRegisterBinding.bind(view)
 
-        currentUserRegister.currentUser.email = binding.teEmailUser.text.toString()
-        currentUserRegister.currentUser.password = binding.teContraseA.text.toString()
-        currentUserRegister.currentUser.name = binding.teNombreDeUsuario.text.toString()
-        currentUserRegister.currentUser.apellido= binding.teApellidoUser.text.toString()
-        currentUserRegister.currentUser.id = getRandomUUIDString()
-        currentUserRegister.currentUser.pictureProfile = bitmapeado.toString()
 
-        Log.i("Useremail", "${ currentUserRegister.currentUser.email}")
-        Log.i("foto", "${CurrentUser.userRegister.pictureProfile}")
+
         binding.btnRegister.setOnClickListener {
-            viewModel.registrarUsuario(currentUserRegister)
+            registerUser()
+
         }
 
 
@@ -79,6 +73,19 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
         startFlow()
 
+
+    }
+
+    private fun registerUser() {
+        currentUserRegister.currentUser.email = binding.teEmailUser.text.toString().trim()
+        currentUserRegister.currentUser.password = binding.teContraseA.text.toString().trim()
+        currentUserRegister.currentUser.name = binding.teNombreDeUsuario.text.toString().trim()
+        currentUserRegister.currentUser.apellido= binding.teApellidoUser.text.toString().trim()
+        currentUserRegister.currentUser.id = getRandomUUIDString()
+        currentUserRegister.currentUser.pictureProfile = bitmapeado.toString()
+        Log.i("Useremail", "${ currentUserRegister.currentUser.email}")
+        Log.i("foto", "${CurrentUser.userRegister.pictureProfile}")
+        viewModel.registrarUsuario(currentUserRegister)
 
     }
 
@@ -104,10 +111,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     }
                     is ViewModelState.Error ->{
 
-                        binding.circularProgressIndicator.visibility = View.GONE
-                        binding.tvWaiting.visibility = View.GONE
-                        binding.tvDone.text = it.message
-                        binding.tvDone.visibility = View.VISIBLE
 
                     }
                 }

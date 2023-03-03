@@ -30,7 +30,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
 
         CoroutineScope(Dispatchers.Main).launch {
-            delay(5000L)
+            delay(3000L)
             isUserLoggedIn()
             startFlow()
             finish()
