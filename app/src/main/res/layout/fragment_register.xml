@@ -1,95 +1,278 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_200"
-    android:orientation="vertical"
-    android:paddingHorizontal="18dp"
+    android:background="@color/C2"
     tools:context=".RegisterFragment">
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/titleRegisterUser"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="18dp"
+        android:maxLines="@integer/material_motion_duration_long_1"
+        android:text="@string/frase_registro"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guidelinehorizontal3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="24dp"/>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="31dp"
+        android:backgroundTint="@color/C5"
+        android:elevation="5dp"
+        app:cardCornerRadius="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelinehorizontal3">
+
+        <ImageView
+            android:id="@+id/btnPictureProfile"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:elevation="5dp"
-            app:cardCornerRadius="60dp">
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_add_a_photo"
+            android:tint="@color/C6"
+            tools:ignore="UseAppTint" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/logo_app" />
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:text="@string/comenzemos"
-            android:textColor="@color/white"
-            android:textSize="14dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
-            android:text="@string/frase_registro"
-            android:textColor="@color/white"
-            android:textSize="14dp" />
-
-
-    </LinearLayout>
-
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tiNombreDeUsuario"
-        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:endIconMode="clear_text">
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="4dp"
+        android:layout_weight="5"
+        android:background="@color/C6"
+        android:hint="Nombre"
+        android:maxHeight="1dp"
+        android:textColorHint="@color/C4"
+        app:endIconMode="clear_text"
+        app:helperText="Ingrese su nombre"
+        app:helperTextTextColor="@color/C4"
+        app:layout_constraintBottom_toTopOf="@+id/guidelinehorizontal4"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalMid"
+        app:layout_constraintStart_toStartOf="@+id/titleRegisterUser"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/teNombreDeUsuario"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@+id/tiApellidoUser"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_weight="5"
+        android:background="@color/C6"
+        android:gravity="center_horizontal"
+        android:hint="Apellido"
+        android:maxHeight="1dp"
+        android:textColorHint="@color/C4"
+        app:endIconMode="clear_text"
+        app:helperText="Ingrese su apellido"
+        app:helperTextTextColor="@color/C4"
+        app:layout_constraintBottom_toBottomOf="@+id/tiNombreDeUsuario"
+        app:layout_constraintEnd_toEndOf="@+id/titleRegisterUser"
+        app:layout_constraintStart_toEndOf="@id/guidelineVerticalMid"
+        app:layout_constraintTop_toTopOf="@+id/tiNombreDeUsuario">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/teApellidoUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Selecciona una foto de perfil"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="@+id/titleRegisterUser"
+        app:layout_constraintStart_toStartOf="@+id/titleRegisterUser"
+        app:layout_constraintTop_toTopOf="@+id/guidelinehorizonta2l" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tiEmailUser"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/C6"
+        android:hint="Ingrese su email"
+        android:textColorHint="@color/C4"
+        app:helperText="Ingrese su direccion de Correo Electronico"
+        app:helperTextTextColor="@color/C4"
+        app:layout_constraintEnd_toEndOf="@+id/tiApellidoUser"
+        app:layout_constraintStart_toStartOf="@id/titleRegisterUser"
+        app:layout_constraintTop_toTopOf="@+id/guidelinehorizontal4">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/teEmailUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@+id/tiContraseña"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/C6"
+        android:hint="Contraseña"
+        android:textColorHint="@color/C5"
+        app:helperText="La contraseña debe ser alfanumerica y superar los 6 caracteres"
+        app:helperTextTextColor="@color/C5"
+        app:layout_constraintEnd_toEndOf="@+id/tiEmailUser"
+        app:layout_constraintStart_toStartOf="@+id/tiEmailUser"
+        app:layout_constraintTop_toBottomOf="@+id/tiEmailUser"
+        android:layout_marginTop="18dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/teContraseña"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputEditText
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnRegister"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/C1"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/tiContraseña"
+        app:layout_constraintStart_toStartOf="@+id/tiContraseña"
+        app:layout_constraintTop_toTopOf="@+id/guidelinehorizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvRegistrarse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Registrate"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/circularProgressIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="82dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/C1"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvWaiting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="Espera unos segundos"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/circularProgressIndicator"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Hecho"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-</LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVerticalMid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelinehorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.88" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelinehorizonta2l"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelinehorizontal3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.10" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelinehorizontal4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

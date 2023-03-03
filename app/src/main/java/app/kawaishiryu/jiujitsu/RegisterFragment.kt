@@ -1,59 +1,169 @@
 package app.kawaishiryu.jiujitsu
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
+import androidx.fragment.app.Fragment
 import android.view.View
-import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import app.kawaishiryu.jiujitsu.core.RegisterViewModel
+import app.kawaishiryu.jiujitsu.core.ViewModelState
+import app.kawaishiryu.jiujitsu.data.model.CurrentUser
+import app.kawaishiryu.jiujitsu.data.model.service.UserModel
+import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterBinding
+import app.kawaishiryu.jiujitsu.util.CamarePermission
+import app.kawaishiryu.jiujitsu.util.StoragePermission
+import app.kawaishiryu.jiujitsu.util.controlEmailAndPassword
+import app.kawaishiryu.jiujitsu.util.getRandomUUIDString
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RegisterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class RegisterFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class RegisterFragment : Fragment(R.layout.fragment_register) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var binding: FragmentRegisterBinding
+    private val viewModel: RegisterViewModel by viewModels()
+    val currentUserRegister = UserModel()
+    private var bitmapeado: Bitmap? = null
+    //Creo un nuevo fragmentos
+    //tiramos un intent para obtener los valores de la foto
+    //Seleccionar imagen
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                //Si el resultado es correcto esta deberìa ser la selfie
+                val data = result.data!!
+                bitmapeado = data.extras!!.get("data") as Bitmap
+                CurrentUser.userRegister.pictureProfile =
+                    binding.btnPictureProfile.setImageBitmap(bitmapeado).toString()
+            }
         }
+
+
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentRegisterBinding.bind(view)
+
+
+
+        binding.btnRegister.setOnClickListener {
+            registerUser()
+
+        }
+
+
+       binding.btnPictureProfile.setOnClickListener {
+            permissiones()
+        }
+
+        startFlow()
+
+
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false)
+    private fun registerUser() {
+        currentUserRegister.currentUser.email = binding.teEmailUser.text.toString().trim()
+        currentUserRegister.currentUser.password = binding.teContraseA.text.toString().trim()
+        currentUserRegister.currentUser.name = binding.teNombreDeUsuario.text.toString().trim()
+        currentUserRegister.currentUser.apellido= binding.teApellidoUser.text.toString().trim()
+        currentUserRegister.currentUser.id = getRandomUUIDString()
+        currentUserRegister.currentUser.pictureProfile = bitmapeado.toString()
+        Log.i("Useremail", "${ currentUserRegister.currentUser.email}")
+        Log.i("foto", "${CurrentUser.userRegister.pictureProfile}")
+        viewModel.registrarUsuario(currentUserRegister)
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RegisterFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RegisterFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
+    private fun startFlow() {
+        Log.i("registro", "Se Largo la corrutina la corrutina")
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.registerUserViewModelState.collect(){
+                when(it){
+                    is ViewModelState.Loading ->{
+                        binding.tvRegistrarse.visibility = View.GONE
+                        binding.circularProgressIndicator.visibility = View.VISIBLE
+                        binding.tvWaiting.visibility = View.VISIBLE
+                    }
+                    is ViewModelState.UserRegisterSuccesfully ->{
+                        viewModel.profileUserDb.collect(){ userId ->
+                            currentUserRegister.currentUser.id = userId
+                            viewModel.registerUserCollectionDb(currentUserRegister)
+                            baseDeDatosFirebase()
+                        }
+                    }
+                    is ViewModelState.Error ->{
+
+
+                    }
                 }
             }
+            }
+        }
+
     }
+
+    private fun baseDeDatosFirebase() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.registerUserDbViewModelState.collect(){
+                    //Los estados posibles de
+                    when(it){
+                      is  ViewModelState.UserRegisterDbSyccesfully ->{
+                          binding.circularProgressIndicator.visibility = View.GONE
+                          binding.tvWaiting.visibility = View.GONE
+                          binding.tvDone.visibility = View.VISIBLE
+                          //Se puso creo bien la base de datos
+                          Toast.makeText(context, "Se Pasa a navegacion", Toast.LENGTH_SHORT).show()
+                          navigationUp()
+                        }
+                    }
+
+                }
+            }
+        }
+
+    }
+
+
+    private fun permissiones() {
+        if (CamarePermission.hasPermission(requireContext())) {
+            Toast.makeText(context, "Tiene permisos", Toast.LENGTH_SHORT).show()
+            val intent =
+                Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            resultLauncher.launch(intent)
+
+        } else {
+            CamarePermission.requestPermission(requireContext())
+            if (!CamarePermission.shouldShowRequestPermissionRationale(requireContext())) {
+                CamarePermission.explainPermission(requireContext())
+            }
+        }
+
+    }
+
+
+    private fun navigationUp() {
+        val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
+        startActivity(intent)
+    }
+
+
 }

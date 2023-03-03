@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/tvSelectorPick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selecciona una foto"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="16dp"
+        />
+
+    <ImageView
+        android:id="@+id/ivTomarFoto"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSelectorPick"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="18dp"
+        android:src="@drawable/camareicon"
+        android:scaleType="centerCrop"
+       />
+
+    <TextView
+        android:id="@+id/tvSeleccionarCamara"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:text="Seleccionar la Camara"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/ivTomarFoto"
+        app:layout_constraintEnd_toEndOf="@+id/tvSelectorPick"
+        app:layout_constraintStart_toEndOf="@id/ivTomarFoto"
+        app:layout_constraintTop_toTopOf="@id/ivTomarFoto"
+        android:paddingStart="8dp"/>
+
+    <ImageView
+        android:id="@+id/ivSeleccionarGaleria"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivTomarFoto"
+        android:src="@drawable/gallery"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/tvSeleccionarGaleria"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:text="Seleccionar la Galeria"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ivSeleccionarGaleria"
+        app:layout_constraintEnd_toEndOf="@+id/tvSelectorPick"
+        app:layout_constraintStart_toEndOf="@+id/ivSeleccionarGaleria"
+        app:layout_constraintTop_toBottomOf="@+id/ivTomarFoto" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
