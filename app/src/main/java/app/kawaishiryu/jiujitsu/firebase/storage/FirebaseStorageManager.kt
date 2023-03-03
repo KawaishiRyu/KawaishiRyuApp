@@ -1,12 +1,16 @@
 package app.kawaishiryu.jiujitsu.firebase.storage
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
-import kotlin.coroutines.Continuation
+import java.io.ByteArrayOutputStream
+import java.io.FileNotFoundException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -17,14 +21,20 @@ object FirebaseStorageManager {
 
     const val DOJOS_IMAGE_FOLDER = "DojosImages/"
 
-    suspend fun uploadImage(uri: Uri, folderName: String, fileName: String): String {
+    //Cambiamos el imageUri por Bitmap
+    suspend fun uploadImage(bitmap: Bitmap, folderName: String, fileName: String): String {
 
         return suspendCoroutine { continuation ->
 
             val storageRef = Firebase.storage(FIREBASE_STORAGE_DOMAIN).reference
             val storageReference: StorageReference = storageRef.child("$folderName/$fileName")
 
-            val uploadTask: UploadTask = storageReference.putFile(uri)
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+
+            //Cambie el putFile por putBytes
+            val uploadTask: UploadTask = storageReference.putBytes(data)
 
             uploadTask
                 .addOnFailureListener {
@@ -48,5 +58,7 @@ object FirebaseStorageManager {
 
         }
     }
+
+
 
 }

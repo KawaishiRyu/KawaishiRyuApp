@@ -1,6 +1,7 @@
 package app.kawaishiryu.jiujitsu.view
 
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -19,7 +20,7 @@ class DojosViewModel : ViewModel() {
     private val _dojosViewModelState = MutableStateFlow<DojoViewModelState>(DojoViewModelState.Empty)
     val dojosViewModelState: StateFlow<DojoViewModelState> = _dojosViewModelState
 
-    fun register(imageUri: Uri?, imageFileName: String, dojoModel: DojosModel) =
+    fun register(imageUri: Bitmap?, imageFileName: String, dojoModel: DojosModel) =
         viewModelScope.launch {
 
             _dojosViewModelState.value = DojoViewModelState.Loading

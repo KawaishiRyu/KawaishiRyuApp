@@ -11,10 +11,15 @@
     <color name="yellow">#FFEC5E</color>
     <color name="red">#E93F2E</color>
     <color name="blue">#3E77C0</color>
+    <color name="balck2">#141414</color>
+
     <color name="C1">#FEC492</color>
     <color name="C2">#2D2D2D</color>
+    <color name="C3">#AD7E52</color>
     <color name="C4">#302c2c</color>
     <color name="C5">#09090a</color>
     <color name="C6">#e4e3e3</color>
-    <color name="C7">#4b4c4d</color>
+    <color name="C7">#363535</color>
+
+    <color name="C8">#2E2D2D</color>
 </resources>

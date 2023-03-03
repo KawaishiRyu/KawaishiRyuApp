@@ -6,8 +6,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.kawaishiryu.jiujitsu.databinding.FragmentDetailLocationDojoBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.squareup.picasso.Picasso
 
 
@@ -26,19 +29,35 @@ class DetailLocationDojoFragment :
             binding.tvNameDojo.text = it.nameDojo
             binding.tvNameSensei.text = it.nameSensei
             binding.tvDescription.text = it.description
-            binding.tvPrice.text = it.price
-            binding.tvFacebookUrl.text = it.facebookUrl
-            binding.tvInstaUrl.text = it.instaUrl
-            binding.tvNumeberWpp.text = it.numberWpp
+            binding.tvPrice.text = "El precio es: ${it.price}"
+//            binding.tvFacebookUrl.text = it.facebookUrl
+//            binding.tvInstaUrl.text = it.instaUrl
+//            binding.tvNumeberWpp.text = it.numberWpp
 
             Picasso.get().load(it.dojoUrlImage).into(binding.ivDojoDetail)
 
-            binding.tvNumeberWpp.setOnClickListener { view ->
-                openWpp(it.numberWpp)
-            }
-            binding.tvInstaUrl.setOnClickListener { view ->
+            Glide.with(view)
+                .load(it.dojoUrlImage)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(binding.ivDojoDetail)
+
+            binding.ivIgDetail.setOnClickListener {viewIt->
                 openInsta(it.instaUrl)
             }
+
+            binding.ivIgMap.setOnClickListener { viewIt->
+
+            }
+
+            binding.ivIgWpp.setOnClickListener {viewIt->
+                openWpp(it.numberWpp)
+            }
+
+//            binding.button.setOnClickListener {
+//                val directions = DetailLocationDojoFragmentDirections.actionLocationDojoFragmentToTimeRegisterFragment()
+//                findNavController().navigate(directions)
+//            }
         }
 
     }

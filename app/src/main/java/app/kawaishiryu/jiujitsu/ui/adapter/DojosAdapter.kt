@@ -10,10 +10,11 @@ import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.DojosModel
 import app.kawaishiryu.jiujitsu.databinding.ItemListLocationBinding
 import app.kawaishiryu.jiujitsu.util.OnItemClick
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 
-class DojosAdapter(private val list: MutableList<DojosModel>,val listener: OnItemClick) :
+class DojosAdapter(private val list: MutableList<DojosModel>, val listener: OnItemClick) :
     RecyclerView.Adapter<DojosAdapter.DojosViewHolder>() {
 
 
@@ -26,12 +27,17 @@ class DojosAdapter(private val list: MutableList<DojosModel>,val listener: OnIte
 
     override fun onBindViewHolder(holder: DojosViewHolder, position: Int) {
         holder.render(list[position])
-        with(holder.item_view){
-           setOnClickListener {
-               listener.setOnItemClickListener(list[position])
-           }
+        with(holder.item_view) {
+            setOnClickListener {
+                listener.setOnItemClickListener(list[position])
+            }
         }
-        holder.item_view.startAnimation(AnimationUtils.loadAnimation(holder.item_view.context,R.anim.anim_one))
+        holder.item_view.startAnimation(
+            AnimationUtils.loadAnimation(
+                holder.item_view.context,
+                R.anim.anim_one
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -50,12 +56,18 @@ class DojosAdapter(private val list: MutableList<DojosModel>,val listener: OnIte
             } else {
                 binding.tvNameDojo.text = dojosModel.nameDojo
             }
-            binding.tvSenseiName.text = dojosModel.description
+            binding.tvSenseiName.text = dojosModel.nameSensei
 
-            Picasso.get()
+            Glide.with(item_view)
                 .load(dojosModel.dojoUrlImage)
-                .resize(150,150)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
                 .into(binding.ivPhotoDojo)
+
+//            Picasso.get()
+//                .load(dojosModel.dojoUrlImage)
+//                .resize(150, 150)
+//                .into(binding.ivPhotoDojo)
         }
     }
 

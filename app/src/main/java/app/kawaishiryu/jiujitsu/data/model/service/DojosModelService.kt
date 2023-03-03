@@ -1,13 +1,11 @@
 package app.kawaishiryu.jiujitsu.data.model.service
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import app.kawaishiryu.jiujitsu.data.model.DojosModel
 import app.kawaishiryu.jiujitsu.firebase.cloudfirestore.CloudFileStoreWrapper
 import app.kawaishiryu.jiujitsu.firebase.storage.FirebaseStorageManager
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
@@ -26,9 +24,9 @@ object DojosModelService {
     }
 
     //Sube una imagen a firebase
-    suspend fun uploadImageFile(uri: Uri, fileName: String): String = withContext(Dispatchers.IO) {
+    suspend fun uploadImageFile(uri: Bitmap, fileName: String): String = withContext(Dispatchers.IO) {
         return@withContext FirebaseStorageManager.uploadImage(
-            uri = uri,
+            bitmap = uri,
             folderName = FirebaseStorageManager.DOJOS_IMAGE_FOLDER,
             fileName = fileName
         )

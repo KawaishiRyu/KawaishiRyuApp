@@ -1,7 +1,10 @@
 package app.kawaishiryu.jiujitsu.view
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -9,7 +12,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -22,7 +24,10 @@ import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterDojoBinding
 import app.kawaishiryu.jiujitsu.util.StoragePermission
 import com.hbb20.CountryCodePicker.PhoneNumberValidityChangeListener
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+import java.io.FileNotFoundException
 import java.util.*
+
 
 class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo) {
 
@@ -55,9 +60,9 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo) {
         binding.ccp.registerCarrierNumberEditText(binding.etNumber)
 
         binding.ccp.setPhoneNumberValidityChangeListener(PhoneNumberValidityChangeListener {
-            if (it){
+            if (it) {
                 binding.checkBox.setImageResource(R.drawable.check1)
-            }else{
+            } else {
                 binding.checkBox.setImageResource(R.drawable.error)
             }
         })
@@ -92,7 +97,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo) {
                             Log.d("???", "Error")
                             hideProgress()
                         }
-
                     }
                 }
             }
@@ -100,12 +104,41 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo) {
 
     }
 
+    fun getBitmapFromUri(uri: Uri, context: Context, quality: Int = 100): Bitmap? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val options = BitmapFactory.Options()
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888
+            BitmapFactory.decodeStream(inputStream, null, options)?.let { bitmap ->
+                val outputStream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+                BitmapFactory.decodeByteArray(outputStream.toByteArray(), 0, outputStream.toByteArray().size)
+            }
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+
     private fun clickableEvent() {
         binding.btnCreate.setOnClickListener {
             getAndUploadData()
         }
         binding.ivDojosRegFrg.setOnClickListener {
             solicitarPermisos()
+        }
+        binding.btnBitmap.setOnClickListener {
+            val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
+
+            if (bitmap != null) {
+                // Utilizar el bitmap
+                Toast.makeText(context, "Funciono", Toast.LENGTH_SHORT).show()
+                binding.ivDojosRegFrg.setImageBitmap(bitmap)
+
+            } else {
+                // La imagen no pudo ser cargada
+            }
         }
     }
 
@@ -139,17 +172,20 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo) {
         modelDojo.instaUrl = binding.etInstaUrl.text.toString().trim()
         modelDojo.numberWpp = binding.ccp.fullNumber
 
-        viewModel.register(imageSelectedUri, "${modelDojo.uuId}.jpg",modelDojo)
+        val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
+
+        viewModel.register(bitmap, "${modelDojo.uuId}.jpg", modelDojo)
     }
 
     private fun getRandomUUIDString(): String {
         return UUID.randomUUID().toString().replace("-", "")
     }
 
-    private fun showProgres(){
+    private fun showProgres() {
         binding.animationFrame.visibility = View.VISIBLE
     }
-    private fun hideProgress(){
+
+    private fun hideProgress() {
         binding.animationFrame.visibility = View.GONE
     }
 
