@@ -13,6 +13,7 @@ import kotlinx.coroutines.withContext
 import org.checkerframework.checker.units.qual.Current
 
 object RegisterModelService {
+
     //Registra los datos obtenidos de la otra corutina en firebase
     //Registramos al usuario en la base de datos
     suspend fun register(userModel: UserModel): Void = withContext(Dispatchers.IO){
@@ -22,7 +23,6 @@ object RegisterModelService {
             userModel.toDictionary()
         )
     }
-
 
     suspend fun registerUser(user: CurrentUser): String = withContext(Dispatchers.IO){
         Log.i("registrarUser","llego hasta aqui 2")
@@ -46,7 +46,6 @@ object RegisterModelService {
     }
 
     //utuilizamos una funcion suspendida
-
     suspend fun modifiedCurrentUser(user: UserModel, id:String): Void = withContext(Dispatchers.IO){
         return@withContext CloudFileStoreWrapper.modifiedCurrentUser(UserModel.CLOUD_FIRE_STORE_PATH,id,user.toDictionary())
     }

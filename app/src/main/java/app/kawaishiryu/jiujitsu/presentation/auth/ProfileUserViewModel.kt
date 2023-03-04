@@ -1,5 +1,6 @@
 package app.kawaishiryu.jiujitsu.presentation.auth
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.kawaishiryu.jiujitsu.core.ViewModelState
@@ -14,8 +15,6 @@ import kotlinx.coroutines.launch
 
 class ProfileUserViewModel() : ViewModel() {
 
-
-
     //Obtenemos los datos
     private val _profileUserDbState = MutableStateFlow(CurrentUser.userRegister)
     val profileUserDb: MutableStateFlow<CurrentUser> = _profileUserDbState
@@ -25,7 +24,6 @@ class ProfileUserViewModel() : ViewModel() {
     //Creamos la viarable para cerrar sesion
     private var _signOutUserState = MutableStateFlow<ViewModelState>(ViewModelState.None)
     var signOutUserState = _signOutUserState.asStateFlow()
-
 
     fun comparationUserDb(uuid: String) = viewModelScope.launch {
         try {
@@ -37,12 +35,12 @@ class ProfileUserViewModel() : ViewModel() {
                 }
                 userDb.await()
             }
-
         }catch (e:Exception){
+            Log.d("Error", "$e")
         }
     }
 
-
+    //Hacemos un logout
     fun signOutUser() = viewModelScope.launch {
 
         try {
@@ -53,10 +51,7 @@ class ProfileUserViewModel() : ViewModel() {
                 singOut.await()
             }
         }catch (e:Exception){
-
+            Log.d("Error", "$e")
         }
     }
-
-
-    //Hacemos un logout
 }

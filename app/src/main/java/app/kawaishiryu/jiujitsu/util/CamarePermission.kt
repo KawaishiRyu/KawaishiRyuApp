@@ -74,7 +74,6 @@ object CamarePermission {
         activity.startActivity(intent)
     }
 
-
 }
 
 

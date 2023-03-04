@@ -52,6 +52,7 @@
         android:id="@+id/dialogSignOutUser"
         android:name="app.kawaishiryu.jiujitsu.view.DialogSignOutUser"
         android:label="DialogSignOutUser" />
+
     <fragment
         android:id="@+id/profileUserModifiedFragment"
         android:name="app.kawaishiryu.jiujitsu.view.ProfileUserModifiedFragment"
@@ -64,4 +65,5 @@
             android:name="currentUserModifed"
             app:argType="app.kawaishiryu.jiujitsu.data.model.CurrentUser" />
     </fragment>
+
 </navigation>

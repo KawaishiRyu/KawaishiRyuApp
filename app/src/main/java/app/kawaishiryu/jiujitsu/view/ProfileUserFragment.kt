@@ -13,7 +13,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.CurrentUser
-import app.kawaishiryu.jiujitsu.data.model.service.UserModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentProfileUserBinding
 import app.kawaishiryu.jiujitsu.firebase.cloudfirestore.CloudFileStoreWrapper
 import app.kawaishiryu.jiujitsu.presentation.auth.ProfileUserViewModel
@@ -26,9 +25,6 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
 
     private lateinit var binding: FragmentProfileUserBinding
     private val viewModel: ProfileUserViewModel by viewModels()
-
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,9 +39,8 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.profileUserDb.collect() { user ->
                     bindUser(user)
-                    binding.progressBar.visibility = View.GONE
+                            //binding.progressBar.visibility = View.GONE
                 }
-
             }
         }
     }
@@ -55,6 +50,7 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
         binding.apply {
             tvNameUser.text = user.name
             tvEmailUser.text = user.email
+
             val base64String = user.pictureProfile
             val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
             val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
@@ -64,9 +60,8 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
             btnEditProfileUser.setOnClickListener {
                navigateUserEditProfile(user)
             }
+
         }
-
-
     }
 
    private fun navigateUserEditProfile(user: CurrentUser) {

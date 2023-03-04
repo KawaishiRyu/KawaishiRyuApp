@@ -21,7 +21,7 @@ class DojosAdapter(private val list: MutableList<DojosModel>, val listener: OnIt
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DojosViewHolder {
         return DojosViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(app.kawaishiryu.jiujitsu.R.layout.item_list_location, parent, false)
+                .inflate(R.layout.item_list_location, parent, false)
         )
     }
 
