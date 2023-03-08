@@ -73,6 +73,7 @@
                     android:src="@drawable/icon_wpp"/>
 
                 <ImageView
+                    android:id="@+id/googleMapsLocationDojo"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:src="@drawable/icons_mapa"/>

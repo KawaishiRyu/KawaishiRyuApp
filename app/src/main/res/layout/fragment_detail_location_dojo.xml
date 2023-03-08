@@ -93,7 +93,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:src="@drawable/icon_ig" />
+            android:src="@drawable/icons_mapa" />
     </LinearLayout>
 
     <Button

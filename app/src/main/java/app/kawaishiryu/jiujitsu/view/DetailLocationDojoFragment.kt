@@ -42,15 +42,18 @@ class DetailLocationDojoFragment :
                 .centerCrop()
                 .into(binding.ivDojoDetail)
 
-            binding.ivIgDetail.setOnClickListener {viewIt->
+            binding.ivIgDetail.setOnClickListener { viewIt ->
                 openInsta(it.instaUrl)
             }
 
-            binding.ivIgMap.setOnClickListener { viewIt->
+            binding.ivIgMap.setOnClickListener { viewIt ->
+                //Al hacer click aqui abrimos la ruta del mapa
+                openGoogleMaps(it.latitud,it.longitud)
+
 
             }
 
-            binding.ivIgWpp.setOnClickListener {viewIt->
+            binding.ivIgWpp.setOnClickListener { viewIt ->
                 openWpp(it.numberWpp)
             }
 
@@ -70,7 +73,7 @@ class DetailLocationDojoFragment :
         try {
             startActivity(intent)
 
-        }catch (e: ActivityNotFoundException){
+        } catch (e: ActivityNotFoundException) {
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
@@ -78,6 +81,16 @@ class DetailLocationDojoFragment :
                 )
             )
         }
+    }
+
+
+    //Creamos la funcion que abríra el google maps
+    private fun openGoogleMaps(latitud: Double, longitud: Double) {
+
+        var label = "Dojo"
+        var uri = "geo:$latitud,$longitud?q=$latitud,$longitud($label)"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+        startActivity(intent)
     }
 
     private fun openInsta(user: String) {
