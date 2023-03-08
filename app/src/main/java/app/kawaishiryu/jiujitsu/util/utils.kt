@@ -1,6 +1,7 @@
 package app.kawaishiryu.jiujitsu.util
 
 import android.util.Patterns
+import com.google.android.gms.maps.model.Marker
 import java.util.*
 
 /*
@@ -17,39 +18,14 @@ fun controlEmailAndPassword(email: String, password: String): Boolean {
 fun getRandomUUIDString():String = UUID.randomUUID().toString().replace("-", "")
 
 
-
-/* private fun valideteEmail(): Boolean {
-
-
-       return if (email.isEmpty()) {
-           binding.editTextEmailId.error = "No puede estar vacio"
-           false
-       } else if (!PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()) {
-           binding.editTextEmailId.error = "Por favor ingrese un email valido"
-           false
-       } else {
-           binding.txtInpEmail.error = null
-           Toast.makeText(context, "Good", Toast.LENGTH_SHORT).show()
-           true
-       }
-   }
-
-   private fun validePassword(): Boolean {
-
-
-       val passwordRegex = Pattern.compile(
-           ".{4,}"// Minimo cuatro caracteres
-       )
-
-       return if (password.isEmpty()) {
-           binding.txtInpPassword.error = "El archivo no puede estar vacio"
-           false
-       } else if (!passwordRegex.matcher(password).matches()) {
-           binding.txtInpPassword.error = "La contraseña es muy corta"
-           false
-       } else {
-           binding.editTextEmailId.error = null
-           binding.txtInpPassword.clearError()
-           true
-       }
-   }*/
+/*
+    private fun createMarker(lat: Double, long: Double) {
+        var favoritePlace = LatLng(lat, long)
+        //  map.addMarker(MarkerOptions().position(favoritePlace).title("Mi ubicacion Actual"))
+        map.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(favoritePlace, 18f),
+            4000,
+            null
+        )
+    }
+ */

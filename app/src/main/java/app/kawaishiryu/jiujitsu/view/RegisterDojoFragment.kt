@@ -46,8 +46,6 @@ import java.util.*
 
 class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapReadyCallback,GoogleMap.OnMyLocationButtonClickListener {
 
-    // Declarar la variable FusedLocationProviderClient
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var controllerMarket = false
     private lateinit var market: Marker
@@ -177,8 +175,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
     }
 
     private fun createFragmentMap() {
-        // Inicializar el cliente FusedLocationProviderClient
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         binding.linearLayout12.visibility = View.GONE
         binding.scrollView.visibility = View.GONE
@@ -262,7 +258,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
     //Se llama cuando el mapa esta listo
 
 
-    private fun createMarker(lat: Double, long: Double) {
+    private fun LocationUserZoom(lat: Double, long: Double) {
         var favoritePlace = LatLng(lat, long)
         //  map.addMarker(MarkerOptions().position(favoritePlace).title("Mi ubicacion Actual"))
         map.animateCamera(
@@ -297,28 +293,17 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
 
     // Método para obtener la ubicación actual
     private fun obtenerUbicacionActual() {
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                // Verificar si se pudo obtener la ubicación
-                if (location != null) {
-                    // Obtener la latitud y longitud de la ubicación actual
-                    val latitud = location.latitude
-                    val longitud = location.longitude
-                    // Aquí puedes hacer lo que necesites con las coordenadas obtenidas
-                    Toast.makeText(
-                        requireContext(),
-                        "Latitud: $latitud, Longitud: $longitud",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    createMarker(latitud, longitud)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "No se pudo obtener la ubicación actual",
-                        Toast.LENGTH_SHORT
-                    ).show()
+        viewModel.getUserLocation(requireContext())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.locationUser.collect(){latLong ->
+                    LocationUserZoom(latLong.latitude,latLong.longitude)
+                    Toast.makeText(requireContext(),"latitud:${latLong.latitude} y longitud: ${latLong.longitude}",Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+
     }
 
 
@@ -327,19 +312,14 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
 
         if (!controllerMarket) {
             Log.i("aqui llego", "altitud: ${lat}, longitud: ${log}")
-            var lugare = LatLng(lat, log)
-            market = map.addMarker(MarkerOptions().position(lugare).title("dojo"))!!
+            var locationDojo = LatLng(lat, log)
+            market = map.addMarker(MarkerOptions().position(locationDojo).title("dojo"))!!
             controllerMarket = true
             binding.buttonAccept.isEnabled = true
             binding.buttonAccept.setOnClickListener {
                 latitud = lat
                 longitud = log
-
-                binding.fragmentMap.visibility = View.GONE
-                binding.buttonAccept.visibility = View.GONE
-                binding.mapsId.visibility = View.GONE
-                binding.scrollView.visibility = View.VISIBLE
-                binding.linearLayout12.visibility = View.VISIBLE
+                dissapearViews()
             }
 
 
@@ -351,12 +331,20 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
 
     }
 
+    private fun dissapearViews() {
+
+        binding.fragmentMap.visibility = View.GONE
+        binding.buttonAccept.visibility = View.GONE
+        binding.mapsId.visibility = View.GONE
+        binding.scrollView.visibility = View.VISIBLE
+        binding.linearLayout12.visibility = View.VISIBLE
+    }
+
     override fun onMyLocationButtonClick(): Boolean {
         Toast.makeText(requireContext(), "Hizo click", Toast.LENGTH_LONG).show()
         return false
 
     }
-
 
 }
 
