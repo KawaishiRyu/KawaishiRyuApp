@@ -51,6 +51,9 @@ object DojosModelService {
                 val facebookUrl= document.getString(DojosModel.FACEBOOK_URL_KET)  ?: ""
                 val instaUrl= document.getString(DojosModel.INSTA_URL_KEY)  ?: ""
 
+                val latitudUbic = document.getDouble(DojosModel.LATITUD_KEY) ?: 0.0
+                val longitudUbic = document.getDouble(DojosModel.LONGITUD_KEY) ?: 0.0
+
                 data.add(
                     DojosModel(
                         uuId = uuId,
@@ -61,7 +64,9 @@ object DojosModelService {
                         price = price,
                         numberWpp = numberWpp,
                         facebookUrl = facebookUrl,
-                        instaUrl = instaUrl
+                        instaUrl = instaUrl,
+                        latitud = latitudUbic,
+                        longitud = longitudUbic
                     )
                 )
             }

@@ -16,8 +16,11 @@ data class DojosModel(
     var numberWpp: String = "",
     var instaUrl: String = "",
     var facebookUrl: String = "",
+    //Añadido Ubicacion
+    var latitud: Double = 0.0,
+    var longitud: Double = 0.0
 
-): Parcelable {
+) : Parcelable {
 
     companion object {
         const val CLOUD_FIRE_STORE_PATH = "DOJOS"
@@ -32,6 +35,10 @@ data class DojosModel(
         const val NUMBER_WPP_KEY = "NUMBER_WPP"
         const val INSTA_URL_KEY = "INSTA_URL"
         const val FACEBOOK_URL_KET = "FACEBOOK_URL"
+
+        //Añadimos la latitud y longitud
+        const val LATITUD_KEY = "LATITUD_UBICACION"
+        const val LONGITUD_KEY = "LONGITUD_UBICACION"
     }
 
 
@@ -50,6 +57,9 @@ data class DojosModel(
         map[NUMBER_WPP_KEY] = numberWpp
         map[INSTA_URL_KEY] = instaUrl
         map[FACEBOOK_URL_KET] = facebookUrl
+
+        map[LATITUD_KEY] = latitud
+        map[LONGITUD_KEY] = longitud
 
         return map
     }

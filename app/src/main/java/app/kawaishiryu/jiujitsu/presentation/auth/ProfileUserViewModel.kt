@@ -20,6 +20,7 @@ class ProfileUserViewModel() : ViewModel() {
     private val _profileUserDbState = MutableStateFlow(CurrentUser.userRegister)
     val profileUserDb: MutableStateFlow<CurrentUser> = _profileUserDbState
 
+
     var prueba3  = MutableStateFlow<Boolean>(false)
 
     //Creamos la viarable para cerrar sesion

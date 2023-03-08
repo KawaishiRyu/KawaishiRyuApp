@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.CurrentUser
 import app.kawaishiryu.jiujitsu.data.model.service.UserModel
@@ -26,6 +27,10 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
 
     private lateinit var binding: FragmentProfileUserBinding
     private val viewModel: ProfileUserViewModel by viewModels()
+    //Creamos la variable que contendra los datos del usuario
+    private val argsEditUser by navArgs<ProfileUserFragmentArgs>()
+    private var descargar = false
+    private var usuario: CurrentUser = CurrentUser()
 
 
 
@@ -33,8 +38,17 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentProfileUserBinding.bind(view)
+        Log.i("Ingresa en: ","$descargar")
+        if (!descargar){
+            startFlow()
+            descargar = true
+            Log.i("se paso aqui","$descargar")
+        }else{
+            bindUser(user = usuario)
+            Log.i("se paso aqui","$descargar")
 
-        startFlow()
+        }
+
     }
 
     private fun startFlow() {
@@ -42,8 +56,10 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.profileUserDb.collect() { user ->
-                    bindUser(user)
+                    usuario = user
+                    bindUser(usuario)
                     binding.progressBar.visibility = View.GONE
+
                 }
 
             }
@@ -51,7 +67,7 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
     }
 
     private fun bindUser(user: CurrentUser) {
-        Log.i("contraseña","${user.password}")
+
         binding.apply {
             tvNameUser.text = user.name
             tvEmailUser.text = user.email

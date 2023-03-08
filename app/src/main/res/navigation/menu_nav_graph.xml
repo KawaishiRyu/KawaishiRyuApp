@@ -47,6 +47,10 @@
         <action
             android:id="@+id/action_profileUserFragment_to_profileUserModifiedFragment"
             app:destination="@id/profileUserModifiedFragment" />
+        <argument
+            android:name="changeData"
+            app:argType="boolean"
+            android:defaultValue="true" />
     </fragment>
     <dialog
         android:id="@+id/dialogSignOutUser"
