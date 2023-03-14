@@ -127,7 +127,7 @@ class LoginFragment : Fragment() {
 
             signIn(editTextEmailId.text.toString(), editTextPasswordId.text.toString())
         }
-        btnRegister.setOnClickListener {
+        tvSelectorRegister.setOnClickListener {
             requireView().findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 

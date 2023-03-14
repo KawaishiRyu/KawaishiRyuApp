@@ -236,11 +236,11 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         modelDojo.longitud = longitud
 
         //Selecciono cualquier uri
-      //  val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
+        val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
         val uri = Uri.parse("https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/URI_Euler_Diagram_no_lone_URIs.svg/1200px-URI_Euler_Diagram_no_lone_URIs.svg.png")
         val bitmap2 = getBitmapFromUri(uri,requireContext(), quality = 10)
 
-        viewModel.register(bitmap2, "${modelDojo.uuId}.jpg", modelDojo)
+        viewModel.register(bitmap, "${modelDojo.uuId}.jpg", modelDojo)
     }
 
     private fun getRandomUUIDString(): String {
