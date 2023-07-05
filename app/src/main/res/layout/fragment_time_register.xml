@@ -3,17 +3,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/C2"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".TimeRegisterFragment">
 
-
-    <com.google.android.material.textfield.TextInputLayout
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:text="Agregar horario"
+        android:textColor="@color/C6"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleSelection="false"
+        >
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_1"
+            style="@style/CustomChip"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="hint" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:checked="true"
+            app:closeIconVisible="false"
+            android:text="Lunes" />
 
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_2"
+            style="@style/CustomChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Martes"
+
+            />
+
+        <com.google.android.material.chip.Chip
+            style="@style/CustomChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Miercoles" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/CustomChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jueves" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/CustomChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Viernes" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/CustomChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sabado" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/CustomChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Domingo" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:id="@+id/textViewPrueba"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar horario"
+        android:textColor="@color/C6"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+    <TextView
+        android:id="@+id/textViewH1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Horario de entrada"
+        android:textColor="@color/C6"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
 </LinearLayout>

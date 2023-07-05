@@ -38,9 +38,11 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private val viewModel: RegisterViewModel by viewModels()
     val currentUserRegister = UserModel()
     private var bitmapeado: Bitmap? = null
+
     //Creo un nuevo fragmentos
     //tiramos un intent para obtener los valores de la foto
     //Seleccionar imagen
+
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -51,9 +53,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     binding.btnPictureProfile.setImageBitmap(bitmapeado).toString()
             }
         }
-
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,8 +71,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         }
 
         startFlow()
-
-
     }
 
     private fun registerUser() {
@@ -110,8 +107,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                         }
                     }
                     is ViewModelState.Error ->{
-
-
                     }
                 }
             }

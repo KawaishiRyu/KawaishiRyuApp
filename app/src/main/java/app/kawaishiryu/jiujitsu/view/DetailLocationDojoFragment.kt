@@ -8,6 +8,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.databinding.FragmentDetailLocationDojoBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -24,6 +25,10 @@ class DetailLocationDojoFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentDetailLocationDojoBinding.bind(view)
+
+        binding.btnIntentToTimeRegister.setOnClickListener {
+            intentToTimeRegisterFrag()
+        }
 
         args.argumentos.let {
             binding.tvNameDojo.text = it.nameDojo
@@ -109,6 +114,12 @@ class DetailLocationDojoFragment :
                     Uri.parse("http://instagram.com/$user")
                 )
             )
+        }
+    }
+
+    private fun intentToTimeRegisterFrag(){
+        binding.btnIntentToTimeRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_locationDojoFragment_to_timeRegisterFragment2)
         }
     }
 

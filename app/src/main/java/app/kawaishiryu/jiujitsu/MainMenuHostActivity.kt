@@ -15,17 +15,19 @@ import app.kawaishiryu.jiujitsu.databinding.ActivityMainMenuHostBinding
 import com.google.android.material.navigation.NavigationView
 
 class MainMenuHostActivity : AppCompatActivity() {
+
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainMenuHostBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainMenuHostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.homeFragment,R.id.locationFragment,R.id.dialogSignOutUser,R.id.profileUserFragment), binding.drawer
+            setOf(R.id.homeFragment,R.id.locationFragment,R.id.profileUserFragment,R.id.dialogSignOutUser), binding.drawer
         )
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment

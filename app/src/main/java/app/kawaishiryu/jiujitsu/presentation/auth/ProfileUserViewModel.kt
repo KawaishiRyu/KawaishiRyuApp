@@ -14,12 +14,9 @@ import kotlinx.coroutines.launch
 
 class ProfileUserViewModel() : ViewModel() {
 
-
-
     //Obtenemos los datos
     private val _profileUserDbState = MutableStateFlow(CurrentUser.userRegister)
     val profileUserDb: MutableStateFlow<CurrentUser> = _profileUserDbState
-
 
     var prueba3  = MutableStateFlow<Boolean>(false)
 

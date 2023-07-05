@@ -17,6 +17,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="CustomChip" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="chipBackgroundColor">@color/C1</item>
+        <item name="android:textColor">@color/C6</item>
+        <item name="endIconCheckable">false</item>
+        <item name="closeIconVisible">false</item>
+        
+    </style>
+
     <style name="Theme.KawaishiRyu.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.KawaishiRyu.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

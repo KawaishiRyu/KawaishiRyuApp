@@ -28,7 +28,6 @@ class SplashScreenActivity : AppCompatActivity() {
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         val view = binding.root
 
-
         CoroutineScope(Dispatchers.Main).launch {
             delay(3000L)
             isUserLoggedIn()
@@ -39,11 +38,7 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
 
-
-
     private fun startFlow() {
-
-
 
         lifecycleScope.launch  {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){

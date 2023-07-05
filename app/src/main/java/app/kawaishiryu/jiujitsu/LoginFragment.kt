@@ -42,9 +42,6 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-
-
-
     //Instanciamos la clase del viewModel
     private val viewModel by viewModels<LoginScreenViewModel>()
 
@@ -84,9 +81,7 @@ class LoginFragment : Fragment() {
                         is ViewModelState.Loading->{
                             //Podemos poner el progressBar
                         }
-
                     }
-
                 }
             }
 

@@ -41,7 +41,8 @@
         app:layout_constraintStart_toStartOf="@+id/guidelineStar"
         app:layout_constraintTop_toBottomOf="@+id/tvEmailUser" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        app:civ_border_color="@color/C2"
         android:id="@+id/ivProfileUserPhoto"
         android:layout_width="120dp"
         android:layout_height="120dp"

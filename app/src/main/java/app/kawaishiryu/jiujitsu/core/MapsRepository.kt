@@ -1,5 +1,6 @@
 package app.kawaishiryu.jiujitsu.core
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.location.Location
@@ -24,6 +25,7 @@ import kotlin.coroutines.suspendCoroutine
 object MapsRepository {
 
 
+    @SuppressLint("MissingPermission")
     suspend fun getCurrentLocation(context: Context): LatLng {
         val fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(context)

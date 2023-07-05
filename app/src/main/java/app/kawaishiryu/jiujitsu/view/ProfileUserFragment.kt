@@ -26,14 +26,12 @@ import kotlinx.coroutines.launch
 class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
 
     private lateinit var binding: FragmentProfileUserBinding
+
     private val viewModel: ProfileUserViewModel by viewModels()
     //Creamos la variable que contendra los datos del usuario
     private val argsEditUser by navArgs<ProfileUserFragmentArgs>()
     private var descargar = false
     private var usuario: CurrentUser = CurrentUser()
-
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

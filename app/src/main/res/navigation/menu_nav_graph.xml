@@ -10,6 +10,7 @@
         android:name="app.kawaishiryu.jiujitsu.view.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+
     <fragment
         android:id="@+id/locationFragment"
         android:name="app.kawaishiryu.jiujitsu.view.LocationFragment"
@@ -32,6 +33,9 @@
         <argument
             android:name="argumentos"
             app:argType="app.kawaishiryu.jiujitsu.data.model.DojosModel" />
+        <action
+            android:id="@+id/action_locationDojoFragment_to_timeRegisterFragment2"
+            app:destination="@id/timeRegisterFragment" />
     </fragment>
 
     <fragment
@@ -39,6 +43,7 @@
         android:name="app.kawaishiryu.jiujitsu.view.RegisterDojoFragment"
         android:label="fragment_register_dojo"
         tools:layout="@layout/fragment_register_dojo" />
+
     <fragment
         android:id="@+id/profileUserFragment"
         android:name="app.kawaishiryu.jiujitsu.view.ProfileUserFragment"
@@ -52,6 +57,7 @@
             app:argType="boolean"
             android:defaultValue="true" />
     </fragment>
+
     <dialog
         android:id="@+id/dialogSignOutUser"
         android:name="app.kawaishiryu.jiujitsu.view.DialogSignOutUser"
@@ -68,4 +74,25 @@
             android:name="currentUserModifed"
             app:argType="app.kawaishiryu.jiujitsu.data.model.CurrentUser" />
     </fragment>
+
+    <fragment
+        android:id="@+id/timeRegisterFragment"
+        android:name="app.kawaishiryu.jiujitsu.TimeRegisterFragment"
+        android:label="fragment_time_register"
+        tools:layout="@layout/fragment_time_register" />
+
+    <fragment
+        android:id="@+id/menuTecFragment"
+        android:name="app.kawaishiryu.jiujitsu.MenuTecFragment"
+        android:label="fragment_menu_tec"
+        tools:layout="@layout/fragment_menu_tec" >
+        <action
+            android:id="@+id/action_menuTecFragment_to_tecnicasFragment"
+            app:destination="@id/tecnicasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tecnicasFragment"
+        android:name="app.kawaishiryu.jiujitsu.TecnicasFragment"
+        android:label="fragment_tecnicas"
+        tools:layout="@layout/fragment_tecnicas" />
 </navigation>

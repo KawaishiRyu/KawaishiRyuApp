@@ -75,8 +75,6 @@ class LoginScreenViewModel() : ViewModel() {
 
     }
 
-
-
     /*fun signIn(email: String, password: String): LiveData<LoginResult<FirebaseUser?>> =
         liveData(viewModelScope.coroutineContext + Dispatchers.Main) {
 

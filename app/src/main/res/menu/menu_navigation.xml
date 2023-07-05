@@ -16,8 +16,15 @@
                 android:title="Ubicacion del Dojo"
                 />
 
+            <item
+                android:id="@+id/menuTecFragment"
+                android:icon="@drawable/ic_location"
+                android:title="Tecnicas"
+                />
         </menu>
     </item>
+
+
     <item
         android:title="Perfil de usuario">
         <menu>
@@ -32,7 +39,5 @@
                 android:title="Cerrar sesion"/>
         </menu>
     </item>
-
-
 
 </menu>
