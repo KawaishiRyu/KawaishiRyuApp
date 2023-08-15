@@ -10,16 +10,23 @@
     <item
         android:title="Ubicacion">
         <menu>
-            <item
-                android:id="@+id/locationFragment"
-                android:icon="@drawable/ic_location"
-                android:title="Ubicacion del Dojo"
-                />
 
             <item
                 android:id="@+id/menuTecFragment"
                 android:icon="@drawable/ic_location"
                 android:title="Tecnicas"
+                />
+
+            <item
+                android:id="@+id/jiuJitsuMenuFragment"
+                android:icon="@drawable/ic_location"
+                android:title="Tecnicas"
+                />
+
+            <item
+                android:id="@+id/locationFragment"
+                android:icon="@drawable/ic_location"
+                android:title="Ubicacion del Dojo"
                 />
         </menu>
     </item>

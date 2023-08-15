@@ -36,6 +36,7 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentProfileUserBinding.bind(view)
+
         Log.i("Ingresa en: ","$descargar")
         if (!descargar){
             startFlow()
@@ -57,7 +58,6 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
                     usuario = user
                     bindUser(usuario)
                     binding.progressBar.visibility = View.GONE
-
                 }
 
             }
@@ -69,18 +69,24 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
         binding.apply {
             tvNameUser.text = user.name
             tvEmailUser.text = user.email
+
             val base64String = user.pictureProfile
             val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
+
             val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-            Glide.with(requireContext()).load(bitmap).diskCacheStrategy(DiskCacheStrategy.ALL)
-                .centerCrop().circleCrop().into(ivProfileUserPhoto)
+
+            if (bitmap != null){
+                Glide.with(requireContext()).load(bitmap).diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop().circleCrop().into(ivProfileUserPhoto)
+            }else{
+                Glide.with(requireContext()).load(R.drawable.ic_launcher_foreground).diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop().circleCrop().into(ivProfileUserPhoto)
+            }
 
             btnEditProfileUser.setOnClickListener {
-               navigateUserEditProfile(user)
+               //navigateUserEditProfile(user)
             }
         }
-
-
     }
 
    private fun navigateUserEditProfile(user: CurrentUser) {
@@ -88,7 +94,5 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
         //Pasamos los datos a traves con safeArgs
         val directions = ProfileUserFragmentDirections.actionProfileUserFragmentToProfileUserModifiedFragment(user)
         findNavController().navigate(directions)
-
     }
-
 }

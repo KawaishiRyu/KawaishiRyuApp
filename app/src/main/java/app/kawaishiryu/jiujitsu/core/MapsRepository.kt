@@ -24,7 +24,6 @@ import kotlin.coroutines.suspendCoroutine
 
 object MapsRepository {
 
-
     @SuppressLint("MissingPermission")
     suspend fun getCurrentLocation(context: Context): LatLng {
         val fusedLocationProviderClient =

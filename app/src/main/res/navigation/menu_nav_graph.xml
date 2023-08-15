@@ -9,7 +9,9 @@
         android:id="@+id/homeFragment"
         android:name="app.kawaishiryu.jiujitsu.view.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+
+    </fragment>
 
     <fragment
         android:id="@+id/locationFragment"
@@ -17,25 +19,14 @@
         android:label="fragment_location"
         tools:layout="@layout/fragment_location" >
         <action
+
             android:id="@+id/action_locationFragment_to_registerDojoFragment"
             app:destination="@id/registerDojoFragment" />
-        <action
-            android:id="@+id/action_locationFragment_to_locationDojoFragment"
-            app:destination="@id/locationDojoFragment" />
-    </fragment>
 
-    <fragment
-        android:id="@+id/locationDojoFragment"
-        android:name="app.kawaishiryu.jiujitsu.view.DetailLocationDojoFragment"
-        android:label="fragment_location_dojo"
-        tools:layout="@layout/fragment_detail_location_dojo" >
-
-        <argument
-            android:name="argumentos"
-            app:argType="app.kawaishiryu.jiujitsu.data.model.DojosModel" />
         <action
-            android:id="@+id/action_locationDojoFragment_to_timeRegisterFragment2"
-            app:destination="@id/timeRegisterFragment" />
+
+            android:id="@+id/action_locationFragment_to_detailLocationFragment"
+            app:destination="@id/detailLocationFragment" />
     </fragment>
 
     <fragment
@@ -89,10 +80,69 @@
         <action
             android:id="@+id/action_menuTecFragment_to_tecnicasFragment"
             app:destination="@id/tecnicasFragment" />
+
     </fragment>
+
+
     <fragment
         android:id="@+id/tecnicasFragment"
         android:name="app.kawaishiryu.jiujitsu.TecnicasFragment"
         android:label="fragment_tecnicas"
-        tools:layout="@layout/fragment_tecnicas" />
+        tools:layout="@layout/fragment_tecnicas" >
+        <argument
+            android:name="nameTec"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="nameTecSec"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_tecnicasFragment_to_createTecFragment"
+            app:destination="@id/createTecFragment" />
+        <action
+            android:id="@+id/action_tecnicasFragment_to_detailTecFragment"
+            app:destination="@id/detailTecFragment" />
+        <argument
+            android:name="tanslateTec"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailLocationFragment"
+        android:name="app.kawaishiryu.jiujitsu.view.DetailLocationFragment"
+        android:label="fragment_detail_location"
+        tools:layout="@layout/fragment_detail_location" >
+        <argument
+            android:name="dojoDetail"
+            app:argType="app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/createTecFragment"
+        android:name="app.kawaishiryu.jiujitsu.view.CreateTecFragment"
+        android:label="fragment_create_tec"
+        tools:layout="@layout/fragment_create_tec" >
+        <argument
+            android:name="path_fb"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailTecFragment"
+        android:name="app.kawaishiryu.jiujitsu.view.DetailTecFragment"
+        android:label="fragment_detail_tec"
+        tools:layout="@layout/fragment_detail_tec" >
+        <argument
+            android:name="modelMovArg"
+            app:argType="app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel"
+            app:nullable="true" />
+        <argument
+            android:name="nameMovArg"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/menuJiuJitsuFragment"
+        android:name="app.kawaishiryu.jiujitsu.view.MenuJiuJitsuFragment"
+        android:label="fragment_menu_jiu_jitsu"
+        tools:layout="@layout/fragment_menu_jiu_jitsu" />
 </navigation>

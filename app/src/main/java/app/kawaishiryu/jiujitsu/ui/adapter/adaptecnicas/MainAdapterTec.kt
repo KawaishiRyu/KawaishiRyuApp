@@ -5,21 +5,67 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isGone
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import app.kawaishiryu.jiujitsu.MenuTecFragmentDirections
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.tecnicas.MainModelTec
 import app.kawaishiryu.jiujitsu.databinding.ItemMenuTechniqueBinding
+import app.kawaishiryu.jiujitsu.util.OnItemClick
 
 
-class MainAdapterTec(private val collection: List<MainModelTec>) :
-    RecyclerView.Adapter<MainAdapterTec.CollectionViewHolder>() {
+class MainAdapterTec(
+    private val collection: List<MainModelTec>,
+    private val listener :OnItemClick?,
+    private val isChecked : Boolean
+) : RecyclerView.Adapter<MainAdapterTec.CollectionViewHolder>() {
 
     lateinit var context: Context
 
+
     class CollectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         val binding = ItemMenuTechniqueBinding.bind(itemView)
+
+        fun render(collection: MainModelTec, bool :Boolean) {
+            binding.apply {
+
+                if (!bool){
+                    tvParentTitle.text = collection.title
+                }else{
+                    tvParentTitle.text = collection.translate
+                }
+
+                if (collection.subItemModel.isNullOrEmpty()) {
+                    imgMenu.visibility = View.GONE
+                } else {
+
+                    imgMenu.visibility = View.VISIBLE
+
+                    val subItemAdapterTec = SubItemAdapterTec(collection.subItemModel, bool, collection.translate)
+
+                    rvSubItem.adapter = subItemAdapterTec
+                    rvSubItem.layoutManager =
+                        LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL, false)
+                }
+
+                //CardView Expandible
+                itemView.setOnClickListener {
+
+                    if (collection.subItemModel != null) {
+                        rvSubItem.visibility = if (rvSubItem.isShown) View.GONE else View.VISIBLE
+                    } else {
+                        val navController = Navigation.findNavController(itemView)
+
+                        val action = MenuTecFragmentDirections.actionMenuTecFragmentToTecnicasFragment(collection.title, null, collection.translate)
+                        navController.navigate(action)
+                    }
+                }
+
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionViewHolder {
@@ -31,32 +77,11 @@ class MainAdapterTec(private val collection: List<MainModelTec>) :
     }
 
     override fun onBindViewHolder(holder: CollectionViewHolder, position: Int) {
+        val item = collection[position]
 
-        holder.binding.apply {
-
-            val collection = collection[position]
-
-            tvParentTitle.text = collection.title
-
-            //val subItemAdapterTec = SubItemAdapterTec(collection.subItemModel)
-            val subItemAdapterTec = collection.subItemModel?.let {
-                SubItemAdapterTec(it) } //Veo q la lista sea distinta de nula
-
-            //Añado un recycler View
-            rvSubItem.adapter = subItemAdapterTec
-            rvSubItem.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-
-            tvParentTitle.setOnClickListener {
-                if (collection.subItemModel != null){
-                    rvSubItem.visibility = if (rvSubItem.isShown) View.GONE else View.VISIBLE
-                }else{
-                    imgMenu.visibility = View.GONE
-                }
-            }
-        }
+        holder.render(item, isChecked)
     }
-
     override fun getItemCount() = collection.size
+
+
 }

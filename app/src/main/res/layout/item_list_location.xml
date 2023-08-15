@@ -14,7 +14,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="8dp"
-        app:cardBackgroundColor="@color/C8"
+        app:cardBackgroundColor="@color/C7"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp">
 
@@ -26,15 +26,14 @@
 
             <TextView
                 android:id="@+id/tvNameDojo"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="194dp"
+                android:layout_height="30dp"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginTop="7dp"
                 android:text="Nombre del dojo"
                 android:textColor="@color/C6"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,6 +78,19 @@
                     android:src="@drawable/icons_mapa"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <ImageView
+                android:id="@+id/ivDeleteDojo"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="19dp"
+                app:layout_constraintBottom_toTopOf="@+id/tvSenseiName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvNameDojo"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_delete" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,6 +103,8 @@
         android:layout_height="100dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        app:civ_border_width="3dp"
+        app:civ_border_color="@color/C1"
         android:contentDescription="@null"
         android:elevation="16dp"
         android:scaleType="centerCrop"

@@ -7,16 +7,17 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import app.kawaishiryu.jiujitsu.R
-import app.kawaishiryu.jiujitsu.data.model.DojosModel
+import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.databinding.ItemListLocationBinding
 import app.kawaishiryu.jiujitsu.util.OnItemClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 
-class DojosAdapter(private val list: MutableList<DojosModel>, val listener: OnItemClick) :
-    RecyclerView.Adapter<DojosAdapter.DojosViewHolder>() {
-
+class DojosAdapter(
+    private val list: MutableList<DojosModel>,
+    private val listener: OnItemClick?
+) : RecyclerView.Adapter<DojosAdapter.DojosViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DojosViewHolder {
         return DojosViewHolder(
@@ -29,15 +30,20 @@ class DojosAdapter(private val list: MutableList<DojosModel>, val listener: OnIt
         holder.render(list[position])
         with(holder.item_view) {
             setOnClickListener {
-                listener.setOnItemClickListener(list[position])
+                listener?.setOnItemClickListener(list[position])
             }
         }
+
         holder.item_view.startAnimation(
             AnimationUtils.loadAnimation(
                 holder.item_view.context,
                 R.anim.anim_one
             )
         )
+
+        holder.binding.ivDeleteDojo.setOnClickListener {
+            listener?.onDeleteClick(list[position])
+        }
     }
 
     override fun getItemCount(): Int {
@@ -63,11 +69,8 @@ class DojosAdapter(private val list: MutableList<DojosModel>, val listener: OnIt
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
                 .into(binding.ivPhotoDojo)
+            binding.ivDeleteDojo
 
-//            Picasso.get()
-//                .load(dojosModel.dojoUrlImage)
-//                .resize(150, 150)
-//                .into(binding.ivPhotoDojo)
         }
     }
 

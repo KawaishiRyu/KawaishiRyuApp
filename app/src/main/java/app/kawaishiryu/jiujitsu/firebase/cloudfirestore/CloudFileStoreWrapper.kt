@@ -1,9 +1,7 @@
 package app.kawaishiryu.jiujitsu.firebase.cloudfirestore
 
-import android.app.DownloadManager.Query
 import android.util.Log
 import app.kawaishiryu.jiujitsu.data.model.CurrentUser
-import app.kawaishiryu.jiujitsu.data.model.DojosModel
 import app.kawaishiryu.jiujitsu.data.model.service.UserModel
 
 import com.google.firebase.auth.FirebaseAuth
@@ -11,9 +9,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -23,37 +18,33 @@ object CloudFileStoreWrapper {
 
     suspend fun obtenerDatosFirebase(collectionPath: String, documentPath: String): CurrentUser {
         return suspendCoroutine { continuation ->
-            FirebaseFirestore.getInstance().collection(collectionPath).document(documentPath).get().addOnSuccessListener { value->
-                if (value.exists()){
-                    var nombre = value.getString(UserModel.NAME_USER_KEY)
-                    var email = value.getString(UserModel.EMAIL_USER_KEY)
-                    var picture = value.getString(UserModel.PICTURE_PROFILE_USER_KEY)
-                    var password = value.getString(UserModel.PASSWORD_USER_KEY)
-                    var valores = CurrentUser(
-                        name = nombre!!,
-                        email = email!!,
-                        pictureProfile = picture!!,
-                        password = password!!
-                    )
-                    continuation.resume(valores)
-                }else{
-                    //Se vere
-
-            }
-            }
+            FirebaseFirestore.getInstance().collection(collectionPath).document(documentPath).get()
+                .addOnSuccessListener { value ->
+                    if (value.exists()) {
+                        var nombre = value.getString(UserModel.NAME_USER_KEY)
+                        var email = value.getString(UserModel.EMAIL_USER_KEY)
+                        var picture = value.getString(UserModel.PICTURE_PROFILE_USER_KEY)
+                        var password = value.getString(UserModel.PASSWORD_USER_KEY)
+                        var valores = CurrentUser(
+                            name = nombre!!,
+                            email = email!!,
+                            pictureProfile = picture!!,
+                            password = password!!
+                        )
+                        continuation.resume(valores)
+                    } else {
+                        //Se vere
+                    }
+                }
         }
     }
 
-
-
-
-            //Corutina que pide datos
+    //Corutina que pide datos
     suspend fun replace(
         collectionPath: String,
         documentPath: String,
         map: MutableMap<String, Any>
     ): Void {
-
         return suspendCoroutine { continuacion ->
             Firebase.firestore.collection(collectionPath).document(documentPath)
                 .set(map)
@@ -88,7 +79,6 @@ object CloudFileStoreWrapper {
                     Log.i("registrarUsuarioError", "${it}")
                     continuacion.resumeWithException(it)
                 }
-
         }
     }
 
@@ -110,8 +100,6 @@ object CloudFileStoreWrapper {
 
         }
     }
-
-
     //Esta funcion suspendida nos sierve para retornar verdaddero en el caso
     //de que el usuario ya se encuentre activo
 
@@ -146,7 +134,7 @@ val docRef = db.collection("tu_coleccion").document("tu_documento")
     ): Void {
         //La funcion setoptions.merge solo actualiza valores que se cambiaron
         return suspendCoroutine { continuation ->
-            Log.i("mapeo","$map")
+            Log.i("mapeo", "$map")
             Firebase.firestore.collection(collectionPath).document(getUUIDUser()).set(
                 map,
                 SetOptions.merge()
@@ -155,13 +143,23 @@ val docRef = db.collection("tu_coleccion").document("tu_documento")
             }.addOnFailureListener {
                 continuation.resumeWithException(it)
             }
+        }
     }
-}
-
 
     fun getUUIDUser() = firebaseAuth.currentUser!!.uid
 
-
+    //Eliminar un documento en firebase
+    suspend fun deleteDocumentoFirebase(collectionPath: String, documentPath: String) {
+        return suspendCoroutine { continuation ->
+            FirebaseFirestore.getInstance().collection(collectionPath).document(documentPath).delete()
+                .addOnSuccessListener {
+                    continuation.resume(Unit)
+                }
+                .addOnFailureListener { exception ->
+                    continuation.resumeWithException(exception)
+                }
+        }
+    }
 }
 
 

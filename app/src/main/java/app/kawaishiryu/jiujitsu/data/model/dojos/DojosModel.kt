@@ -1,4 +1,4 @@
-package app.kawaishiryu.jiujitsu.data.model
+package app.kawaishiryu.jiujitsu.data.model.dojos
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

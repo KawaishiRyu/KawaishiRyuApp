@@ -40,7 +40,6 @@ class DialogSignOutUser: DialogFragment() {
 
     override fun onResume() {
         super.onResume()
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

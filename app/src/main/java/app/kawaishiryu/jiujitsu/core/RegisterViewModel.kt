@@ -12,16 +12,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+//Registrar usuario
 open class RegisterViewModel(): ViewModel() {
-    /*
 
-       private val _dojosViewModelState = MutableStateFlow<DojoViewModelState>(DojoViewModelState.None)
-    val dojosViewModelState: StateFlow<DojoViewModelState> = _dojosViewModelState
-     */
     //Este dato es para Crear la coleccion de base de datos
     private val _registerUserDbViewModelState = MutableStateFlow<ViewModelState>(ViewModelState.None)
     val registerUserDbViewModelState: StateFlow<ViewModelState> = _registerUserDbViewModelState
-    //
 
     //Creamos esta variable para poder obtener el valor del UUID del usuario al registarlo
     //Para poder almacenarlo antes de guardarlo en la base de datos
@@ -48,7 +44,6 @@ open class RegisterViewModel(): ViewModel() {
                     }
                     registerUser.await()
                     _registerUserViewModelState.value = ViewModelState.UserRegisterSuccesfully(user.currentUser)
-
                 }
 
             }catch (e:Exception){
@@ -76,11 +71,6 @@ open class RegisterViewModel(): ViewModel() {
 
         }catch (e: Exception){
             _registerUserDbViewModelState.value = ViewModelState.Error(e.message!!)
-
         }
-
-
-
-
     }
 }

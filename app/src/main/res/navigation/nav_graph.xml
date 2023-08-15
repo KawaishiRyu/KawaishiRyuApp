@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_auxFragment"
-            app:destination="@id/auxFragment" />
     </fragment>
 
 
@@ -28,11 +25,6 @@
             android:id="@+id/action_registerFragment_to_pictureFragmentUser"
             app:destination="@id/pictureFragmentUser" />
     </fragment>
-    <fragment
-        android:id="@+id/auxFragment"
-        android:name="app.kawaishiryu.jiujitsu.AuxFragment"
-        android:label="fragment_aux"
-        tools:layout="@layout/fragment_aux" />
     <fragment
         android:id="@+id/pictureFragmentUser"
         android:name="app.kawaishiryu.jiujitsu.view.PictureFragmentUser"

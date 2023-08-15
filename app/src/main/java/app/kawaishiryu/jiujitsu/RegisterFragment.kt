@@ -1,20 +1,15 @@
 package app.kawaishiryu.jiujitsu
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -25,10 +20,7 @@ import app.kawaishiryu.jiujitsu.data.model.CurrentUser
 import app.kawaishiryu.jiujitsu.data.model.service.UserModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterBinding
 import app.kawaishiryu.jiujitsu.util.CamarePermission
-import app.kawaishiryu.jiujitsu.util.StoragePermission
-import app.kawaishiryu.jiujitsu.util.controlEmailAndPassword
 import app.kawaishiryu.jiujitsu.util.getRandomUUIDString
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
@@ -58,15 +50,11 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRegisterBinding.bind(view)
 
-
-
         binding.btnRegister.setOnClickListener {
             registerUser()
-
         }
 
-
-       binding.btnPictureProfile.setOnClickListener {
+        binding.btnPictureProfile.setOnClickListener {
             permissiones()
         }
 
@@ -77,10 +65,10 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         currentUserRegister.currentUser.email = binding.teEmailUser.text.toString().trim()
         currentUserRegister.currentUser.password = binding.teContraseA.text.toString().trim()
         currentUserRegister.currentUser.name = binding.teNombreDeUsuario.text.toString().trim()
-        currentUserRegister.currentUser.apellido= binding.teApellidoUser.text.toString().trim()
+        currentUserRegister.currentUser.apellido = binding.teApellidoUser.text.toString().trim()
         currentUserRegister.currentUser.id = getRandomUUIDString()
         currentUserRegister.currentUser.pictureProfile = bitmapeado.toString()
-        Log.i("Useremail", "${ currentUserRegister.currentUser.email}")
+        Log.i("Useremail", "${currentUserRegister.currentUser.email}")
         Log.i("foto", "${CurrentUser.userRegister.pictureProfile}")
         viewModel.registrarUsuario(currentUserRegister)
 
@@ -92,42 +80,42 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            viewModel.registerUserViewModelState.collect(){
-                when(it){
-                    is ViewModelState.Loading ->{
-                        binding.tvRegistrarse.visibility = View.GONE
-                        binding.circularProgressIndicator.visibility = View.VISIBLE
-                        binding.tvWaiting.visibility = View.VISIBLE
-                    }
-                    is ViewModelState.UserRegisterSuccesfully ->{
-                        viewModel.profileUserDb.collect(){ userId ->
-                            currentUserRegister.currentUser.id = userId
-                            viewModel.registerUserCollectionDb(currentUserRegister)
-                            baseDeDatosFirebase()
+                viewModel.registerUserViewModelState.collect() {
+                    when (it) {
+                        is ViewModelState.Loading -> {
+                            binding.tvRegistrarse.visibility = View.GONE
+                            binding.circularProgressIndicator.visibility = View.VISIBLE
+                            binding.tvWaiting.visibility = View.VISIBLE
                         }
-                    }
-                    is ViewModelState.Error ->{
+                        is ViewModelState.UserRegisterSuccesfully -> {
+                            viewModel.profileUserDb.collect() { userId ->
+                                currentUserRegister.currentUser.id = userId
+                                viewModel.registerUserCollectionDb(currentUserRegister)
+                                baseDeDatosFirebase()
+                            }
+                        }
+                        is ViewModelState.Error -> {
+                        }
                     }
                 }
             }
-            }
         }
-
     }
 
     private fun baseDeDatosFirebase() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.registerUserDbViewModelState.collect(){
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.registerUserDbViewModelState.collect() {
                     //Los estados posibles de
-                    when(it){
-                      is  ViewModelState.UserRegisterDbSyccesfully ->{
-                          binding.circularProgressIndicator.visibility = View.GONE
-                          binding.tvWaiting.visibility = View.GONE
-                          binding.tvDone.visibility = View.VISIBLE
-                          //Se puso creo bien la base de datos
-                          Toast.makeText(context, "Se Pasa a navegacion", Toast.LENGTH_SHORT).show()
-                          navigationUp()
+                    when (it) {
+                        is ViewModelState.UserRegisterDbSyccesfully -> {
+                            binding.circularProgressIndicator.visibility = View.GONE
+                            binding.tvWaiting.visibility = View.GONE
+                            binding.tvDone.visibility = View.VISIBLE
+                            //Se puso creo bien la base de datos
+                            Toast.makeText(context, "Se Pasa a navegacion", Toast.LENGTH_SHORT)
+                                .show()
+                            navigationUp()
                         }
                     }
 

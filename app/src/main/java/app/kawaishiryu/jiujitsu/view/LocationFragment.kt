@@ -2,12 +2,19 @@ package app.kawaishiryu.jiujitsu.view
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.kawaishiryu.jiujitsu.R
-import app.kawaishiryu.jiujitsu.data.model.DojosModel
+import app.kawaishiryu.jiujitsu.core.ViewModelState
+import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
+import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
 import app.kawaishiryu.jiujitsu.data.model.service.DojosModelService
 import app.kawaishiryu.jiujitsu.databinding.FragmentLocationBinding
 import app.kawaishiryu.jiujitsu.ui.adapter.DojosAdapter
@@ -24,10 +31,11 @@ import kotlinx.coroutines.withContext
 class LocationFragment : Fragment(R.layout.fragment_location), OnItemClick {
 
     private lateinit var binding: FragmentLocationBinding
+    private val viewModel: LocationViewModel by viewModels()
     private var db = Firebase.firestore
+
     private lateinit var adapterDojo: DojosAdapter
 
-    private lateinit var newArrayList: ArrayList<DojosModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,19 +47,7 @@ class LocationFragment : Fragment(R.layout.fragment_location), OnItemClick {
 
         binding.rvLocation.layoutManager = LinearLayoutManager(context)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val data = DojosModelService.getListFromFirebase()
-
-            for (i in data) {
-                Log.d("Lista: ", "\n$i")
-            }
-
-            withContext(Dispatchers.Main) {
-                adapterDojo = DojosAdapter(data, this@LocationFragment)
-                binding.rvLocation.adapter = adapterDojo
-            }
-        }
-
+        startFlow()
     }
 
     fun intent() {
@@ -61,7 +57,30 @@ class LocationFragment : Fragment(R.layout.fragment_location), OnItemClick {
     }
 
     override fun setOnItemClickListener(dojo: DojosModel) {
-        val directions = LocationFragmentDirections.actionLocationFragmentToLocationDojoFragment(dojo)
+        val directions =
+            LocationFragmentDirections.actionLocationFragmentToDetailLocationFragment(dojo)
         findNavController().navigate(directions)
     }
+
+
+    override fun onDeleteClick(dojosModel: DojosModel) {
+        viewModel.deleteDojoFirebase(dojosModel)
+    }
+
+    private fun startFlow() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.dojosData.observe(viewLifecycleOwner) { data ->
+                    Log.d("???", "$data")
+                    adapterDojo = DojosAdapter(data, this@LocationFragment)
+                    binding.rvLocation.adapter = adapterDojo
+                }
+                viewModel.fetchDojosData()
+            }
+        }
+    }
+
+
 }
+
+

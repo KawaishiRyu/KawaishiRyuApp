@@ -1,13 +1,11 @@
 package app.kawaishiryu.jiujitsu.view
 
-import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,21 +13,17 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import app.kawaishiryu.jiujitsu.R
-import app.kawaishiryu.jiujitsu.core.DojoViewModelState
-import app.kawaishiryu.jiujitsu.data.model.DojosModel
+import app.kawaishiryu.jiujitsu.core.ViewModelState
+import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterDojoBinding
 import app.kawaishiryu.jiujitsu.util.LocationPermission
 import app.kawaishiryu.jiujitsu.util.StoragePermission
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -45,7 +39,6 @@ import java.util.*
 
 
 class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapReadyCallback,GoogleMap.OnMyLocationButtonClickListener {
-
 
     private var controllerMarket = false
     private lateinit var market: Marker
@@ -74,6 +67,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentRegisterDojoBinding.bind(view)
+
         initFlows()
         clickableEvent()
 
@@ -92,19 +86,23 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         })
     }
 
+    /*Inicializa el flujo de trabajos
+   Los flujos de trabajo son un patron comun en la programacion reactiva y se utiliza para controlar y
+   manipular flujos de datos asincronos
+     */
     private fun initFlows() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.dojosViewModelState.collect {
                     // Process item
                     when (it) {
-                        is DojoViewModelState.Loading -> {
+                        is ViewModelState.Loading -> {
                             //show progresss here
                             Log.d("???", "Cargando")
                             showProgres()
                         }
 
-                        is DojoViewModelState.RegisterSuccessfully -> {
+                        is ViewModelState.RegisterSuccessfullyDojo -> {
                             hideProgress()
                             //Register succes
                             Log.d("???", "fue exitoso ${it.dojoModel}")
@@ -112,12 +110,12 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
                                 .show()
                         }
 
-                        is DojoViewModelState.Empty -> {
+                        is ViewModelState.Empty -> {
                             //Selected is empty
                             Log.d("???", "Vacio")
                             hideProgress()
                         }
-                        is DojoViewModelState.Error -> {
+                        is ViewModelState.Error -> {
                             Log.d("???", "Error")
                             hideProgress()
                         }
@@ -276,6 +274,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         enableLocation()
 
     }
+    @SuppressLint("MissingPermission")
     private fun enableLocation() {
         //Si el mapoa no fue inicializado
         if (!::map.isInitialized) return
@@ -288,7 +287,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
             //si no se activaron los permisos
             LocationPermission.requestLocationPermission(requireActivity())
         }
-
     }
 
     // Método para obtener la ubicación actual
@@ -302,10 +300,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
                 }
             }
         }
-
-
     }
-
 
     //Creamos esta funcion para crear el marcador para que cuando hagamos click se vea
     private fun newMarket(lat: Double, log: Double) {
@@ -322,13 +317,10 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
                 dissapearViews()
             }
 
-
         } else {
             market.remove()
             controllerMarket = false
         }
-
-
     }
 
     private fun dissapearViews() {

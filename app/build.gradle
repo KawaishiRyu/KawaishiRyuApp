@@ -31,12 +31,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
         freeCompilerArgs += [
                 "-Xjvm-default=all",
         ]
-
     }
 
     buildFeatures {
@@ -99,4 +99,14 @@ dependencies {
 
     //Animation
     implementation 'com.airbnb.android:lottie:6.0.0'
+
+    //ShapeOfView
+    implementation 'io.github.florent37:shapeofview:1.4.7'
+
+    // Circle Indicator (To fix the xml preview "Missing classes" error)
+    implementation 'me.relex:circleindicator:2.1.6'
+
+    //Material Desing
+    implementation 'org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0'
+
 }
