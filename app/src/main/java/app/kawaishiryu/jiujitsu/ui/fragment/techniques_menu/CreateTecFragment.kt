@@ -1,4 +1,4 @@
-package app.kawaishiryu.jiujitsu.view
+package app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu
 
 import android.os.Bundle
 import android.util.Log
@@ -11,10 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import app.kawaishiryu.jiujitsu.R
-import app.kawaishiryu.jiujitsu.TecnicasFragmentArgs
 import app.kawaishiryu.jiujitsu.core.ViewModelState
 import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentCreateTecBinding
+import app.kawaishiryu.jiujitsu.view.CreateTecViewModel
 import kotlinx.coroutines.launch
 import java.util.*
 

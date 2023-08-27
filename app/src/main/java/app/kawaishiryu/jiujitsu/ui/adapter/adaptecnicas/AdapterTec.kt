@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import app.kawaishiryu.jiujitsu.R
-import app.kawaishiryu.jiujitsu.TecnicasFragmentDirections
 import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
 import app.kawaishiryu.jiujitsu.databinding.ItemTechinqueBinding
+import app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.TecnicasFragmentDirections
 import app.kawaishiryu.jiujitsu.util.OnItemClickTec
 
 class AdapterTec(

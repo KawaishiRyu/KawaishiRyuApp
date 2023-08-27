@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="app.kawaishiryu.jiujitsu.view.HomeFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
 
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/locationFragment"
-        android:name="app.kawaishiryu.jiujitsu.view.LocationFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.location.LocationFragment"
         android:label="fragment_location"
         tools:layout="@layout/fragment_location" >
         <action
@@ -31,13 +31,13 @@
 
     <fragment
         android:id="@+id/registerDojoFragment"
-        android:name="app.kawaishiryu.jiujitsu.view.RegisterDojoFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.location.RegisterDojoFragment"
         android:label="fragment_register_dojo"
         tools:layout="@layout/fragment_register_dojo" />
 
     <fragment
         android:id="@+id/profileUserFragment"
-        android:name="app.kawaishiryu.jiujitsu.view.ProfileUserFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.profile.ProfileUserFragment"
         android:label="fragment_profile_user"
         tools:layout="@layout/fragment_profile_user" >
         <action
@@ -55,7 +55,7 @@
         android:label="DialogSignOutUser" />
     <fragment
         android:id="@+id/profileUserModifiedFragment"
-        android:name="app.kawaishiryu.jiujitsu.view.ProfileUserModifiedFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.profile.ProfileUserModifiedFragment"
         android:label="fragment_profile_user_modified"
         tools:layout="@layout/fragment_profile_user_modified" >
         <action
@@ -68,13 +68,13 @@
 
     <fragment
         android:id="@+id/timeRegisterFragment"
-        android:name="app.kawaishiryu.jiujitsu.TimeRegisterFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.location.TimeRegisterFragment"
         android:label="fragment_time_register"
         tools:layout="@layout/fragment_time_register" />
 
     <fragment
         android:id="@+id/menuTecFragment"
-        android:name="app.kawaishiryu.jiujitsu.MenuTecFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.MenuTecFragment"
         android:label="fragment_menu_tec"
         tools:layout="@layout/fragment_menu_tec" >
         <action
@@ -86,7 +86,7 @@
 
     <fragment
         android:id="@+id/tecnicasFragment"
-        android:name="app.kawaishiryu.jiujitsu.TecnicasFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.TecnicasFragment"
         android:label="fragment_tecnicas"
         tools:layout="@layout/fragment_tecnicas" >
         <argument
@@ -111,7 +111,7 @@
 
     <fragment
         android:id="@+id/detailLocationFragment"
-        android:name="app.kawaishiryu.jiujitsu.view.DetailLocationFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.location.DetailLocationFragment"
         android:label="fragment_detail_location"
         tools:layout="@layout/fragment_detail_location" >
         <argument
@@ -120,7 +120,7 @@
     </fragment>
     <fragment
         android:id="@+id/createTecFragment"
-        android:name="app.kawaishiryu.jiujitsu.view.CreateTecFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.CreateTecFragment"
         android:label="fragment_create_tec"
         tools:layout="@layout/fragment_create_tec" >
         <argument
@@ -129,7 +129,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailTecFragment"
-        android:name="app.kawaishiryu.jiujitsu.view.DetailTecFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.DetailTecFragment"
         android:label="fragment_detail_tec"
         tools:layout="@layout/fragment_detail_tec" >
         <argument
@@ -142,7 +142,7 @@
     </fragment>
     <fragment
         android:id="@+id/menuJiuJitsuFragment"
-        android:name="app.kawaishiryu.jiujitsu.view.MenuJiuJitsuFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.MenuJiuJitsuFragment"
         android:label="fragment_menu_jiu_jitsu"
         tools:layout="@layout/fragment_menu_jiu_jitsu" />
 </navigation>

@@ -7,7 +7,7 @@
     android:background="@color/black_200"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".LoginFragment">
+    tools:context=".ui.fragment.login.LoginFragment">
 
     <TextView
         android:id="@+id/tvTitle"

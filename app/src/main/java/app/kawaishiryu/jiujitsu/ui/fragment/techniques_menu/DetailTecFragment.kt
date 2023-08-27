@@ -1,4 +1,4 @@
-package app.kawaishiryu.jiujitsu.view
+package app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu
 
 import android.os.Bundle
 import android.view.View

@@ -4,15 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import app.kawaishiryu.jiujitsu.MenuTecFragmentDirections
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.tecnicas.MainModelTec
 import app.kawaishiryu.jiujitsu.databinding.ItemMenuTechniqueBinding
+import app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.MenuTecFragmentDirections
 import app.kawaishiryu.jiujitsu.util.OnItemClick
 
 

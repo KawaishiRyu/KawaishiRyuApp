@@ -69,16 +69,6 @@ class DialogSignOutUser: DialogFragment() {
                     Log.i("error","$e")
                 }
                 }
-              /* viewModel.signOutUserState.collect(){
-                    when(it){
-                        is ViewModelState.SignOutSucces ->{
-                            val intent = Intent(requireContext(),MainActivity::class.java)
-                            startActivity(intent)
-
-                        }
-                    }
-                }*/
-
             }
         }
     }

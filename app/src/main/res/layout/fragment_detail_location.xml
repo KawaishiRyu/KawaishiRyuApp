@@ -7,7 +7,7 @@
     android:background="@color/C2"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".view.DetailLocationFragment">
+    tools:context=".ui.fragment.location.DetailLocationFragment">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivDojoDetail"

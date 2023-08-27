@@ -1,4 +1,4 @@
-package app.kawaishiryu.jiujitsu.view
+package app.kawaishiryu.jiujitsu.ui.fragment.location
 
 import android.content.ActivityNotFoundException
 import android.content.Intent

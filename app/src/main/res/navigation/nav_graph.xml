@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="app.kawaishiryu.jiujitsu.LoginFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="app.kawaishiryu.jiujitsu.RegisterFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.login.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginOrRegisterFragment"
-        android:name="app.kawaishiryu.jiujitsu.view.LoginOrRegisterFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.login.LoginOrRegisterFragment"
         android:label="fragment_login_or_register"
         tools:layout="@layout/fragment_login_or_register" >
         <action

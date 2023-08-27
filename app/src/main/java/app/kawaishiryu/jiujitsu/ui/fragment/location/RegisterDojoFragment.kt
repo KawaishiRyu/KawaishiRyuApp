@@ -1,4 +1,4 @@
-package app.kawaishiryu.jiujitsu.view
+package app.kawaishiryu.jiujitsu.ui.fragment.location
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -24,6 +24,7 @@ import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterDojoBinding
 import app.kawaishiryu.jiujitsu.util.LocationPermission
 import app.kawaishiryu.jiujitsu.util.StoragePermission
+import app.kawaishiryu.jiujitsu.view.DojosViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -74,18 +75,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         checKIsValidNumber()
     }
 
-    private fun checKIsValidNumber() {
-        binding.ccp.registerCarrierNumberEditText(binding.etNumber)
-
-        binding.ccp.setPhoneNumberValidityChangeListener(PhoneNumberValidityChangeListener {
-            if (it) {
-                binding.checkBox.setImageResource(R.drawable.check1)
-            } else {
-                binding.checkBox.setImageResource(R.drawable.error)
-            }
-        })
-    }
-
     /*Inicializa el flujo de trabajos
    Los flujos de trabajo son un patron comun en la programacion reactiva y se utiliza para controlar y
    manipular flujos de datos asincronos
@@ -101,7 +90,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
                             Log.d("???", "Cargando")
                             showProgres()
                         }
-
                         is ViewModelState.RegisterSuccessfullyDojo -> {
                             hideProgress()
                             //Register succes
@@ -109,7 +97,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
                             Toast.makeText(context, "Register succes", Toast.LENGTH_SHORT)
                                 .show()
                         }
-
                         is ViewModelState.Empty -> {
                             //Selected is empty
                             Log.d("???", "Vacio")
@@ -126,7 +113,8 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
 
     }
 
-    fun getBitmapFromUri(uri: Uri, context: Context, quality: Int = 100): Bitmap? {
+//    BitMapFromUri
+    private fun getBitmapFromUri(uri: Uri, context: Context, quality: Int = 100): Bitmap? {
         return try {
             val inputStream = context.contentResolver.openInputStream(uri)
             val options = BitmapFactory.Options()
@@ -154,18 +142,21 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         binding.ivDojosRegFrg.setOnClickListener {
             solicitarPermisos()
         }
-        binding.btnBitmap.setOnClickListener {
-            val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
 
-            if (bitmap != null) {
-                // Utilizar el bitmap
-                Toast.makeText(context, "Funciono", Toast.LENGTH_SHORT).show()
-                binding.ivDojosRegFrg.setImageBitmap(bitmap)
+//        //Get bitmap from Uri
+//        binding.btnBitmap.setOnClickListener {
+//            val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
+//
+//            if (bitmap != null) {
+//                // Utilizar el bitmap
+//                Toast.makeText(context, "Funciono", Toast.LENGTH_SHORT).show()
+//                binding.ivDojosRegFrg.setImageBitmap(bitmap)
+//
+//            } else {
+//                // La imagen no pudo ser cargada
+//            }
+//        }
 
-            } else {
-                // La imagen no pudo ser cargada
-            }
-        }
         //Agregamos el evento de crear el mapa
         binding.btnAddLocation.setOnClickListener {
             createFragmentMap()
@@ -200,6 +191,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         }
     }
 
+    //Permisos de imagen
     private fun solicitarPermisos() {
         if (StoragePermission.hasPermission(requireContext())) {
             Toast.makeText(context, "Tiene permisos", Toast.LENGTH_SHORT).show()
@@ -215,8 +207,8 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         }
     }
 
+    //Obtener y actualizar Datos
     private fun getAndUploadData() {
-
         val modelDojo = DojosModel()
         val uuid = getRandomUUIDString()
 
@@ -241,6 +233,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         viewModel.register(bitmap, "${modelDojo.uuId}.jpg", modelDojo)
     }
 
+    //Crear un Id random
     private fun getRandomUUIDString(): String {
         return UUID.randomUUID().toString().replace("-", "")
     }
@@ -254,9 +247,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
     }
 
     //Se llama cuando el mapa esta listo
-
-
-    private fun LocationUserZoom(lat: Double, long: Double) {
+    private fun locationUserZoom(lat: Double, long: Double) {
         var favoritePlace = LatLng(lat, long)
         //  map.addMarker(MarkerOptions().position(favoritePlace).title("Mi ubicacion Actual"))
         map.animateCamera(
@@ -266,7 +257,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         )
     }
 
-
     //Se llama cuando el mapa esta listo
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
@@ -274,6 +264,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         enableLocation()
 
     }
+
     @SuppressLint("MissingPermission")
     private fun enableLocation() {
         //Si el mapoa no fue inicializado
@@ -295,7 +286,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.locationUser.collect(){latLong ->
-                    LocationUserZoom(latLong.latitude,latLong.longitude)
+                    locationUserZoom(latLong.latitude,latLong.longitude)
                     Toast.makeText(requireContext(),"latitud:${latLong.latitude} y longitud: ${latLong.longitude}",Toast.LENGTH_SHORT).show()
                 }
             }
@@ -304,10 +295,9 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
 
     //Creamos esta funcion para crear el marcador para que cuando hagamos click se vea
     private fun newMarket(lat: Double, log: Double) {
-
         if (!controllerMarket) {
             Log.i("aqui llego", "altitud: ${lat}, longitud: ${log}")
-            var locationDojo = LatLng(lat, log)
+            val locationDojo = LatLng(lat, log)
             market = map.addMarker(MarkerOptions().position(locationDojo).title("dojo"))!!
             controllerMarket = true
             binding.buttonAccept.isEnabled = true
@@ -316,7 +306,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
                 longitud = log
                 dissapearViews()
             }
-
         } else {
             market.remove()
             controllerMarket = false
@@ -324,7 +313,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
     }
 
     private fun dissapearViews() {
-
         binding.fragmentMap.visibility = View.GONE
         binding.buttonAccept.visibility = View.GONE
         binding.mapsId.visibility = View.GONE
@@ -335,7 +323,19 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
     override fun onMyLocationButtonClick(): Boolean {
         Toast.makeText(requireContext(), "Hizo click", Toast.LENGTH_LONG).show()
         return false
+    }
 
+    //Metodo que verifica si el numero es valido
+    private fun checKIsValidNumber() {
+        binding.ccp.registerCarrierNumberEditText(binding.etNumber)
+
+        binding.ccp.setPhoneNumberValidityChangeListener(PhoneNumberValidityChangeListener {
+            if (it) {
+                binding.checkBox.setImageResource(R.drawable.check1)
+            } else {
+                binding.checkBox.setImageResource(R.drawable.error)
+            }
+        })
     }
 
 }

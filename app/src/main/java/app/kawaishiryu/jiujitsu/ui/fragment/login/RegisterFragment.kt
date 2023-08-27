@@ -1,4 +1,4 @@
-package app.kawaishiryu.jiujitsu
+package app.kawaishiryu.jiujitsu.ui.fragment.login
 
 import android.app.Activity
 import android.content.Intent
@@ -14,6 +14,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import app.kawaishiryu.jiujitsu.MainMenuHostActivity
+import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.core.RegisterViewModel
 import app.kawaishiryu.jiujitsu.core.ViewModelState
 import app.kawaishiryu.jiujitsu.data.model.CurrentUser

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/C2"
     android:gravity="center"
-    tools:context=".TecnicasFragment">
+    tools:context=".ui.fragment.techniques_menu.TecnicasFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

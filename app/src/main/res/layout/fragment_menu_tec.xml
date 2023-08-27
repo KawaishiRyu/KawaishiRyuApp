@@ -7,7 +7,7 @@
     android:background="@color/C7"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MenuTecFragment">
+    tools:context=".ui.fragment.techniques_menu.MenuTecFragment">
 
     <LinearLayout
         android:layout_marginTop="60dp"

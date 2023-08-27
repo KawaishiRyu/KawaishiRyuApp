@@ -1,9 +1,10 @@
-package app.kawaishiryu.jiujitsu
+package app.kawaishiryu.jiujitsu.ui.fragment.location
 
 import android.app.TimePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.databinding.FragmentTimeRegisterBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup

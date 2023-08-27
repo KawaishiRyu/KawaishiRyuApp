@@ -1,4 +1,4 @@
-package app.kawaishiryu.jiujitsu.view
+package app.kawaishiryu.jiujitsu.ui.fragment.profile
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.CurrentUser
-import app.kawaishiryu.jiujitsu.data.model.service.UserModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentProfileUserBinding
 import app.kawaishiryu.jiujitsu.firebase.cloudfirestore.CloudFileStoreWrapper
 import app.kawaishiryu.jiujitsu.presentation.auth.ProfileUserViewModel

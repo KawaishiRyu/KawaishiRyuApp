@@ -1,8 +1,9 @@
-package app.kawaishiryu.jiujitsu
+package app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentMenuTecBinding
 import app.kawaishiryu.jiujitsu.ui.adapter.adaptecnicas.MainAdapterTec

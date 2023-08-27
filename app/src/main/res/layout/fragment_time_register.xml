@@ -7,7 +7,7 @@
     android:background="@color/C2"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".TimeRegisterFragment">
+    tools:context=".ui.fragment.location.TimeRegisterFragment">
 
     <TextView
         android:id="@+id/textView"

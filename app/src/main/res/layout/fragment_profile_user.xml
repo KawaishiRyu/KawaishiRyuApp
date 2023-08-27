@@ -7,7 +7,7 @@
     android:background="@color/C8"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".view.ProfileUserFragment">
+    tools:context=".ui.fragment.profile.ProfileUserFragment">
 
     <FrameLayout
         android:id="@+id/frameLayout"

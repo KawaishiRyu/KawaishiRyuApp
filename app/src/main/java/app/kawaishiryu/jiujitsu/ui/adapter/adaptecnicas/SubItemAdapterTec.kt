@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import app.kawaishiryu.jiujitsu.MenuTecFragmentDirections
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.tecnicas.SubItemModelTec
 import app.kawaishiryu.jiujitsu.databinding.SubListItemBinding
+import app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.MenuTecFragmentDirections
 
 
 class SubItemAdapterTec(

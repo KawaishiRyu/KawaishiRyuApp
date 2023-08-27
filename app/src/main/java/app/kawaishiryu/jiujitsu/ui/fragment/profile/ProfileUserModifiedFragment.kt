@@ -1,11 +1,9 @@
-package app.kawaishiryu.jiujitsu.view
+package app.kawaishiryu.jiujitsu.ui.fragment.profile
 
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,11 +13,8 @@ import androidx.navigation.fragment.navArgs
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.core.ViewModelState
 import app.kawaishiryu.jiujitsu.data.model.service.UserModel
-import app.kawaishiryu.jiujitsu.databinding.FragmentProfileUserBinding
 import app.kawaishiryu.jiujitsu.databinding.FragmentProfileUserModifiedBinding
 import app.kawaishiryu.jiujitsu.presentation.auth.ProfileUserModifiedViewModel
-import app.kawaishiryu.jiujitsu.presentation.auth.ProfileUserViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 

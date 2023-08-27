@@ -13,10 +13,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 //Registrar usuario
-open class RegisterViewModel(): ViewModel() {
+open class RegisterViewModel() : ViewModel() {
 
     //Este dato es para Crear la coleccion de base de datos
-    private val _registerUserDbViewModelState = MutableStateFlow<ViewModelState>(ViewModelState.None)
+    private val _registerUserDbViewModelState =
+        MutableStateFlow<ViewModelState>(ViewModelState.None)
     val registerUserDbViewModelState: StateFlow<ViewModelState> = _registerUserDbViewModelState
 
     //Creamos esta variable para poder obtener el valor del UUID del usuario al registarlo
@@ -29,47 +30,49 @@ open class RegisterViewModel(): ViewModel() {
 
 
     //Esta funcion retorna una alcance de corrutina en el cual se pasa los parametrso
-    fun registrarUsuario(user: UserModel)= viewModelScope.launch{
+    fun registrarUsuario(user: UserModel) = viewModelScope.launch {
 
         _registerUserViewModelState.value = ViewModelState.Loading
 
-        if (user.currentUser.email.isNotEmpty() && user.currentUser.password.isNotEmpty()){
+        if (user.currentUser.email.isNotEmpty() && user.currentUser.password.isNotEmpty()) {
 
             try {
-                Log.i("registrarUsuario","llego hasta aqui")
-                Log.i("usuario","${user.currentUser.email}")
+                Log.i("registrarUsuario", "llego hasta aqui")
+                Log.i("usuario", "${user.currentUser.email}")
                 coroutineScope {
                     val registerUser = async {
-                        _registerUserId.value =  RegisterModelService.registerUser(user.currentUser)
+                        _registerUserId.value = RegisterModelService.registerUser(user.currentUser)
                     }
                     registerUser.await()
-                    _registerUserViewModelState.value = ViewModelState.UserRegisterSuccesfully(user.currentUser)
+                    _registerUserViewModelState.value =
+                        ViewModelState.UserRegisterSuccesfully(user.currentUser)
                 }
 
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 _registerUserViewModelState.value = ViewModelState.Error(e.message!!)
-                Log.i("error","se encontro una excepcion")
+                Log.i("error", "se encontro una excepcion")
             }
 
-        }else{
-            Log.i("tira vacio","se encontro una excepcion")
+        } else {
+            Log.i("tira vacio", "se encontro una excepcion")
             //Aqui tendriamos que ver si ingreso o no los datos correspondiente
         }
 
     }
 
-    fun registerUserCollectionDb(userRegisterDbModel: UserModel)= viewModelScope.launch{
+    fun registerUserCollectionDb(userRegisterDbModel: UserModel) = viewModelScope.launch {
         try {
             coroutineScope {
-                val registerUserDb= async {
+                val registerUserDb = async {
                     //base de datos
                     RegisterModelService.register(userRegisterDbModel)
                 }
                 registerUserDb.await()
-                _registerUserDbViewModelState.value = ViewModelState.UserRegisterDbSyccesfully(userRegisterDbModel)
+                _registerUserDbViewModelState.value =
+                    ViewModelState.UserRegisterDbSyccesfully(userRegisterDbModel)
             }
 
-        }catch (e: Exception){
+        } catch (e: Exception) {
             _registerUserDbViewModelState.value = ViewModelState.Error(e.message!!)
         }
     }

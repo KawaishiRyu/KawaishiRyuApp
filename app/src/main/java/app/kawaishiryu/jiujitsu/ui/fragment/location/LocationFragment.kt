@@ -1,9 +1,8 @@
-package app.kawaishiryu.jiujitsu.view
+package app.kawaishiryu.jiujitsu.ui.fragment.location
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,20 +11,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.kawaishiryu.jiujitsu.R
-import app.kawaishiryu.jiujitsu.core.ViewModelState
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
-import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
-import app.kawaishiryu.jiujitsu.data.model.service.DojosModelService
 import app.kawaishiryu.jiujitsu.databinding.FragmentLocationBinding
 import app.kawaishiryu.jiujitsu.ui.adapter.DojosAdapter
 import app.kawaishiryu.jiujitsu.util.OnItemClick
+import app.kawaishiryu.jiujitsu.view.LocationViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class LocationFragment : Fragment(R.layout.fragment_location), OnItemClick {

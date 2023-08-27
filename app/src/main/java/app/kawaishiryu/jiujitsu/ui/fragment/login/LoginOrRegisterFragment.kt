@@ -1,4 +1,4 @@
-package app.kawaishiryu.jiujitsu.view
+package app.kawaishiryu.jiujitsu.ui.fragment.login
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,8 +9,8 @@ import app.kawaishiryu.jiujitsu.databinding.FragmentLoginOrRegisterBinding
 
 
 class LoginOrRegisterFragment : Fragment(R.layout.fragment_login_or_register) {
-    private lateinit var binding: FragmentLoginOrRegisterBinding
 
+    private lateinit var binding: FragmentLoginOrRegisterBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

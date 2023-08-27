@@ -1,8 +1,7 @@
-package app.kawaishiryu.jiujitsu
+package app.kawaishiryu.jiujitsu.ui.fragment.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -10,32 +9,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.util.PatternsCompat
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import app.kawaishiryu.jiujitsu.MainMenuHostActivity
+import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.core.ViewModelState
-import app.kawaishiryu.jiujitsu.data.LoginResult
 import app.kawaishiryu.jiujitsu.data.model.CurrentUser
-import app.kawaishiryu.jiujitsu.data.remote.auth.LoginDataSource
 import app.kawaishiryu.jiujitsu.databinding.FragmentLoginBinding
-import app.kawaishiryu.jiujitsu.domain.auth.LoginRepo
-import app.kawaishiryu.jiujitsu.domain.auth.LoginRepoImpl
 import app.kawaishiryu.jiujitsu.presentation.auth.LoginScreenViewModel
 import app.kawaishiryu.jiujitsu.util.controlEmailAndPassword
-import app.kawaishiryu.jiujitsu.view.LocationFragment
-import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.auth.User
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.regex.Pattern
-import kotlin.math.log
 
 class LoginFragment : Fragment() {
 

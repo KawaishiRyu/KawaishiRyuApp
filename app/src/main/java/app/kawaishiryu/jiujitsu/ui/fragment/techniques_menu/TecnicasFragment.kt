@@ -1,8 +1,7 @@
-package app.kawaishiryu.jiujitsu
+package app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -11,18 +10,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import app.kawaishiryu.jiujitsu.R
+import app.kawaishiryu.jiujitsu.TecnicasViewModel
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
-import app.kawaishiryu.jiujitsu.data.model.service.RegisterTecService
 import app.kawaishiryu.jiujitsu.databinding.FragmentTecnicasBinding
 import app.kawaishiryu.jiujitsu.ui.adapter.adaptecnicas.AdapterTec
-import app.kawaishiryu.jiujitsu.util.ListTec
 import app.kawaishiryu.jiujitsu.util.OnItemClick
 import app.kawaishiryu.jiujitsu.util.OnItemClickTec
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class TecnicasFragment : Fragment(R.layout.fragment_tecnicas), OnItemClick, OnItemClickTec {

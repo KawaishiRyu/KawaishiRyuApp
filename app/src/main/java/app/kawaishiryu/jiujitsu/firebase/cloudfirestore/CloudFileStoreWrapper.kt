@@ -69,8 +69,8 @@ object CloudFileStoreWrapper {
 
                         var user = firebaseAuth.currentUser
                         var uuid = user!!.uid
-                        Log.i("usuario registrado", "${user!!.email}")
-                        Log.i("usuario registrado2", "${user.uid}")
+                        Log.i("usuario registrado", "${user.email}")
+                        Log.i("usuario registrado2", user.uid)
                         continuacion.resume(uuid)
                         //continuacion.resume(UserRegisterId(registerSuccesfully = task.isComplete, id = uuid))
                     }
