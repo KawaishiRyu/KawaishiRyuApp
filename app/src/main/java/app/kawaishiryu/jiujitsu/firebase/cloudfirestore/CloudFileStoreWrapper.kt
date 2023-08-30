@@ -58,6 +58,24 @@ object CloudFileStoreWrapper {
         }
     }
 
+    suspend fun replaceWithJson(
+        collectionPath: String,
+        documentPath: String,
+        map: HashMap<String, String>
+    ): Void {
+        return suspendCoroutine { continuacion ->
+            Firebase.firestore.collection(collectionPath).document(documentPath)
+                .set(map)
+                .addOnSuccessListener {
+                    //Se guarda en la app
+                    continuacion.resume(it)
+                }
+                .addOnFailureListener {
+                    continuacion.resumeWithException(it)
+                }
+        }
+    }
+
 
     //Esta funcion lo que hace es registrar al usuario y avisar si esta lista o no
     suspend fun registerComplete(user: CurrentUser): String {
@@ -83,7 +101,6 @@ object CloudFileStoreWrapper {
     }
 
     //Esta funcion nos sirve para poder ingresar de usuario
-
     suspend fun signInUserComplete(user: CurrentUser): Boolean {
         return suspendCoroutine { continuacion ->
 
@@ -102,7 +119,6 @@ object CloudFileStoreWrapper {
     }
     //Esta funcion suspendida nos sierve para retornar verdaddero en el caso
     //de que el usuario ya se encuentre activo
-
     suspend fun loggedUser(): Boolean {
         return suspendCoroutine { continuacion ->
             if (firebaseAuth.currentUser != null) {

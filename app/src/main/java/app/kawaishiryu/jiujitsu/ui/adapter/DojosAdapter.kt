@@ -27,7 +27,9 @@ class DojosAdapter(
     }
 
     override fun onBindViewHolder(holder: DojosViewHolder, position: Int) {
+
         holder.render(list[position])
+
         with(holder.item_view) {
             setOnClickListener {
                 listener?.setOnItemClickListener(list[position])
@@ -57,6 +59,7 @@ class DojosAdapter(
         val binding = ItemListLocationBinding.bind(item_view)
 
         fun render(dojosModel: DojosModel) {
+
             if (dojosModel.nameDojo.isEmpty()) {
                 binding.tvNameDojo.text = "No name"
             } else {

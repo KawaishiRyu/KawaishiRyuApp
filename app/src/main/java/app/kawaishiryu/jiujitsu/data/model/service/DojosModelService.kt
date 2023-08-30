@@ -7,6 +7,7 @@ import app.kawaishiryu.jiujitsu.firebase.cloudfirestore.CloudFileStoreWrapper
 import app.kawaishiryu.jiujitsu.firebase.storage.FirebaseStorageManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -21,6 +22,15 @@ object DojosModelService {
             dojosModel.toDictionary()
         )
     }
+
+    suspend fun recordWithJson(dojosModel: DojosModel, data: HashMap<String, String>): Void = withContext(Dispatchers.IO) {
+        return@withContext CloudFileStoreWrapper.replaceWithJson(
+            DojosModel.CLOUD_FIRE_STORE_PATH,
+            dojosModel.uuId, //uuId as document path of firebase fire store database
+            data
+        )
+    }
+
     suspend fun deleteDojoFromFirebase(dojosModel: DojosModel) = withContext(Dispatchers.IO) {
         return@withContext CloudFileStoreWrapper.deleteDocumentoFirebase(
             DojosModel.CLOUD_FIRE_STORE_PATH,
@@ -47,33 +57,28 @@ object DojosModelService {
             val result = db.collection(DojosModel.CLOUD_FIRE_STORE_PATH).get().await()
 
             for (document in result) {
+
                 val uuId = document.getString(DojosModel.UUID_KEY) ?: ""
-                val nameSensei = document.getString(DojosModel.NAME_SENSEI_KEY) ?: ""
-                val dojoUrlImage = document.getString(DojosModel.DOJO_IMAGE_URL_KEY) ?: ""
-                val nameDojo = document.getString(DojosModel.NAME_DOJO_KEY) ?: ""
-                val description = document.getString(DojosModel.DESCRIPTION_KEY) ?: ""
-                val price = document.getString(DojosModel.PRICE_KEY) ?: ""
+                val jsonField = document.getString("jsonData") ?: "{}" // Puedes proporcionar un JSON vacío como valor predeterminado
 
-                val numberWpp = document.getString(DojosModel.NUMBER_WPP_KEY) ?: ""
-                val facebookUrl = document.getString(DojosModel.FACEBOOK_URL_KET) ?: ""
-                val instaUrl = document.getString(DojosModel.INSTA_URL_KEY) ?: ""
+                val gson = Gson()
+                val jsonData: DojosModel = gson.fromJson(jsonField, DojosModel::class.java)
 
-                val latitudUbic = document.getDouble(DojosModel.LATITUD_KEY) ?: 0.0
-                val longitudUbic = document.getDouble(DojosModel.LONGITUD_KEY) ?: 0.0
+                jsonData.nameSensei
 
                 data.add(
                     DojosModel(
                         uuId = uuId,
-                        nameSensei = nameSensei,
-                        dojoUrlImage = dojoUrlImage,
-                        nameDojo = nameDojo,
-                        description = description,
-                        price = price,
-                        numberWpp = numberWpp,
-                        facebookUrl = facebookUrl,
-                        instaUrl = instaUrl,
-                        latitud = latitudUbic,
-                        longitud = longitudUbic
+                        nameSensei =  jsonData.nameSensei,
+                        dojoUrlImage = jsonData.dojoUrlImage,
+                        nameDojo = jsonData.nameDojo,
+                        description = jsonData.description,
+                        price = jsonData.price,
+                        numberWpp = jsonData.numberWpp,
+                        facebookUrl = jsonData.facebookUrl,
+                        instaUrl = jsonData.instaUrl,
+                        latitud = jsonData.latitud,
+                        longitud = jsonData.longitud
                     )
                 )
             }
@@ -83,7 +88,5 @@ object DojosModelService {
         }
         return@withContext data
     }
-
-
 
 }

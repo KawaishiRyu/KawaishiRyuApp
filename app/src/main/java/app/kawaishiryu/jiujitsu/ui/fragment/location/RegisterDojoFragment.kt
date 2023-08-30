@@ -39,7 +39,8 @@ import java.io.FileNotFoundException
 import java.util.*
 
 
-class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapReadyCallback,GoogleMap.OnMyLocationButtonClickListener {
+class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapReadyCallback,
+    GoogleMap.OnMyLocationButtonClickListener {
 
     private var controllerMarket = false
     private lateinit var market: Marker
@@ -90,6 +91,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
                             Log.d("???", "Cargando")
                             showProgres()
                         }
+
                         is ViewModelState.RegisterSuccessfullyDojo -> {
                             hideProgress()
                             //Register succes
@@ -97,11 +99,13 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
                             Toast.makeText(context, "Register succes", Toast.LENGTH_SHORT)
                                 .show()
                         }
+
                         is ViewModelState.Empty -> {
                             //Selected is empty
                             Log.d("???", "Vacio")
                             hideProgress()
                         }
+
                         is ViewModelState.Error -> {
                             Log.d("???", "Error")
                             hideProgress()
@@ -113,7 +117,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
 
     }
 
-//    BitMapFromUri
+    //    BitMapFromUri
     private fun getBitmapFromUri(uri: Uri, context: Context, quality: Int = 100): Bitmap? {
         return try {
             val inputStream = context.contentResolver.openInputStream(uri)
@@ -136,6 +140,8 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
 
 
     private fun clickableEvent() {
+        binding.cvLocation.visibility = View.GONE
+
         binding.btnCreate.setOnClickListener {
             getAndUploadData()
         }
@@ -143,22 +149,10 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
             solicitarPermisos()
         }
 
-//        //Get bitmap from Uri
-//        binding.btnBitmap.setOnClickListener {
-//            val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
-//
-//            if (bitmap != null) {
-//                // Utilizar el bitmap
-//                Toast.makeText(context, "Funciono", Toast.LENGTH_SHORT).show()
-//                binding.ivDojosRegFrg.setImageBitmap(bitmap)
-//
-//            } else {
-//                // La imagen no pudo ser cargada
-//            }
-//        }
-
         //Agregamos el evento de crear el mapa
         binding.btnAddLocation.setOnClickListener {
+            //ACA
+            binding.buttonAccept.visibility = View.VISIBLE
             createFragmentMap()
         }
     }
@@ -167,8 +161,10 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
 
         binding.linearLayout12.visibility = View.GONE
         binding.scrollView.visibility = View.GONE
+
         binding.mapsId.visibility = View.VISIBLE
         binding.fragmentMap.visibility = View.VISIBLE
+
         val mapFragment =
             childFragmentManager.findFragmentById(binding.fragmentMap.id) as SupportMapFragment
 
@@ -191,22 +187,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         }
     }
 
-    //Permisos de imagen
-    private fun solicitarPermisos() {
-        if (StoragePermission.hasPermission(requireContext())) {
-            Toast.makeText(context, "Tiene permisos", Toast.LENGTH_SHORT).show()
-            val intent =
-                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            resultLauncher.launch(intent)
-
-        } else {
-            StoragePermission.requestPermission(requireContext())
-            if (!StoragePermission.shouldShowRequestPermissionRationale(requireContext())) {
-                StoragePermission.explainPermission(requireContext())
-            }
-        }
-    }
-
     //Obtener y actualizar Datos
     private fun getAndUploadData() {
         val modelDojo = DojosModel()
@@ -217,44 +197,23 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         modelDojo.nameDojo = binding.etNameDojo.text.toString().trim()
         modelDojo.description = binding.etDescription.text.toString().trim()
         modelDojo.price = binding.etPrice.text.toString().trim()
+
         //Agregamos facebook, instagram, wpp
         modelDojo.facebookUrl = binding.etFacebookUrl.text.toString().trim()
         modelDojo.instaUrl = binding.etInstaUrl.text.toString().trim()
         modelDojo.numberWpp = binding.ccp.fullNumber
+
         //Agregamos latitud y longitud
         modelDojo.latitud = latitud
         modelDojo.longitud = longitud
 
         //Selecciono cualquier uri
         val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
-        val uri = Uri.parse("https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/URI_Euler_Diagram_no_lone_URIs.svg/1200px-URI_Euler_Diagram_no_lone_URIs.svg.png")
-        val bitmap2 = getBitmapFromUri(uri,requireContext(), quality = 10)
+        val uri =
+            Uri.parse("https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/URI_Euler_Diagram_no_lone_URIs.svg/1200px-URI_Euler_Diagram_no_lone_URIs.svg.png")
+        val bitmap2 = getBitmapFromUri(uri, requireContext(), quality = 10)
 
         viewModel.register(bitmap, "${modelDojo.uuId}.jpg", modelDojo)
-    }
-
-    //Crear un Id random
-    private fun getRandomUUIDString(): String {
-        return UUID.randomUUID().toString().replace("-", "")
-    }
-
-    private fun showProgres() {
-        binding.animationFrame.visibility = View.VISIBLE
-    }
-
-    private fun hideProgress() {
-        binding.animationFrame.visibility = View.GONE
-    }
-
-    //Se llama cuando el mapa esta listo
-    private fun locationUserZoom(lat: Double, long: Double) {
-        var favoritePlace = LatLng(lat, long)
-        //  map.addMarker(MarkerOptions().position(favoritePlace).title("Mi ubicacion Actual"))
-        map.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(favoritePlace, 18f),
-            4000,
-            null
-        )
     }
 
     //Se llama cuando el mapa esta listo
@@ -262,7 +221,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         map = googleMap
         map.setOnMyLocationButtonClickListener(this)
         enableLocation()
-
     }
 
     @SuppressLint("MissingPermission")
@@ -284,23 +242,40 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
     private fun obtenerUbicacionActual() {
         viewModel.getUserLocation(requireContext())
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.locationUser.collect(){latLong ->
-                    locationUserZoom(latLong.latitude,latLong.longitude)
-                    Toast.makeText(requireContext(),"latitud:${latLong.latitude} y longitud: ${latLong.longitude}",Toast.LENGTH_SHORT).show()
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.locationUser.collect() { latLong ->
+                    locationUserZoom(latLong.latitude, latLong.longitude)
+                    //Toast.makeText(requireContext(), "latitud:${latLong.latitude} y longitud: ${latLong.longitude}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
+    //Se llama cuando el mapa esta listo
+    private fun locationUserZoom(lat: Double, long: Double) {
+        val favoritePlace = LatLng(lat, long)
+        //  map.addMarker(MarkerOptions().position(favoritePlace).title("Mi ubicacion Actual"))
+        map.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(favoritePlace, 18f),
+            4000,
+            null
+        )
+    }
+
 
     //Creamos esta funcion para crear el marcador para que cuando hagamos click se vea
     private fun newMarket(lat: Double, log: Double) {
         if (!controllerMarket) {
-            Log.i("aqui llego", "altitud: ${lat}, longitud: ${log}")
+            Log.i("aqui llego", "latitud: ${lat}, longitud: ${log}")
+
+            binding.tvLat.text = "Latitud: $lat"
+            binding.tvLong.text = "Longitud: $log"
+
             val locationDojo = LatLng(lat, log)
             market = map.addMarker(MarkerOptions().position(locationDojo).title("dojo"))!!
             controllerMarket = true
             binding.buttonAccept.isEnabled = true
+            binding.cvLocation.visibility = View.VISIBLE
+
             binding.buttonAccept.setOnClickListener {
                 latitud = lat
                 longitud = log
@@ -313,6 +288,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
     }
 
     private fun dissapearViews() {
+
         binding.fragmentMap.visibility = View.GONE
         binding.buttonAccept.visibility = View.GONE
         binding.mapsId.visibility = View.GONE
@@ -320,8 +296,9 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         binding.linearLayout12.visibility = View.VISIBLE
     }
 
+    //Boton q te lleva a tu ubicacion
     override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(requireContext(), "Hizo click", Toast.LENGTH_LONG).show()
+        //Toast.makeText(requireContext(), "Hizo click", Toast.LENGTH_LONG).show()
         return false
     }
 
@@ -336,6 +313,36 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
                 binding.checkBox.setImageResource(R.drawable.error)
             }
         })
+    }
+
+
+    //Crear un Id random
+    private fun getRandomUUIDString(): String {
+        return UUID.randomUUID().toString().replace("-", "")
+    }
+
+    private fun showProgres() {
+        binding.animationFrame.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        binding.animationFrame.visibility = View.GONE
+    }
+
+    //Permisos de imagen
+    private fun solicitarPermisos() {
+        if (StoragePermission.hasPermission(requireContext())) {
+            Toast.makeText(context, "Tiene permisos", Toast.LENGTH_SHORT).show()
+            val intent =
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            resultLauncher.launch(intent)
+
+        } else {
+            StoragePermission.requestPermission(requireContext())
+            if (!StoragePermission.shouldShowRequestPermissionRationale(requireContext())) {
+                StoragePermission.explainPermission(requireContext())
+            }
+        }
     }
 
 }

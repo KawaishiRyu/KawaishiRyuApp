@@ -15,63 +15,85 @@
         android:layout_height="match_parent"
         android:visibility="gone">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.1" />
-
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentMap"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline1"
-            app:layout_constraintBottom_toTopOf="@id/guideline2"
-            android:layout_margin="8dp"
-            />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.8" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_accept"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:backgroundTint="@color/C1"
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="30dp"
+            android:backgroundTint="@color/C7"
+            app:cardCornerRadius="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"
-            android:layout_marginTop="16dp"
-            android:text="Guardar Localizacion"
-            android:enabled="false"/>
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragmentMap"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toTopOf="@id/guideline2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvLat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Latitud: "
+                    android:textColor="@color/C6"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvLong"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Longitud: "
+                    android:textColor="@color/C6"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_accept"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/C1"
+                    android:enabled="false"
+                    android:text="Guardar Localizacion" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="70dp"
         android:fillViewport="true"
-        android:id="@+id/scrollView">
+        android:visibility="visible">
 
         <LinearLayout
+            android:id="@+id/linearLayout12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical"
-            android:id="@+id/linearLayout12">
+            android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivDojosRegFrg"
@@ -206,8 +228,7 @@
                             app:ccp_arrowColor="@color/C6"
                             app:ccp_contentColor="@color/C6"
                             app:ccp_countryPreference="AR"
-                            app:ccp_defaultPhoneCode="54"
-                            />
+                            app:ccp_defaultPhoneCode="54" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="170dp"
@@ -269,6 +290,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cvLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -277,58 +299,46 @@
                 android:elevation="16dp"
                 app:cardCornerRadius="16dp">
 
-                    <TextView
-                        android:layout_margin="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Localizacion: Guardada"
-                        android:textAlignment="center"
-                        android:textColor="@color/C6"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Localizacion: Guardada"
+                    android:textAlignment="center"
+                    android:textColor="@color/C1"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
             </com.google.android.material.card.MaterialCardView>
 
 
-
             <com.google.android.material.button.MaterialButton
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/btnAddLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
                 android:backgroundTint="@color/C1"
-                app:iconSize="25dp"
+                android:textColor="@color/C7"
+                android:text="Añadir Localicacion"
                 app:iconGravity="end"
-                android:text="Añadir Localicacion" />
-
-
+                app:iconSize="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCreate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/C1"
+                android:textColor="@color/C7"
+                android:text="Create"
                 app:icon="@drawable/ic_add"
-                app:iconSize="25dp"
                 app:iconGravity="end"
-                android:text="Create" />
-
-            <Button
-                android:id="@+id/btnBitmap"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:backgroundTint="@color/C1"
-                android:text="Bitmap" />
-
+                app:iconSize="25dp" />
 
         </LinearLayout>
 

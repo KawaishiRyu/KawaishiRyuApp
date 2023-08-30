@@ -3,6 +3,7 @@ package app.kawaishiryu.jiujitsu.ui.fragment.location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -59,6 +60,7 @@ class LocationFragment : Fragment(R.layout.fragment_location), OnItemClick {
 
     override fun onDeleteClick(dojosModel: DojosModel) {
         viewModel.deleteDojoFirebase(dojosModel)
+        Toast.makeText(requireContext(), "Hola desde el fragmento", Toast.LENGTH_SHORT).show()
     }
 
     private fun startFlow() {
@@ -73,8 +75,6 @@ class LocationFragment : Fragment(R.layout.fragment_location), OnItemClick {
             }
         }
     }
-
-
 }
 
 

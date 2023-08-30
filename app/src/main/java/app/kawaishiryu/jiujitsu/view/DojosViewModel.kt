@@ -12,6 +12,7 @@ import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.data.model.service.DojosModelService
 import app.kawaishiryu.jiujitsu.firebase.storage.FirebaseStorageManager
 import com.google.android.gms.maps.model.LatLng
+import com.google.gson.Gson
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -44,8 +45,15 @@ class DojosViewModel : ViewModel() {
 
                 }
                 val register = async {
+
                     //Corutina que sube datos
-                    DojosModelService.register(dojoModel)
+                    //DojosModelService.register(dojoModel)
+                    val gson = Gson()
+                    val jsonString = gson.toJson(dojoModel)
+
+                    val data = hashMapOf("jsonData" to jsonString)
+
+                    DojosModelService.recordWithJson(dojoModel, data)
                 }
                 Log.d("???", "Entro fue exitoso")
                 _dojosViewModelState.value = ViewModelState.RegisterSuccessfullyDojo(dojoModel)
@@ -56,8 +64,7 @@ class DojosViewModel : ViewModel() {
             }
         }
 
-
-    //Funcion de la ubicacion val dojosViewModelState: StateFlow<DojoViewModelState> = _dojosViewModelState
+    //Ubicacion
     private val _locationUser = MutableStateFlow<LatLng>(LatLng(0.0, 0.0))
     val locationUser: StateFlow<LatLng> = _locationUser
 

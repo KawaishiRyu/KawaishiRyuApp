@@ -1,8 +1,12 @@
 package app.kawaishiryu.jiujitsu.data.model.dojos
 
 import android.os.Parcelable
+import com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Parcelize
 data class DojosModel(
     var uuId: String = "",
@@ -23,7 +27,7 @@ data class DojosModel(
 ) : Parcelable {
 
     companion object {
-        const val CLOUD_FIRE_STORE_PATH = "DOJOS"
+        const val CLOUD_FIRE_STORE_PATH = "DOJOS_JSON"
         const val UUID_KEY = "UUID"
         const val NAME_SENSEI_KEY = "NAME_SENSEI"
         const val NAME_DOJO_KEY = "NAME_DOJO"
@@ -40,7 +44,6 @@ data class DojosModel(
         const val LATITUD_KEY = "LATITUD_UBICACION"
         const val LONGITUD_KEY = "LONGITUD_UBICACION"
     }
-
 
     fun toDictionary(): MutableMap<String, Any> {
 
@@ -63,15 +66,4 @@ data class DojosModel(
 
         return map
     }
-
-    fun parcing(map: MutableMap<String, Any>) {
-        uuId = map[UUID_KEY] as String
-        nameSensei = map[NAME_SENSEI_KEY] as String
-        nameDojo = map[NAME_DOJO_KEY] as String
-        dojoUrlImage = map[DOJO_IMAGE_URL_KEY] as String
-        imagePathUrl = map[DOJO_IMAGE_PATH_URL_KEY] as String
-        description = map[DESCRIPTION_KEY] as String
-        price = map[PRICE_KEY] as String
-    }
-
 }

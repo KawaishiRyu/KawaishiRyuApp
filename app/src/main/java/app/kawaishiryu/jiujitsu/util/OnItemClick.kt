@@ -1,8 +1,7 @@
 package app.kawaishiryu.jiujitsu.util
 
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
-import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
-import app.kawaishiryu.jiujitsu.data.model.tecnicas.MainModelTec
+
 
 interface OnItemClick {
 
