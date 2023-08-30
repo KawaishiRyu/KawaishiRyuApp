@@ -4,13 +4,21 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.kawaishiryu.jiujitsu.R
+import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentDetailLocationBinding
+import app.kawaishiryu.jiujitsu.view.LocationViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.gson.Gson
+import org.json.JSONObject
 
 
 class DetailLocationFragment : Fragment(R.layout.fragment_detail_location) {
@@ -23,10 +31,12 @@ class DetailLocationFragment : Fragment(R.layout.fragment_detail_location) {
 
         binding = FragmentDetailLocationBinding.bind(view)
 
+        // Mostrar el uuid en el TextView
         binding.tvNameDojo.text = args.dojoDetail.nameDojo
         binding.tvNameSensei.text = "Nombre del sensei ${args.dojoDetail.nameSensei}"
         binding.tvDescription.text = "Descripcion: ${args.dojoDetail.description}"
         binding.tvPrice.text = "Precio ${args.dojoDetail.price}"
+        binding.tvUuid.text = "uuid ${args.dojoDetail}"
 
         Glide.with(view)
             .load(args.dojoDetail.dojoUrlImage)
@@ -44,6 +54,10 @@ class DetailLocationFragment : Fragment(R.layout.fragment_detail_location) {
         binding.ivIgDetail.setOnClickListener {
             openInsta(args.dojoDetail.instaUrl)
         }
+        binding.btDelete.setOnClickListener{
+
+        }
+
     }
 
     private fun openWpp(numero: String) {
@@ -67,8 +81,8 @@ class DetailLocationFragment : Fragment(R.layout.fragment_detail_location) {
     //Creamos la funcion que abríra el google maps
     private fun openGoogleMaps(latitud: Double, longitud: Double) {
 
-        var label = "Dojo"
-        var uri = "geo:$latitud,$longitud?q=$latitud,$longitud($label)"
+        val label = "Dojo"
+        val uri = "geo:$latitud,$longitud?q=$latitud,$longitud($label)"
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
         startActivity(intent)
     }

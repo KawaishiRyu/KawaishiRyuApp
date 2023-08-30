@@ -60,7 +60,7 @@ class LocationFragment : Fragment(R.layout.fragment_location), OnItemClick {
 
     override fun onDeleteClick(dojosModel: DojosModel) {
         viewModel.deleteDojoFirebase(dojosModel)
-        Toast.makeText(requireContext(), "Hola desde el fragmento", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Hola desde el fragmento ${dojosModel.uuId}", Toast.LENGTH_SHORT).show()
     }
 
     private fun startFlow() {

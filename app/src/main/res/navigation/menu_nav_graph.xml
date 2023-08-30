@@ -117,6 +117,9 @@
         <argument
             android:name="dojoDetail"
             app:argType="app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel" />
+        <action
+            android:id="@+id/action_detailLocationFragment_to_timeRegisterFragment"
+            app:destination="@id/timeRegisterFragment" />
     </fragment>
     <fragment
         android:id="@+id/createTecFragment"

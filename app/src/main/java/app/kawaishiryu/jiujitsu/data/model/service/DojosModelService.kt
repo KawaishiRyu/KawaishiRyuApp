@@ -68,7 +68,7 @@ object DojosModelService {
 
                 data.add(
                     DojosModel(
-                        uuId = uuId,
+                        uuId = jsonData.uuId,
                         nameSensei =  jsonData.nameSensei,
                         dojoUrlImage = jsonData.dojoUrlImage,
                         nameDojo = jsonData.nameDojo,

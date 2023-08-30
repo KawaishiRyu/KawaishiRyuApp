@@ -35,11 +35,11 @@ class LocationViewModel : ViewModel() {
             }
         }
     }
-    fun deleteDojoFirebase(dojosModel: DojosModel){
+    fun deleteDojoFirebase(uuid: DojosModel){
         viewModelScope.launch {
             try {
                 //Llamada al metodo de eliminacion con exito
-                DojosModelService.deleteDojoFromFirebase(dojosModel)
+                DojosModelService.deleteDojoFromFirebase(uuid)
                 fetchDojosData()
                 //Actualizar estado con exito
                 _deleteDojoState.value = ViewModelState.Succes("Dojo eleminado")

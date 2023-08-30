@@ -1,10 +1,12 @@
 package app.kawaishiryu.jiujitsu.ui.adapter
 
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
@@ -22,7 +24,7 @@ class DojosAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DojosViewHolder {
         return DojosViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(app.kawaishiryu.jiujitsu.R.layout.item_list_location, parent, false)
+                .inflate(R.layout.item_list_location, parent, false)
         )
     }
 
@@ -73,7 +75,6 @@ class DojosAdapter(
                 .centerCrop()
                 .into(binding.ivPhotoDojo)
             binding.ivDeleteDojo
-
         }
     }
 
