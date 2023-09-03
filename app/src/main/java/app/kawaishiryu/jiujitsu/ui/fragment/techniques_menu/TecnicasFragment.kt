@@ -71,7 +71,15 @@ class TecnicasFragment : Fragment(R.layout.fragment_tecnicas), OnItemClick, OnIt
         }
     }
 
+    override fun setOnItemClickListener(dojo: DojosModel) {
+        TODO("Not yet implemented")
+    }
+
     override fun onDeleteClick(dojosModel: DojosModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onEditClick(dojosModel: DojosModel) {
         TODO("Not yet implemented")
     }
 

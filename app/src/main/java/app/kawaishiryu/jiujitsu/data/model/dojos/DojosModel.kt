@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -16,15 +17,13 @@ data class DojosModel(
     var imagePathUrl: String = "",
     var description: String = "",
     var price: String = "",
-    //Añadido
     var numberWpp: String = "",
     var instaUrl: String = "",
     var facebookUrl: String = "",
-    //Añadido Ubicacion
     var latitud: Double = 0.0,
-    var longitud: Double = 0.0
-
-) : Parcelable {
+    var longitud: Double = 0.0,
+    var horario: Horarios = Horarios()
+    ) : Parcelable {
 
     companion object {
         const val CLOUD_FIRE_STORE_PATH = "DOJOS_JSON"
@@ -35,12 +34,9 @@ data class DojosModel(
         const val DOJO_IMAGE_PATH_URL_KEY = "DOJO_IMAGE_PATH_URL"
         const val DESCRIPTION_KEY = "DESCRIPTION"
         const val PRICE_KEY = "PRICE"
-
         const val NUMBER_WPP_KEY = "NUMBER_WPP"
         const val INSTA_URL_KEY = "INSTA_URL"
         const val FACEBOOK_URL_KET = "FACEBOOK_URL"
-
-        //Añadimos la latitud y longitud
         const val LATITUD_KEY = "LATITUD_UBICACION"
         const val LONGITUD_KEY = "LONGITUD_UBICACION"
     }
@@ -56,13 +52,12 @@ data class DojosModel(
         map[DOJO_IMAGE_PATH_URL_KEY] = imagePathUrl
         map[DESCRIPTION_KEY] = description
         map[PRICE_KEY] = price
-
         map[NUMBER_WPP_KEY] = numberWpp
         map[INSTA_URL_KEY] = instaUrl
         map[FACEBOOK_URL_KET] = facebookUrl
-
         map[LATITUD_KEY] = latitud
         map[LONGITUD_KEY] = longitud
+
 
         return map
     }

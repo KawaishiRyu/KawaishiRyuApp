@@ -1,12 +1,10 @@
 package app.kawaishiryu.jiujitsu.ui.adapter
 
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
@@ -38,16 +36,20 @@ class DojosAdapter(
             }
         }
 
+        holder.binding.btDelete.setOnClickListener {
+            listener?.onDeleteClick(list[position])
+        }
+
+        holder.binding.btEdit.setOnClickListener {
+            listener?.onEditClick(list[position])
+        }
+
         holder.item_view.startAnimation(
             AnimationUtils.loadAnimation(
                 holder.item_view.context,
                 R.anim.anim_one
             )
         )
-
-        holder.binding.ivDeleteDojo.setOnClickListener {
-            listener?.onDeleteClick(list[position])
-        }
     }
 
     override fun getItemCount(): Int {
@@ -74,7 +76,7 @@ class DojosAdapter(
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
                 .into(binding.ivPhotoDojo)
-            binding.ivDeleteDojo
+
         }
     }
 

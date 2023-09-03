@@ -53,6 +53,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tvNameDojo" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/linearLayoutCompat"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp"
@@ -65,33 +66,50 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="20dp"
-                    android:src="@drawable/icon_ig"/>
+                    android:src="@drawable/icon_ig" />
 
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="20dp"
-                    android:src="@drawable/icon_wpp"/>
+                    android:src="@drawable/icon_wpp" />
 
                 <ImageView
                     android:id="@+id/googleMapsLocationDojo"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:src="@drawable/icons_mapa"/>
+                    android:src="@drawable/icons_mapa" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <ImageView
-                android:id="@+id/ivDeleteDojo"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="19dp"
-                app:layout_constraintBottom_toTopOf="@+id/tvSenseiName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvNameDojo"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_delete" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bt_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="@integer/material_motion_duration_long_1"
+                    android:backgroundTint="@color/C1"
+                    android:text="editar"
+                    android:textColor="@color/C2" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bt_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="@integer/material_motion_duration_long_1"
+                    android:backgroundTint="@color/C1"
+                    android:text="Eliminar"
+                    android:textColor="@color/C2" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -105,12 +123,12 @@
         android:layout_height="100dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:civ_border_width="3dp"
-        app:civ_border_color="@color/C1"
         android:contentDescription="@null"
         android:elevation="16dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"
+        app:civ_border_color="@color/C1"
+        app:civ_border_width="3dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -11,7 +11,7 @@ import app.kawaishiryu.jiujitsu.util.ListTec
 import app.kawaishiryu.jiujitsu.util.OnItemClick
 
 
-class MenuTecFragment : Fragment(R.layout.fragment_menu_tec),OnItemClick {
+class MenuTecFragment : Fragment(R.layout.fragment_menu_tec), OnItemClick {
 
     private lateinit var binding: FragmentMenuTecBinding
     private lateinit var adapterTec: MainAdapterTec
@@ -27,12 +27,20 @@ class MenuTecFragment : Fragment(R.layout.fragment_menu_tec),OnItemClick {
             if (isCheck) {
                 binding.rvMenuTec.adapter = MainAdapterTec(ListTec.collectionTec, this, isCheck)
             } else {
-                binding.rvMenuTec.adapter = MainAdapterTec(ListTec.collectionTec,this, isCheck)
+                binding.rvMenuTec.adapter = MainAdapterTec(ListTec.collectionTec, this, isCheck)
             }
         }
     }
 
+    override fun setOnItemClickListener(dojo: DojosModel) {
+        TODO("Not yet implemented")
+    }
+
     override fun onDeleteClick(dojosModel: DojosModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onEditClick(dojosModel: DojosModel) {
         TODO("Not yet implemented")
     }
 

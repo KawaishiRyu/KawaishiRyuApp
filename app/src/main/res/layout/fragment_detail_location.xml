@@ -9,34 +9,16 @@
     android:orientation="vertical"
     tools:context=".ui.fragment.location.DetailLocationFragment">
 
-    <LinearLayout
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
-        >
+        android:layout_gravity="end"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/C1"
+        android:clickable="true"
+        android:src="@drawable/ic_time" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="20dp"
-            android:backgroundTint="@color/C1"
-            android:clickable="true"
-            android:src="@drawable/ic_time" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btDelete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="20dp"
-            android:backgroundTint="@color/C1"
-            android:clickable="true"
-            android:src="@drawable/ic_baseline_delete" />
-
-    </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivDojoDetail"

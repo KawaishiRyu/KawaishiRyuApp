@@ -40,8 +40,8 @@ class LocationViewModel : ViewModel() {
             try {
                 //Llamada al metodo de eliminacion con exito
                 DojosModelService.deleteDojoFromFirebase(uuid)
-                fetchDojosData()
                 //Actualizar estado con exito
+                fetchDojosData()
                 _deleteDojoState.value = ViewModelState.Succes("Dojo eleminado")
             }catch (e:Exception){
                 Log.d("???", "Error")
@@ -49,5 +49,19 @@ class LocationViewModel : ViewModel() {
             }
         }
     }
+    fun updateDojoFirebase(uuid: DojosModel, hashMap: HashMap<String, String>){
+        viewModelScope.launch {
+            try {
+                //Llamada al metodo de eliminacion con exito
+                DojosModelService.updateDojoFromFirebase(uuid, hashMap)
+                fetchDojosData()
+                //Actualizar estado con exito
 
+                _deleteDojoState.value = ViewModelState.Succes("Dojo editado")
+            }catch (e:Exception){
+                Log.d("???", "Error")
+                _deleteDojoState.value = ViewModelState.Error(e.message ?: "Error al eliminar")
+            }
+        }
+    }
 }

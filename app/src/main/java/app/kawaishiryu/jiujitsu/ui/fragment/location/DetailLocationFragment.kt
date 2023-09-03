@@ -54,10 +54,9 @@ class DetailLocationFragment : Fragment(R.layout.fragment_detail_location) {
         binding.ivIgDetail.setOnClickListener {
             openInsta(args.dojoDetail.instaUrl)
         }
-        binding.btDelete.setOnClickListener{
-
+        binding.addTime.setOnClickListener{
+            findNavController().navigate(R.id.action_detailLocationFragment_to_timeRegisterFragment)
         }
-
     }
 
     private fun openWpp(numero: String) {
@@ -80,7 +79,6 @@ class DetailLocationFragment : Fragment(R.layout.fragment_detail_location) {
 
     //Creamos la funcion que abríra el google maps
     private fun openGoogleMaps(latitud: Double, longitud: Double) {
-
         val label = "Dojo"
         val uri = "geo:$latitud,$longitud?q=$latitud,$longitud($label)"
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))

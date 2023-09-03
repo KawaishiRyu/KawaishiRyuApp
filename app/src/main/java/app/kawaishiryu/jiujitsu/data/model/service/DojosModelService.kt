@@ -23,13 +23,23 @@ object DojosModelService {
         )
     }
 
-    suspend fun recordWithJson(dojosModel: DojosModel, data: HashMap<String, String>): Void = withContext(Dispatchers.IO) {
-        return@withContext CloudFileStoreWrapper.replaceWithJson(
-            DojosModel.CLOUD_FIRE_STORE_PATH,
-            dojosModel.uuId, //uuId as document path of firebase fire store database
-            data
-        )
-    }
+    suspend fun recordWithJson(dojosModel: DojosModel, data: HashMap<String, String>): Void =
+        withContext(Dispatchers.IO) {
+            return@withContext CloudFileStoreWrapper.replaceWithJson(
+                DojosModel.CLOUD_FIRE_STORE_PATH,
+                dojosModel.uuId, //uuId as document path of firebase fire store database
+                data
+            )
+        }
+
+    suspend fun updateDojoFromFirebase(dojosModel: DojosModel, data: HashMap<String, String>) =
+        withContext(Dispatchers.IO) {
+            return@withContext CloudFileStoreWrapper.updateWithJson(
+                DojosModel.CLOUD_FIRE_STORE_PATH,
+                dojosModel.uuId,
+                data
+            )
+        }
 
     suspend fun deleteDojoFromFirebase(dojosModel: DojosModel) = withContext(Dispatchers.IO) {
         return@withContext CloudFileStoreWrapper.deleteDocumentoFirebase(
@@ -58,7 +68,6 @@ object DojosModelService {
 
             for (document in result) {
 
-                val uuId = document.getString(DojosModel.UUID_KEY) ?: ""
                 val jsonField = document.getString("jsonData") ?: "{}" // Puedes proporcionar un JSON vacío como valor predeterminado
 
                 val gson = Gson()
@@ -69,7 +78,7 @@ object DojosModelService {
                 data.add(
                     DojosModel(
                         uuId = jsonData.uuId,
-                        nameSensei =  jsonData.nameSensei,
+                        nameSensei = jsonData.nameSensei,
                         dojoUrlImage = jsonData.dojoUrlImage,
                         nameDojo = jsonData.nameDojo,
                         description = jsonData.description,

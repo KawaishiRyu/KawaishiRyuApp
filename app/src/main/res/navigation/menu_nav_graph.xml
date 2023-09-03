@@ -19,21 +19,26 @@
         android:label="fragment_location"
         tools:layout="@layout/fragment_location" >
         <action
-
             android:id="@+id/action_locationFragment_to_registerDojoFragment"
             app:destination="@id/registerDojoFragment" />
 
         <action
-
             android:id="@+id/action_locationFragment_to_detailLocationFragment"
             app:destination="@id/detailLocationFragment" />
+
     </fragment>
 
     <fragment
         android:id="@+id/registerDojoFragment"
         android:name="app.kawaishiryu.jiujitsu.ui.fragment.location.RegisterDojoFragment"
         android:label="fragment_register_dojo"
-        tools:layout="@layout/fragment_register_dojo" />
+        tools:layout="@layout/fragment_register_dojo" >
+        <argument
+            android:name="dojoModel"
+            app:argType="app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileUserFragment"
@@ -47,6 +52,9 @@
             android:name="changeData"
             app:argType="boolean"
             android:defaultValue="true" />
+        <action
+            android:id="@+id/action_profileUserFragment_to_menuJiuJitsuFragment"
+            app:destination="@id/menuJiuJitsuFragment" />
     </fragment>
 
     <dialog

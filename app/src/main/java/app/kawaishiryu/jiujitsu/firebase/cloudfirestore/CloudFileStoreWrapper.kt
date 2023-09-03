@@ -58,6 +58,7 @@ object CloudFileStoreWrapper {
         }
     }
 
+
     suspend fun replaceWithJson(
         collectionPath: String,
         documentPath: String,
@@ -68,6 +69,23 @@ object CloudFileStoreWrapper {
                 .set(map)
                 .addOnSuccessListener {
                     //Se guarda en la app
+                    continuacion.resume(it)
+                }
+                .addOnFailureListener {
+                    continuacion.resumeWithException(it)
+                }
+        }
+    }
+
+    suspend fun updateWithJson(
+        collectionPath: String,
+        documentPath: String,
+        map: HashMap<String, String>
+    ): Void {
+        return suspendCoroutine { continuacion ->
+            Firebase.firestore.collection(collectionPath).document(documentPath)
+                .set(map, SetOptions.merge())
+                .addOnSuccessListener {
                     continuacion.resume(it)
                 }
                 .addOnFailureListener {
@@ -138,11 +156,7 @@ object CloudFileStoreWrapper {
         }
     }
 
-    /*
-    val db = Firebase.firestore
-val docRef = db.collection("tu_coleccion").document("tu_documento")
-     */
-    //Funcion que nos dirà si el cambio fue realizado e existoso
+//Corutina que actualiza datos
     suspend fun modifiedCurrentUser(
         collectionPath: String,
         documentPath: String,

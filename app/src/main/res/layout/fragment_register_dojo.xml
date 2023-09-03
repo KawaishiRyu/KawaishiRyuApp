@@ -133,7 +133,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-
+                        android:textColorHint="@color/C1"
+                        app:hintTextColor="@color/C1"
                         app:boxBackgroundColor="@color/C7">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -147,6 +148,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
+                        android:textColorHint="@color/C1"
+                        app:hintTextColor="@color/C1"
                         app:boxBackgroundColor="@color/C7">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -160,6 +163,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
+                        android:textColorHint="@color/C1"
+                        app:hintTextColor="@color/C1"
                         app:boxBackgroundColor="@color/C7">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -173,6 +178,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
+                        android:textColorHint="@color/C1"
+                        app:hintTextColor="@color/C1"
                         app:boxBackgroundColor="@color/C7">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -234,6 +241,8 @@
                             android:layout_width="170dp"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/C7"
+                            android:textColorHint="@color/C1"
+                            app:hintTextColor="@color/C1"
                             app:boxBackgroundColor="@color/C7">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -258,6 +267,8 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColorHint="@color/C1"
+                        app:hintTextColor="@color/C1"
                         app:boxBackgroundColor="@color/C7">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -273,6 +284,8 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColorHint="@color/C1"
+                        app:hintTextColor="@color/C1"
                         app:boxBackgroundColor="@color/C7">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -313,15 +326,15 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
                 android:id="@+id/btnAddLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/C1"
-                android:textColor="@color/C7"
                 android:text="Añadir Localicacion"
+                android:textColor="@color/C7"
                 app:iconGravity="end"
                 app:iconSize="25dp" />
 
@@ -330,12 +343,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/C1"
-                android:textColor="@color/C7"
                 android:text="Create"
+                android:textColor="@color/C7"
                 app:icon="@drawable/ic_add"
                 app:iconGravity="end"
                 app:iconSize="25dp" />

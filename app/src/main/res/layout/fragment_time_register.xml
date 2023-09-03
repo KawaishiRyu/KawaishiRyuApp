@@ -1,107 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/C2"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".ui.fragment.location.TimeRegisterFragment">
 
-    <TextView
-        android:id="@+id/textView"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Agregar horario"
-        android:textColor="@color/C6"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/C7"
+        app:cardCornerRadius="8dp">
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Horario"
+            android:textAlignment="center"
+            android:textColor="@color/C1"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+
+    </androidx.cardview.widget.CardView>
+
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:singleSelection="false"
-        >
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
+        android:textColorHint="@color/C1"
+        app:hintTextColor="@color/C1"
+        app:boxBackgroundColor="@color/C7">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_1"
-            style="@style/CustomChip"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etDisiplina"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
-            app:closeIconVisible="false"
-            android:text="Lunes" />
+            android:hint="Disiplina" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_2"
-            style="@style/CustomChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Martes"
 
-            />
-
-        <com.google.android.material.chip.Chip
-            style="@style/CustomChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Miercoles" />
-
-        <com.google.android.material.chip.Chip
-            style="@style/CustomChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Jueves" />
-
-        <com.google.android.material.chip.Chip
-            style="@style/CustomChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Viernes" />
-
-        <com.google.android.material.chip.Chip
-            style="@style/CustomChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sabado" />
-
-        <com.google.android.material.chip.Chip
-            style="@style/CustomChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Domingo" />
-
-    </com.google.android.material.chip.ChipGroup>
-
-    <TextView
-        android:id="@+id/textViewPrueba"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Agregar horario"
-        android:textColor="@color/C6"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/C7"
+        app:cardCornerRadius="8dp">
 
-    <Button
-        android:id="@+id/button2"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:singleSelection="false">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_1"
+                style="@style/CustomChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:elevation="8dp"
+                android:text="Lunes"
+                android:textColor="@color/C2"
+                app:closeIconVisible="false" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_2"
+                style="@style/CustomChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Martes"
+                android:textColor="@color/C2"
+
+                />
+
+            <com.google.android.material.chip.Chip
+                style="@style/CustomChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Miercoles"
+                android:textColor="@color/C2" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/CustomChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jueves"
+                android:textColor="@color/C2" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/CustomChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Viernes"
+                android:textColor="@color/C2" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/CustomChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sabado"
+                android:textColor="@color/C2" />
+
+        </com.google.android.material.chip.ChipGroup>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/C7"
+        app:cardCornerRadius="8dp">
 
-    <TextView
-        android:id="@+id/textViewH1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Horario de entrada"
-        android:textColor="@color/C6"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+            <!-- Primera fila: Botón y TextView -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEntrada"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/C2"
+                    android:elevation="0dp"
+                    android:text="Hora de entrada"
+                    android:textColor="@color/C1" />
+
+                <TextView
+                    android:textAlignment="textEnd"
+                    android:id="@+id/tvEntrada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/material_motion_duration_long_1"
+                    android:text="00:00"
+                    android:textColor="@color/C1"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSalida"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/C2"
+                    android:elevation="0dp"
+                    android:text="Hora de salida"
+                    android:textColor="@color/C1" />
+
+                <TextView
+                    android:id="@+id/tvSalida"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/material_motion_duration_long_1"
+                    android:textAlignment="textEnd"
+                    android:text="00:00"
+                    android:textColor="@color/C1"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Segunda fila: Botón y TextView -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button3"
+                    android:text="Guardar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:backgroundTint="@color/C2"
+                    android:textColor="@color/C1"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/textViewH1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Horario de entrada"
+                    android:textColor="@color/C6"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

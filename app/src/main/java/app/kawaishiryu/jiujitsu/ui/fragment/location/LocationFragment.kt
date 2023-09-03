@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -47,7 +48,9 @@ class LocationFragment : Fragment(R.layout.fragment_location), OnItemClick {
 
     fun intent() {
         binding.btnIntentToRegisterDojo.setOnClickListener {
-            findNavController().navigate(R.id.action_locationFragment_to_registerDojoFragment)
+            val directions =
+                LocationFragmentDirections.actionLocationFragmentToRegisterDojoFragment()
+            findNavController().navigate(directions)
         }
     }
 
@@ -60,8 +63,22 @@ class LocationFragment : Fragment(R.layout.fragment_location), OnItemClick {
 
     override fun onDeleteClick(dojosModel: DojosModel) {
         viewModel.deleteDojoFirebase(dojosModel)
-        Toast.makeText(requireContext(), "Hola desde el fragmento ${dojosModel.uuId}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Hola delete", Toast.LENGTH_SHORT).show()
     }
+
+    override fun onEditClick(dojosModel: DojosModel) {
+
+//        val dojoEditado = DojosModel(nameSensei = "EfraUpdate", nameDojo = "DojoUpdate", uuId = dojosModel.uuId)
+//        val gson = Gson()
+//        val jsonString = gson.toJson(dojoEditado)
+//        val data = hashMapOf("jsonData" to jsonString)
+//
+//        viewModel.updateDojoFirebase(dojosModel, data)
+        val directions =
+            LocationFragmentDirections.actionLocationFragmentToRegisterDojoFragment(dojosModel)
+        findNavController().navigate(directions)
+    }
+
 
     private fun startFlow() {
         viewLifecycleOwner.lifecycleScope.launch {

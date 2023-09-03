@@ -18,6 +18,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.core.ViewModelState
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
@@ -25,6 +26,8 @@ import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterDojoBinding
 import app.kawaishiryu.jiujitsu.util.LocationPermission
 import app.kawaishiryu.jiujitsu.util.StoragePermission
 import app.kawaishiryu.jiujitsu.view.DojosViewModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -45,7 +48,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
     private var controllerMarket = false
     private lateinit var market: Marker
 
-    //Declaramos la api de Google Mpas
     private lateinit var map: GoogleMap
     private var latitud = 0.0
     private var longitud = 0.0
@@ -53,6 +55,9 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
     private lateinit var binding: FragmentRegisterDojoBinding
     private val viewModel: DojosViewModel by viewModels()
     private var imageSelectedUri: Uri? = null
+
+    private val args by navArgs<RegisterDojoFragmentArgs>()
+    private var modify: Boolean = true
 
     //Seleccionar imagen
     private val resultLauncher =
@@ -70,16 +75,53 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
 
         binding = FragmentRegisterDojoBinding.bind(view)
 
+        updateAndCreate()
         initFlows()
         clickableEvent()
-
         checKIsValidNumber()
+
     }
 
-    /*Inicializa el flujo de trabajos
-   Los flujos de trabajo son un patron comun en la programacion reactiva y se utiliza para controlar y
-   manipular flujos de datos asincronos
-     */
+    //Funcion q observa si se hace un update o create
+    private fun updateAndCreate() {
+        if (args.dojoModel != null) {
+            modify = true
+            binding.btnCreate.text = "Actualizar"
+
+            context?.let {
+                Glide.with(it)
+                    .load(args.dojoModel!!.dojoUrlImage)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .into(binding.ivDojosRegFrg)
+            }
+            initUpdate()
+
+        } else {
+            binding.btnCreate.text = "Crear"
+            modify = false
+            binding.btnCreate.setOnClickListener {
+                registerData()
+            }
+        }
+    }
+
+    private fun initUpdate() {
+        if (args.dojoModel != null) {
+            binding.apply {
+                cvLocation.visibility = View.VISIBLE
+
+                etSenseiName.setText(args.dojoModel!!.nameSensei)
+                etNameDojo.setText(args.dojoModel!!.nameDojo)
+                etDescription.setText(args.dojoModel!!.description)
+                etPrice.setText(args.dojoModel!!.price)
+                etNumber.setText(args.dojoModel!!.numberWpp.substring(2))
+                etInstaUrl.setText(args.dojoModel!!.instaUrl)
+                etFacebookUrl.setText(args.dojoModel!!.facebookUrl)
+            }
+        }
+    }
+
     private fun initFlows() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -138,12 +180,15 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         }
     }
 
-
     private fun clickableEvent() {
         binding.cvLocation.visibility = View.GONE
 
         binding.btnCreate.setOnClickListener {
-            getAndUploadData()
+            if (modify) {
+                updateData()
+            } else {
+                registerData()
+            }
         }
         binding.ivDojosRegFrg.setOnClickListener {
             solicitarPermisos()
@@ -151,7 +196,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
 
         //Agregamos el evento de crear el mapa
         binding.btnAddLocation.setOnClickListener {
-            //ACA
             binding.buttonAccept.visibility = View.VISIBLE
             createFragmentMap()
         }
@@ -174,47 +218,62 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
                 // Obtiene la latitud y longitud del punto donde se hizo clic
                 val latitude = latLng.latitude
                 val longitude = latLng.longitude
-                // Aquí puedes hacer lo que necesites con las coordenadas obtenidas
-                Toast.makeText(
-                    requireContext(),
-                    "Latitud: $latitude, Longitud: $longitude",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
                 newMarket(latitude, longitude)
 
             }
         }
     }
 
-    //Obtener y actualizar Datos
-    private fun getAndUploadData() {
+    //Obtener los datos de las casillas
+    private fun getEditText(): DojosModel {
         val modelDojo = DojosModel()
-        val uuid = getRandomUUIDString()
-
-        modelDojo.uuId = uuid
         modelDojo.nameSensei = binding.etSenseiName.text.toString().trim()
         modelDojo.nameDojo = binding.etNameDojo.text.toString().trim()
         modelDojo.description = binding.etDescription.text.toString().trim()
         modelDojo.price = binding.etPrice.text.toString().trim()
-
-        //Agregamos facebook, instagram, wpp
         modelDojo.facebookUrl = binding.etFacebookUrl.text.toString().trim()
         modelDojo.instaUrl = binding.etInstaUrl.text.toString().trim()
         modelDojo.numberWpp = binding.ccp.fullNumber
-
-        //Agregamos latitud y longitud
         modelDojo.latitud = latitud
         modelDojo.longitud = longitud
+        modelDojo.imagePathUrl = args.dojoModel?.imagePathUrl ?: ""
+        modelDojo.dojoUrlImage = args.dojoModel?.dojoUrlImage ?: ""
 
-        //Selecciono cualquier uri
+        return modelDojo
+    }
+
+    //Obtener y registrar datos
+    private fun registerData() {
+        val modelDojo = getEditText()
+        val uuid = getRandomUUIDString()
+        modelDojo.uuId = uuid
+
         val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
-        val uri =
-            Uri.parse("https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/URI_Euler_Diagram_no_lone_URIs.svg/1200px-URI_Euler_Diagram_no_lone_URIs.svg.png")
-        val bitmap2 = getBitmapFromUri(uri, requireContext(), quality = 10)
 
         viewModel.register(bitmap, "${modelDojo.uuId}.jpg", modelDojo)
     }
+
+    //Obtener y actualizar datos
+    private fun updateData() {
+        val modelDojo = getEditText()
+        val uuid = args.dojoModel!!.uuId
+        modelDojo.uuId = uuid
+
+        // Verificar si se seleccionó una nueva imagen
+        if (imageSelectedUri != null) {
+            val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
+            if (bitmap != null) {
+                viewModel.updateWithBitmap(bitmap, "$uuid.jpg", modelDojo)
+            } else {
+                modelDojo.imagePathUrl = args.dojoModel!!.imagePathUrl
+                modelDojo.dojoUrlImage = args.dojoModel!!.dojoUrlImage
+                viewModel.update(dojoModel = modelDojo)
+            }
+        } else {
+            viewModel.update(dojoModel = modelDojo)
+        }
+    }
+
 
     //Se llama cuando el mapa esta listo
     override fun onMapReady(googleMap: GoogleMap) {
@@ -250,6 +309,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
             }
         }
     }
+
     //Se llama cuando el mapa esta listo
     private fun locationUserZoom(lat: Double, long: Double) {
         val favoritePlace = LatLng(lat, long)
@@ -292,6 +352,7 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         binding.fragmentMap.visibility = View.GONE
         binding.buttonAccept.visibility = View.GONE
         binding.mapsId.visibility = View.GONE
+
         binding.scrollView.visibility = View.VISIBLE
         binding.linearLayout12.visibility = View.VISIBLE
     }
