@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentLocationBinding
-import app.kawaishiryu.jiujitsu.ui.adapter.DojosAdapter
+import app.kawaishiryu.jiujitsu.ui.adapter.dojo_adap.DojosAdapter
 import app.kawaishiryu.jiujitsu.util.OnItemClick
-import app.kawaishiryu.jiujitsu.view.LocationViewModel
+import app.kawaishiryu.jiujitsu.viewmodel.dojos.LocationViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -67,13 +66,6 @@ class LocationFragment : Fragment(R.layout.fragment_location), OnItemClick {
     }
 
     override fun onEditClick(dojosModel: DojosModel) {
-
-//        val dojoEditado = DojosModel(nameSensei = "EfraUpdate", nameDojo = "DojoUpdate", uuId = dojosModel.uuId)
-//        val gson = Gson()
-//        val jsonString = gson.toJson(dojoEditado)
-//        val data = hashMapOf("jsonData" to jsonString)
-//
-//        viewModel.updateDojoFirebase(dojosModel, data)
         val directions =
             LocationFragmentDirections.actionLocationFragmentToRegisterDojoFragment(dojosModel)
         findNavController().navigate(directions)

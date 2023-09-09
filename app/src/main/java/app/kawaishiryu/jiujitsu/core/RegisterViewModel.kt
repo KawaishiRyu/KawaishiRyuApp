@@ -3,9 +3,8 @@ package app.kawaishiryu.jiujitsu.core
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.kawaishiryu.jiujitsu.data.model.CurrentUser
-import app.kawaishiryu.jiujitsu.data.model.service.RegisterModelService
-import app.kawaishiryu.jiujitsu.data.model.service.UserModel
+import app.kawaishiryu.jiujitsu.data.model.service.RegisterUserModelService
+import app.kawaishiryu.jiujitsu.data.model.user.UserModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,18 +33,15 @@ open class RegisterViewModel() : ViewModel() {
 
         _registerUserViewModelState.value = ViewModelState.Loading
 
-        if (user.currentUser.email.isNotEmpty() && user.currentUser.password.isNotEmpty()) {
+        if (user.email.isNotEmpty() && user.password.isNotEmpty()) {
 
             try {
-                Log.i("registrarUsuario", "llego hasta aqui")
-                Log.i("usuario", "${user.currentUser.email}")
                 coroutineScope {
                     val registerUser = async {
-                        _registerUserId.value = RegisterModelService.registerUser(user.currentUser)
+                        _registerUserId.value = RegisterUserModelService.registerUser(user)
                     }
                     registerUser.await()
-                    _registerUserViewModelState.value =
-                        ViewModelState.UserRegisterSuccesfully(user.currentUser)
+                    _registerUserViewModelState.value = ViewModelState.UserRegisterSuccesfully(user)
                 }
 
             } catch (e: Exception) {
@@ -65,11 +61,10 @@ open class RegisterViewModel() : ViewModel() {
             coroutineScope {
                 val registerUserDb = async {
                     //base de datos
-                    RegisterModelService.register(userRegisterDbModel)
+                    RegisterUserModelService.register(userRegisterDbModel)
                 }
                 registerUserDb.await()
-                _registerUserDbViewModelState.value =
-                    ViewModelState.UserRegisterDbSyccesfully(userRegisterDbModel)
+                _registerUserDbViewModelState.value = ViewModelState.UserRegisterDbSyccesfully(userRegisterDbModel)
             }
 
         } catch (e: Exception) {

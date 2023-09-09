@@ -1,14 +1,13 @@
 package app.kawaishiryu.jiujitsu.core
 
-import app.kawaishiryu.jiujitsu.data.model.CurrentUser
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
-import app.kawaishiryu.jiujitsu.data.model.service.UserModel
+import app.kawaishiryu.jiujitsu.data.model.user.UserModel
 
 sealed class ViewModelState {
 
-    data class UserRegisterSuccesfully(val user: CurrentUser) : ViewModelState()
-    data class SignInUserSuccesfully(val user: CurrentUser) : ViewModelState()
+    data class UserRegisterSuccesfully(val user: UserModel) : ViewModelState()
+    data class SignInUserSuccesfully(val user: UserModel) : ViewModelState()
     data class UserRegisterDbSyccesfully(val userModel: UserModel): ViewModelState()
     data class UserModifiedSuccesfully(val userModel: UserModel): ViewModelState()
 

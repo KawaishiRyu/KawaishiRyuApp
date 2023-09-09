@@ -16,16 +16,3 @@ fun controlEmailAndPassword(email: String, password: String): Boolean {
 
 //Creamos la funcion para obtener un numero random
 fun getRandomUUIDString():String = UUID.randomUUID().toString().replace("-", "")
-
-
-/*
-    private fun createMarker(lat: Double, long: Double) {
-        var favoritePlace = LatLng(lat, long)
-        //  map.addMarker(MarkerOptions().position(favoritePlace).title("Mi ubicacion Actual"))
-        map.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(favoritePlace, 18f),
-            4000,
-            null
-        )
-    }
- */

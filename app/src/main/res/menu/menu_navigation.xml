@@ -8,25 +8,25 @@
         />
 
     <item
-        android:title="Ubicacion">
+        android:title="Menu principal">
         <menu>
 
             <item
                 android:id="@+id/menuTecFragment"
-                android:icon="@drawable/ic_location"
-                android:title="Tecnicas"
+                android:icon="@drawable/artes_marciales"
+                android:title="Tecnicas Jiu Jitsu"
                 />
 
             <item
                 android:id="@+id/jiuJitsuMenuFragment"
-                android:icon="@drawable/ic_location"
-                android:title="Tecnicas"
+                android:icon="@drawable/icons8_judo_90"
+                android:title="Tecnicas Judo"
                 />
 
             <item
                 android:id="@+id/locationFragment"
-                android:icon="@drawable/ic_location"
-                android:title="Ubicacion del Dojo"
+                android:icon="@drawable/dojo"
+                android:title="Ubicaciones de dojos"
                 />
         </menu>
     </item>

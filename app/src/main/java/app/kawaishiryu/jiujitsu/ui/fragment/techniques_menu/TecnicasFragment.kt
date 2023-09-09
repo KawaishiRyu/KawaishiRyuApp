@@ -11,7 +11,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.kawaishiryu.jiujitsu.R
-import app.kawaishiryu.jiujitsu.TecnicasViewModel
+import app.kawaishiryu.jiujitsu.viewmodel.tec.TecnicasViewModel
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentTecnicasBinding

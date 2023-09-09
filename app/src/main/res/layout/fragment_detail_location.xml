@@ -1,42 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/C2"
-    android:gravity="center"
+    android:gravity="center_vertical"
     android:orientation="vertical"
     tools:context=".ui.fragment.location.DetailLocationFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:backgroundTint="@color/C1"
         android:clickable="true"
-        android:src="@drawable/ic_time" />
+        android:src="@drawable/ic_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivDojoDetail"
         android:layout_width="250dp"
         android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
         android:elevation="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_foreground"
         app:civ_border_color="@color/C1"
-        app:civ_border_width="3dp" />
+        app:civ_border_width="3dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:backgroundTint="@color/C7"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/ivDojoDetail"
+        tools:layout_editor_absoluteX="20dp">
 
         <TextView
             android:id="@+id/tvNameDojo"
@@ -52,12 +63,15 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:layout_margin="20dp"
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_height="300dp"
         android:backgroundTint="@color/C7"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
 
         <LinearLayout
@@ -98,14 +112,21 @@
                 android:textColor="@color/C6" />
 
             <TextView
-                android:id="@+id/tvUuid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:text="Description"
-                android:textColor="@color/C6" />
+                android:layout_margin="10dp"
+                android:text="Lista de horarios"
+                android:textAlignment="center"
+                android:textColor="@color/C1"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rvHour"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                />
 
 
         </LinearLayout>
@@ -114,10 +135,13 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:gravity="bottom">
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <ImageView
@@ -142,4 +166,4 @@
             android:src="@drawable/icons_mapa" />
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

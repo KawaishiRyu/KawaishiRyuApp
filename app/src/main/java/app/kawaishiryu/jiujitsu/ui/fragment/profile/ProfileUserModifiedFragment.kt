@@ -12,9 +12,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.core.ViewModelState
-import app.kawaishiryu.jiujitsu.data.model.service.UserModel
+import app.kawaishiryu.jiujitsu.data.model.user.UserModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentProfileUserModifiedBinding
-import app.kawaishiryu.jiujitsu.presentation.auth.ProfileUserModifiedViewModel
+import app.kawaishiryu.jiujitsu.viewmodel.auth.ProfileUserModifiedViewModel
 import kotlinx.coroutines.launch
 
 
@@ -48,14 +48,14 @@ class ProfileUserModifiedFragment : Fragment(R.layout.fragment_profile_user_modi
         Log.i("datos1","${argsCurrentUser.currentUserModifed.email}")
         //boton cuando se realice un evento
         //llamomos a la id random a traves de coso
-        currentUserModifiedUserModel.currentUser.id= argsCurrentUser.currentUserModifed.id
-        currentUserModifiedUserModel.currentUser.email = argsCurrentUser.currentUserModifed.email
-        currentUserModifiedUserModel.currentUser.pictureProfile = argsCurrentUser.currentUserModifed.pictureProfile
-        currentUserModifiedUserModel.currentUser.apellido = argsCurrentUser.currentUserModifed.apellido
-        currentUserModifiedUserModel .currentUser.name = "Nacho Puto"
+        currentUserModifiedUserModel.id= argsCurrentUser.currentUserModifed.id
+        currentUserModifiedUserModel.email = argsCurrentUser.currentUserModifed.email
+        currentUserModifiedUserModel.pictureProfile = argsCurrentUser.currentUserModifed.pictureProfile
+        currentUserModifiedUserModel.apellido = argsCurrentUser.currentUserModifed.apellido
+        currentUserModifiedUserModel .name = "Nacho Puto"
 
-        Log.i("datos2","${currentUserModifiedUserModel.currentUser.name}")
-        Log.i("datos2","${currentUserModifiedUserModel.currentUser.email}")
+        Log.i("datos2","${currentUserModifiedUserModel.name}")
+        Log.i("datos2","${currentUserModifiedUserModel.email}")
 
         viewModel.modifiedCurrentUser(user = currentUserModifiedUserModel ,argsCurrentUser.currentUserModifed.id)
         //Le enviamos a la base de datos
@@ -79,7 +79,6 @@ class ProfileUserModifiedFragment : Fragment(R.layout.fragment_profile_user_modi
                             //Modificamos el estado del botton y se cambia de fragmento
                             Log.i("acepto","Aqui")
                             findNavController().navigate(R.id.action_profileUserModifiedFragment_to_profileUserFragment)
-
                         }
                         is ViewModelState.Error->{
                             //Se encontro un error

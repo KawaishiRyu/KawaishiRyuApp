@@ -13,10 +13,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.kawaishiryu.jiujitsu.R
-import app.kawaishiryu.jiujitsu.data.model.CurrentUser
+import app.kawaishiryu.jiujitsu.data.model.user.UserModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentProfileUserBinding
-import app.kawaishiryu.jiujitsu.firebase.cloudfirestore.CloudFileStoreWrapper
-import app.kawaishiryu.jiujitsu.presentation.auth.ProfileUserViewModel
+import app.kawaishiryu.jiujitsu.repository.firebase.cloudfirestore.CloudFileStoreWrapper
+import app.kawaishiryu.jiujitsu.viewmodel.auth.ProfileUserViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
     //Creamos la variable que contendra los datos del usuario
     private val argsEditUser by navArgs<ProfileUserFragmentArgs>()
     private var descargar = false
-    private var usuario: CurrentUser = CurrentUser()
+    private var usuario: UserModel = UserModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,6 +51,7 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
 
     private fun startFlow() {
         viewModel.comparationUserDb(CloudFileStoreWrapper.getUUIDUser())
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.profileUserDb.collect() { user ->
@@ -63,7 +64,7 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
         }
     }
 
-    private fun bindUser(user: CurrentUser) {
+    private fun bindUser(user: UserModel) {
 
         binding.apply {
             tvNameUser.text = user.name
@@ -88,7 +89,7 @@ class ProfileUserFragment : Fragment(R.layout.fragment_profile_user) {
         }
     }
 
-   private fun navigateUserEditProfile(user: CurrentUser) {
+   private fun navigateUserEditProfile(user: UserModel) {
         Log.i("datos UUID antes","${user.id}")
         //Pasamos los datos a traves con safeArgs
         val directions = ProfileUserFragmentDirections.actionProfileUserFragmentToProfileUserModifiedFragment(user)

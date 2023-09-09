@@ -22,10 +22,11 @@ data class DojosModel(
     var facebookUrl: String = "",
     var latitud: Double = 0.0,
     var longitud: Double = 0.0,
-    var horario: Horarios = Horarios()
+    var horarios: MutableList<Horarios> = mutableListOf()
     ) : Parcelable {
 
     companion object {
+        const val DOJOS_IMAGE_FOLDER = "DojosImages/"
         const val CLOUD_FIRE_STORE_PATH = "DOJOS_JSON"
         const val UUID_KEY = "UUID"
         const val NAME_SENSEI_KEY = "NAME_SENSEI"

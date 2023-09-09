@@ -14,7 +14,6 @@ import app.kawaishiryu.jiujitsu.util.OnItemClick
 class MenuTecFragment : Fragment(R.layout.fragment_menu_tec), OnItemClick {
 
     private lateinit var binding: FragmentMenuTecBinding
-    private lateinit var adapterTec: MainAdapterTec
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

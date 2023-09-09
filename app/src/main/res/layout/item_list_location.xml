@@ -122,13 +122,13 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="15dp"
         android:contentDescription="@null"
         android:elevation="16dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"
         app:civ_border_color="@color/C1"
-        app:civ_border_width="3dp"
+        app:civ_border_width="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

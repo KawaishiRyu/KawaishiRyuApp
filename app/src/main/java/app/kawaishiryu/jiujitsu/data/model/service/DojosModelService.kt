@@ -3,8 +3,8 @@ package app.kawaishiryu.jiujitsu.data.model.service
 import android.graphics.Bitmap
 import android.util.Log
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
-import app.kawaishiryu.jiujitsu.firebase.cloudfirestore.CloudFileStoreWrapper
-import app.kawaishiryu.jiujitsu.firebase.storage.FirebaseStorageManager
+import app.kawaishiryu.jiujitsu.repository.firebase.cloudfirestore.CloudFileStoreWrapper
+import app.kawaishiryu.jiujitsu.repository.firebase.storage.FirebaseStorageManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
@@ -13,15 +13,6 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 object DojosModelService {
-
-    //Registra los datos obtenidos de la otra corutina en firebase
-    suspend fun register(dojosModel: DojosModel): Void = withContext(Dispatchers.IO) {
-        return@withContext CloudFileStoreWrapper.replace(
-            DojosModel.CLOUD_FIRE_STORE_PATH,
-            dojosModel.uuId, //uuId as document path of firebase fire store database
-            dojosModel.toDictionary()
-        )
-    }
 
     suspend fun recordWithJson(dojosModel: DojosModel, data: HashMap<String, String>): Void =
         withContext(Dispatchers.IO) {
@@ -49,11 +40,11 @@ object DojosModelService {
     }
 
     //Sube una imagen a firebase
-    suspend fun uploadImageFile(uri: Bitmap, fileName: String): String =
+    suspend fun uploadImageFile(uri: Bitmap, fileName: String, folderName: String): String =
         withContext(Dispatchers.IO) {
             return@withContext FirebaseStorageManager.uploadImage(
                 bitmap = uri,
-                folderName = FirebaseStorageManager.DOJOS_IMAGE_FOLDER,
+                folderName,
                 fileName = fileName
             )
         }
@@ -73,8 +64,7 @@ object DojosModelService {
                 val gson = Gson()
                 val jsonData: DojosModel = gson.fromJson(jsonField, DojosModel::class.java)
 
-                jsonData.nameSensei
-
+                //FALTA CORREGIR HORARIOS
                 data.add(
                     DojosModel(
                         uuId = jsonData.uuId,
@@ -87,7 +77,9 @@ object DojosModelService {
                         facebookUrl = jsonData.facebookUrl,
                         instaUrl = jsonData.instaUrl,
                         latitud = jsonData.latitud,
-                        longitud = jsonData.longitud
+                        longitud = jsonData.longitud,
+                        imagePathUrl = jsonData.imagePathUrl,
+                        horarios = jsonData.horarios
                     )
                 )
             }

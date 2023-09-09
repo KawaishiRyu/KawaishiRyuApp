@@ -27,4 +27,6 @@
 
     <style name="Theme.KawaishiRyu.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.KawaishiRyu.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
 </resources>

@@ -1,8 +1,11 @@
 package app.kawaishiryu.jiujitsu.ui.fragment.login
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -14,37 +17,32 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import app.kawaishiryu.jiujitsu.MainMenuHostActivity
+import app.kawaishiryu.jiujitsu.ui.MainMenuHostActivity
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.core.RegisterViewModel
 import app.kawaishiryu.jiujitsu.core.ViewModelState
-import app.kawaishiryu.jiujitsu.data.model.CurrentUser
-import app.kawaishiryu.jiujitsu.data.model.service.UserModel
+import app.kawaishiryu.jiujitsu.data.model.user.UserModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterBinding
 import app.kawaishiryu.jiujitsu.util.CamarePermission
 import app.kawaishiryu.jiujitsu.util.getRandomUUIDString
 import kotlinx.coroutines.launch
-
+import java.io.ByteArrayOutputStream
+import java.io.FileNotFoundException
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     private lateinit var binding: FragmentRegisterBinding
     private val viewModel: RegisterViewModel by viewModels()
-    val currentUserRegister = UserModel()
-    private var bitmapeado: Bitmap? = null
+    private val currentUserRegister = UserModel()
 
-    //Creo un nuevo fragmentos
-    //tiramos un intent para obtener los valores de la foto
+    private var imageSelectedUri: Uri? = null
+
     //Seleccionar imagen
-
     private val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                //Si el resultado es correcto esta deberìa ser la selfie
-                val data = result.data!!
-                bitmapeado = data.extras!!.get("data") as Bitmap
-                CurrentUser.userRegister.pictureProfile =
-                    binding.btnPictureProfile.setImageBitmap(bitmapeado).toString()
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                imageSelectedUri = it.data?.data
+                binding.ivUser.setImageURI(imageSelectedUri)
             }
         }
 
@@ -56,7 +54,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             registerUser()
         }
 
-        binding.btnPictureProfile.setOnClickListener {
+        binding.ivUser.setOnClickListener {
             permissiones()
         }
 
@@ -64,16 +62,16 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     }
 
     private fun registerUser() {
-        currentUserRegister.currentUser.email = binding.teEmailUser.text.toString().trim()
-        currentUserRegister.currentUser.password = binding.teContraseA.text.toString().trim()
-        currentUserRegister.currentUser.name = binding.teNombreDeUsuario.text.toString().trim()
-        currentUserRegister.currentUser.apellido = binding.teApellidoUser.text.toString().trim()
-        currentUserRegister.currentUser.id = getRandomUUIDString()
-        currentUserRegister.currentUser.pictureProfile = bitmapeado.toString()
-        Log.i("Useremail", "${currentUserRegister.currentUser.email}")
-        Log.i("foto", "${CurrentUser.userRegister.pictureProfile}")
-        viewModel.registrarUsuario(currentUserRegister)
+        currentUserRegister.name = binding.etNombre.text.toString().trim()
+        currentUserRegister.apellido = binding.etApellido.text.toString().trim()
+        currentUserRegister.email = binding.etEmail.text.toString().trim()
+        currentUserRegister.password = binding.etPassword.text.toString().trim()
+        currentUserRegister.id = getRandomUUIDString()
 
+        val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
+
+
+        viewModel.registrarUsuario(currentUserRegister)
     }
 
 
@@ -89,42 +87,28 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                             binding.circularProgressIndicator.visibility = View.VISIBLE
                             binding.tvWaiting.visibility = View.VISIBLE
                         }
+
                         is ViewModelState.UserRegisterSuccesfully -> {
                             viewModel.profileUserDb.collect() { userId ->
-                                currentUserRegister.currentUser.id = userId
+
+                                currentUserRegister.id = userId
                                 viewModel.registerUserCollectionDb(currentUserRegister)
-                                baseDeDatosFirebase()
+
+                                binding.circularProgressIndicator.visibility = View.GONE
+                                binding.tvWaiting.visibility = View.GONE
+                                binding.tvDone.visibility = View.VISIBLE
+                                navigationUp()
                             }
                         }
-                        is ViewModelState.Error -> {
+
+                        is ViewModelState.Error -> { it
+                            Log.d("???", "$it")
+                            Toast.makeText(context, "Error $it", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             }
         }
-    }
-
-    private fun baseDeDatosFirebase() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.registerUserDbViewModelState.collect() {
-                    //Los estados posibles de
-                    when (it) {
-                        is ViewModelState.UserRegisterDbSyccesfully -> {
-                            binding.circularProgressIndicator.visibility = View.GONE
-                            binding.tvWaiting.visibility = View.GONE
-                            binding.tvDone.visibility = View.VISIBLE
-                            //Se puso creo bien la base de datos
-                            Toast.makeText(context, "Se Pasa a navegacion", Toast.LENGTH_SHORT)
-                                .show()
-                            navigationUp()
-                        }
-                    }
-
-                }
-            }
-        }
-
     }
 
 
@@ -150,5 +134,24 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         startActivity(intent)
     }
 
-
+    //    BitMapFromUri
+    private fun getBitmapFromUri(uri: Uri, context: Context, quality: Int = 100): Bitmap? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val options = BitmapFactory.Options()
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888
+            BitmapFactory.decodeStream(inputStream, null, options)?.let { bitmap ->
+                val outputStream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+                BitmapFactory.decodeByteArray(
+                    outputStream.toByteArray(),
+                    0,
+                    outputStream.toByteArray().size
+                )
+            }
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+            null
+        }
+    }
 }

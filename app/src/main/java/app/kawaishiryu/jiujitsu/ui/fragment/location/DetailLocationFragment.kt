@@ -4,21 +4,19 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Toast
-import androidx.fragment.app.viewModels
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentDetailLocationBinding
-import app.kawaishiryu.jiujitsu.view.LocationViewModel
+import app.kawaishiryu.jiujitsu.ui.adapter.adapterhour.HourAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.gson.Gson
-import org.json.JSONObject
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 
 class DetailLocationFragment : Fragment(R.layout.fragment_detail_location) {
@@ -33,19 +31,46 @@ class DetailLocationFragment : Fragment(R.layout.fragment_detail_location) {
 
         // Mostrar el uuid en el TextView
         binding.tvNameDojo.text = args.dojoDetail.nameDojo
-        binding.tvNameSensei.text = "Nombre del sensei ${args.dojoDetail.nameSensei}"
+        binding.tvNameSensei.text = "Nombre del sensei: ${args.dojoDetail.nameSensei}"
         binding.tvDescription.text = "Descripcion: ${args.dojoDetail.description}"
         binding.tvPrice.text = "Precio ${args.dojoDetail.price}"
-        binding.tvUuid.text = "uuid ${args.dojoDetail}"
+
+        val horarios = args.dojoDetail.horarios
+        val horariosFormateadosList = mutableListOf<String>()
+
+        for ((index, horario) in horarios.withIndex()) {
+            val horarioFormateado = StringBuilder()
+            horarioFormateado.append("Horario ${index + 1}:\n")
+            horarioFormateado.append("Disciplina: ${horario.disciplina}\n")
+            horarioFormateado.append("${horario.dias.joinToString(", ")}\n")
+            horarioFormateado.append("${horario.horarioEntrada}\n")
+            horarioFormateado.append("${horario.horarioSalida}\n")
+            horariosFormateadosList.add(horarioFormateado.toString())
+        }
+
+
+        val horariosAdapter = HourAdapter(
+            horariosFormateadosList,
+            null
+        ) // Puedes proporcionar un listener si lo necesitas
+
+        // Configura el RecyclerView con el adaptador
+        binding.rvHour.adapter = horariosAdapter
+
 
         Glide.with(view)
             .load(args.dojoDetail.dojoUrlImage)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .centerCrop()
+            .dontAnimate()
             .into(binding.ivDojoDetail)
 
+        // Aplica la animación personalizada al ImageView cuando la vista se carga
+        val scaleUpAnimation: Animation = AnimationUtils.loadAnimation(view.context, R.anim.anim_three)
+        binding.ivDojoDetail.startAnimation(scaleUpAnimation)
+
         binding.ivIgMap.setOnClickListener {
-            openGoogleMaps(args.dojoDetail.latitud,args.dojoDetail.longitud)
+            openGoogleMaps(args.dojoDetail.latitud, args.dojoDetail.longitud)
         }
 
         binding.ivIgWpp.setOnClickListener {
@@ -54,8 +79,31 @@ class DetailLocationFragment : Fragment(R.layout.fragment_detail_location) {
         binding.ivIgDetail.setOnClickListener {
             openInsta(args.dojoDetail.instaUrl)
         }
-        binding.addTime.setOnClickListener{
-            findNavController().navigate(R.id.action_detailLocationFragment_to_timeRegisterFragment)
+        binding.addTime.setOnClickListener {
+
+            val dojo =
+                DojosModel(
+                    nameDojo = args.dojoDetail.nameDojo,
+                    uuId = args.dojoDetail.uuId,
+                    nameSensei = args.dojoDetail.nameSensei,
+                    dojoUrlImage = args.dojoDetail.dojoUrlImage,
+                    imagePathUrl = args.dojoDetail.imagePathUrl,
+                    description = args.dojoDetail.description,
+                    price = args.dojoDetail.price,
+                    horarios = args.dojoDetail.horarios,
+                    numberWpp = args.dojoDetail.numberWpp,
+                    instaUrl = args.dojoDetail.instaUrl,
+                    facebookUrl = args.dojoDetail.facebookUrl,
+                    latitud = args.dojoDetail.latitud,
+                    longitud = args.dojoDetail.longitud
+                )
+
+            val directions =
+                DetailLocationFragmentDirections.actionDetailLocationFragmentToTimeRegisterFragment(
+                    dojo
+                )
+            findNavController().navigate(directions)
+
         }
     }
 

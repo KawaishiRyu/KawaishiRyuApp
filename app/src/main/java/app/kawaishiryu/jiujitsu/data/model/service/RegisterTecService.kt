@@ -1,22 +1,28 @@
 package app.kawaishiryu.jiujitsu.data.model.service
 
 import android.util.Log
+import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
-import app.kawaishiryu.jiujitsu.firebase.cloudfirestore.CloudFileStoreWrapper
+import app.kawaishiryu.jiujitsu.repository.firebase.cloudfirestore.CloudFileStoreWrapper
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 object RegisterTecService {
 
-    suspend fun register(model: MoviemientosModel, PATH: String): Void =
+    suspend fun recordWithJson(
+        PATH: String,
+        model: MoviemientosModel,
+        data: HashMap<String, String>
+    ): Void =
         withContext(Dispatchers.IO) {
-            return@withContext CloudFileStoreWrapper.replace(
+            return@withContext CloudFileStoreWrapper.replaceWithJson(
                 PATH,
-                model.uuId,
-                model.toDictionary()
+                model.uuId, //uuId as document path of firebase fire store database
+                data
             )
         }
 
@@ -29,21 +35,22 @@ object RegisterTecService {
                 val result = db.collection(path).get().await()
 
                 for (document in result) {
-                    val uuid = document.getString(MoviemientosModel.UUID_KEY) ?: ""
-                    val nameTec = document.getString(MoviemientosModel.NAME_TEC_KEY) ?: ""
-                    val translate = document.getString(MoviemientosModel.TRANSLATE_TEC_KEY) ?: ""
-                    val url_youtube = document.getString(MoviemientosModel.URL_YOUTUBE_KEY) ?: ""
-                    val description = document.getString(MoviemientosModel.DESCRIPTION_KEY) ?: ""
-                    val grado = document.getString(MoviemientosModel.GRADO_KEY) ?: ""
+
+                    val jsonField = document.getString("jsonData")
+                        ?: "{}" // Puedes proporcionar un JSON vacío como valor predeterminado
+
+                    val gson = Gson()
+                    val jsonData: MoviemientosModel =
+                        gson.fromJson(jsonField, MoviemientosModel::class.java)
 
                     data.add(
                         MoviemientosModel(
-                            uuId = uuid,
-                            nameTec = nameTec,
-                            transalteTec = translate,
-                            urlYoutube = url_youtube,
-                            description = description,
-                            grado = grado
+                            uuId = jsonData.uuId,
+                            nameTec = jsonData.nameTec,
+                            transalteTec = jsonData.transalteTec,
+                            urlYoutube = jsonData.urlYoutube,
+                            description = jsonData.description,
+                            grado = jsonData.grado
                         )
                     )
                 }

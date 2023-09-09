@@ -2,10 +2,7 @@ package app.kawaishiryu.jiujitsu.ui.fragment.location
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -23,9 +20,10 @@ import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.core.ViewModelState
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterDojoBinding
+import app.kawaishiryu.jiujitsu.util.ImageManipulationUtil
 import app.kawaishiryu.jiujitsu.util.LocationPermission
 import app.kawaishiryu.jiujitsu.util.StoragePermission
-import app.kawaishiryu.jiujitsu.view.DojosViewModel
+import app.kawaishiryu.jiujitsu.viewmodel.dojos.LocationViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -37,8 +35,6 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.hbb20.CountryCodePicker.PhoneNumberValidityChangeListener
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
-import java.io.FileNotFoundException
 import java.util.*
 
 
@@ -53,11 +49,12 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
     private var longitud = 0.0
 
     private lateinit var binding: FragmentRegisterDojoBinding
-    private val viewModel: DojosViewModel by viewModels()
+    private val viewModel: LocationViewModel by viewModels()
+
     private var imageSelectedUri: Uri? = null
 
     private val args by navArgs<RegisterDojoFragmentArgs>()
-    private var modify: Boolean = true
+    private var modify: Boolean = false
 
     //Seleccionar imagen
     private val resultLauncher =
@@ -159,25 +156,16 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
 
     }
 
-    //    BitMapFromUri
-    private fun getBitmapFromUri(uri: Uri, context: Context, quality: Int = 100): Bitmap? {
-        return try {
-            val inputStream = context.contentResolver.openInputStream(uri)
-            val options = BitmapFactory.Options()
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888
-            BitmapFactory.decodeStream(inputStream, null, options)?.let { bitmap ->
-                val outputStream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
-                BitmapFactory.decodeByteArray(
-                    outputStream.toByteArray(),
-                    0,
-                    outputStream.toByteArray().size
-                )
-            }
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-            null
-        }
+    //Obtener y registrar datos
+    private fun registerData() {
+        val modelDojo = getEditText()
+        val uuid = getRandomUUIDString()
+        modelDojo.uuId = uuid
+
+        //Tengo q asegurar que el Uri no sea nulo
+        val compressedBitmap = imageSelectedUri?.let { ImageManipulationUtil.compressBitmap(it, requireContext(), quality = 10) }
+
+        viewModel.registerOrUpdate(compressedBitmap, "${modelDojo.uuId}.jpg", modelDojo, modify)
     }
 
     private fun clickableEvent() {
@@ -242,17 +230,6 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         return modelDojo
     }
 
-    //Obtener y registrar datos
-    private fun registerData() {
-        val modelDojo = getEditText()
-        val uuid = getRandomUUIDString()
-        modelDojo.uuId = uuid
-
-        val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
-
-        viewModel.register(bitmap, "${modelDojo.uuId}.jpg", modelDojo)
-    }
-
     //Obtener y actualizar datos
     private fun updateData() {
         val modelDojo = getEditText()
@@ -261,16 +238,18 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
 
         // Verificar si se seleccionó una nueva imagen
         if (imageSelectedUri != null) {
-            val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
-            if (bitmap != null) {
-                viewModel.updateWithBitmap(bitmap, "$uuid.jpg", modelDojo)
+
+            val compressedBitmap = imageSelectedUri?.let { ImageManipulationUtil.compressBitmap(it, requireContext(), quality = 10) }
+
+            if (compressedBitmap != null) {
+                viewModel.registerOrUpdate(compressedBitmap, "$uuid.jpg", modelDojo, modify)
             } else {
                 modelDojo.imagePathUrl = args.dojoModel!!.imagePathUrl
                 modelDojo.dojoUrlImage = args.dojoModel!!.dojoUrlImage
-                viewModel.update(dojoModel = modelDojo)
+                viewModel.registerOrUpdate(null,"$uuid.jpg", modelDojo, modify)
             }
         } else {
-            viewModel.update(dojoModel = modelDojo)
+            viewModel.registerOrUpdate(null,"$uuid.jpg", modelDojo, modify)
         }
     }
 

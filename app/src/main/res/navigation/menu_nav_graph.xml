@@ -52,14 +52,11 @@
             android:name="changeData"
             app:argType="boolean"
             android:defaultValue="true" />
-        <action
-            android:id="@+id/action_profileUserFragment_to_menuJiuJitsuFragment"
-            app:destination="@id/menuJiuJitsuFragment" />
     </fragment>
 
     <dialog
         android:id="@+id/dialogSignOutUser"
-        android:name="app.kawaishiryu.jiujitsu.view.DialogSignOutUser"
+        android:name="app.kawaishiryu.jiujitsu.ui.dialog.DialogSignOutUser"
         android:label="DialogSignOutUser" />
     <fragment
         android:id="@+id/profileUserModifiedFragment"
@@ -71,14 +68,18 @@
             app:destination="@id/profileUserFragment" />
         <argument
             android:name="currentUserModifed"
-            app:argType="app.kawaishiryu.jiujitsu.data.model.CurrentUser" />
+            app:argType="app.kawaishiryu.jiujitsu.data.model.user.UserModel" />
     </fragment>
 
     <fragment
         android:id="@+id/timeRegisterFragment"
         android:name="app.kawaishiryu.jiujitsu.ui.fragment.location.TimeRegisterFragment"
         android:label="fragment_time_register"
-        tools:layout="@layout/fragment_time_register" />
+        tools:layout="@layout/fragment_time_register" >
+        <argument
+            android:name="dojoDetail"
+            app:argType="app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel" />
+    </fragment>
 
     <fragment
         android:id="@+id/menuTecFragment"
@@ -156,4 +157,9 @@
         android:name="app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.MenuJiuJitsuFragment"
         android:label="fragment_menu_jiu_jitsu"
         tools:layout="@layout/fragment_menu_jiu_jitsu" />
+    <fragment
+        android:id="@+id/menuJudoFragment"
+        android:name="app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.MenuJudoFragment"
+        android:label="fragment_menu_judo"
+        tools:layout="@layout/fragment_menu_judo" />
 </navigation>

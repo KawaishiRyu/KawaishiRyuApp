@@ -13,7 +13,6 @@ class MenuJiuJitsuFragment : Fragment(R.layout.fragment_menu_jiu_jitsu) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
     }
 
 }

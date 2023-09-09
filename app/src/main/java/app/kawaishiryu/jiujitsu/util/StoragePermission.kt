@@ -18,9 +18,6 @@ object StoragePermission {
     private const val PERMISSION_CODE = 0
     private const val PERMISION = Manifest.permission.READ_EXTERNAL_STORAGE
 
-
-
-
     private var isPermissionExplain = false
 
     fun hasPermission(context: Context): Boolean {

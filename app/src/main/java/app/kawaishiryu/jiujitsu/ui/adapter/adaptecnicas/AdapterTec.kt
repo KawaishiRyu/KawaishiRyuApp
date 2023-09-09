@@ -24,7 +24,7 @@ class AdapterTec(
 
         fun render(model: MoviemientosModel, nameFinal: String) {
             binding.apply {
-                tvTecnica.text = model.nameTec
+                tvTecnica.text = "${model.nameTec}"
 
                 itemView.setOnClickListener {
                     val navController = Navigation.findNavController(itemView)

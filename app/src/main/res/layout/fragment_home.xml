@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,31 +8,112 @@
     android:orientation="vertical"
     tools:context=".ui.fragment.home.HomeFragment">
 
-    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-        android:id="@+id/carousel"
+    <!-- AppBarLayout con CollapsingToolbarLayout -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginTop="60dp"
+        android:layout_height="wrap_content">
 
-        app:showCaption="true"
-        app:captionMargin="0dp"
-        app:captionTextSize="14sp"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            style="@style/Theme.KawaishiRyu.AppBarOverlay">
 
-        app:imageScaleType="centerInside"
-        app:carouselBackground="#00000000"
+            <!-- Agrega aquí cualquier contenido que quieras que se colapse -->
 
-        app:showNavigationButtons="false"
+            <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                android:id="@+id/carousel"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="70dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:showCaption="true"
+                app:captionMargin="0dp"
+                app:captionTextSize="14sp"
+                app:imageScaleType="center"
+                app:carouselBackground="#00000000"
+                app:showNavigationButtons="false"
+                app:carouselGravity="CENTER"
+                app:scaleOnScroll="true"
+                app:scalingFactor="0.15"
+                app:autoWidthFixing="true"
+                app:autoPlay="true"
+                app:autoPlayDelay="4000"
+                app:infiniteCarousel="true"
+                app:touchToPause="true" />
 
-        app:carouselGravity="CENTER"
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        app:scaleOnScroll="true"
-        app:scalingFactor="0.15"
-        app:autoWidthFixing="true"
-        app:autoPlay="true"
-        app:autoPlayDelay="4000"
-        app:infiniteCarousel="true"
-        app:touchToPause="true"
-        />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Contenido que se desplaza debajo del CollapsingToolbarLayout -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewPrueba"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/textViewTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Jiu Jitsu"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/textViewDefinition"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Jiu-Jitsu Tradicional:
+
+El jiu-jitsu tradicional, también conocido como jujutsu o jiu-jitsu japonés, es un antiguo arte marcial japonés que se enfoca en las técnicas de autodefensa y combate cuerpo a cuerpo. A diferencia del Brazilian Jiu-Jitsu (BJJ), que se ha desarrollado en Brasil y se centra en el combate en el suelo, el jiu-jitsu tradicional abarca una gama más amplia de técnicas que incluyen lanzamientos, bloqueos articulares, estrangulaciones y golpes.
+
+Principios Básicos del Jiu-Jitsu Tradicional:
+
+Técnicas de Lanzamiento: El jiu-jitsu tradicional incluye una variedad de técnicas de lanzamiento y derribo diseñadas para desequilibrar y arrojar a tu oponente al suelo.
+
+Bloqueos Articulares: Se enseñan técnicas de bloqueo articular que permiten controlar y someter a tu oponente al aplicar presión a las articulaciones, como muñecas, codos y rodillas.
+
+Estrangulaciones: Se practican técnicas de estrangulación que buscan sofocar al oponente al aplicar presión sobre su cuello, lo que puede llevarlo a rendirse.
+
+Golpes y Patadas: Aunque no es el enfoque principal, el jiu-jitsu tradicional también incluye algunas técnicas de golpes y patadas que se pueden usar en situaciones de combate.
+
+Defensa Personal: El jiu-jitsu tradicional se considera una forma efectiva de defensa personal, ya que enseña cómo enfrentar y neutralizar a un oponente en situaciones de peligro.
+
+Randori: Similar al sparring en BJJ, en el jiu-jitsu tradicional, se realizan ejercicios de randori, que son enfrentamientos controlados con múltiples oponentes para practicar las técnicas aprendidas en situaciones más realistas.
+
+En resumen, el jiu-jitsu tradicional es un arte marcial japonés que abarca una amplia gama de técnicas, incluyendo lanzamientos, bloqueos articulares, estrangulaciones y golpes. Se centra en la autodefensa y el combate cuerpo a cuerpo, y es una disciplina marcial rica en historia y tradición."
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
 
 
-</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
