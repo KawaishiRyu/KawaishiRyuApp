@@ -3,52 +3,40 @@ package app.kawaishiryu.jiujitsu.viewmodel.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.kawaishiryu.jiujitsu.core.ViewModelState
-import app.kawaishiryu.jiujitsu.data.model.service.RegisterUserModelService
-import app.kawaishiryu.jiujitsu.data.model.user.UserModel
-import app.kawaishiryu.jiujitsu.data.model.user.UserModel.Companion.userRegister
+import app.kawaishiryu.jiujitsu.data.model.service.UserModelService
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ProfileUserViewModel() : ViewModel() {
 
-    private val _profileUserDbState = MutableStateFlow(userRegister)
-    val profileUserDb: MutableStateFlow<UserModel> = _profileUserDbState
+    private val _profileUserDbState = MutableStateFlow<ViewModelState>(ViewModelState.Empty)
+    val profileUserDb: StateFlow<ViewModelState> = _profileUserDbState
 
-    var prueba3  = MutableStateFlow<Boolean>(false)
+    val _signOutUserState = MutableStateFlow<ViewModelState>(ViewModelState.None)
+    val signOutUserState: StateFlow<ViewModelState> = _signOutUserState
 
-    //Creamos la viarable para cerrar sesion
-    private var _signOutUserState = MutableStateFlow<ViewModelState>(ViewModelState.None)
-    var signOutUserState = _signOutUserState.asStateFlow()
-
-
-    fun comparationUserDb(uuid: String) = viewModelScope.launch {
+    fun getUserDb(uuid: String) = viewModelScope.launch {
         try {
-            coroutineScope {
-                val userDb = async {
-                    _profileUserDbState.value = RegisterUserModelService.dbColletionRefUser(
-                        uuid
-                    )
-                }
-                userDb.await()
-            }
+            _profileUserDbState.value = ViewModelState.Loading2("Cargando usuario...")
 
-        }catch (e:Exception){
+            val user = UserModelService.getUserFromFirebaseById(uuid)
+
+            _profileUserDbState.value = ViewModelState.UserLoaded(user)
+
+        } catch (e: Exception) {
+            _profileUserDbState.value = ViewModelState.Error("Error al obtener usuario: ${e.message}")
         }
     }
 
     fun signOutUser() = viewModelScope.launch {
         try {
-            coroutineScope {
-                val singOut = async {
-                   prueba3.value =  RegisterUserModelService.signOutUser()
-                }
-                singOut.await()
-            }
-        }catch (e:Exception){
-
+            val success = UserModelService.signOutUser()
+            _signOutUserState.value = ViewModelState.SignOutSucces(true)
+        } catch (e: Exception) {
+            _signOutUserState.value = ViewModelState.Error("Error al cerrar sesión: ${e.message}")
         }
     }
 }

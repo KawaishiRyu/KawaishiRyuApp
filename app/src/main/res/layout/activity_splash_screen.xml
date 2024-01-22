@@ -8,6 +8,7 @@
     tools:context=".ui.dialog.SplashScreenActivity">
 
     <com.airbnb.lottie.LottieAnimationView
+        android:layout_margin="60dp"
         android:id="@+id/lottieAnimation"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -16,13 +17,14 @@
         app:layout_constraintTop_toBottomOf="@id/guidelineStar"
         app:layout_constraintBottom_toTopOf="@id/guidelineBottom"
         app:lottie_autoPlay="true"
-        app:lottie_rawRes="@raw/loading_splash_screen"
+        app:lottie_rawRes="@raw/animation_3"
         app:lottie_loop="true"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Aguarde un momento"
-        android:textSize="18sp"
+        android:text="Aguarde un momento..."
+        android:textSize="30sp"
         android:textColor="@color/C6"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,4 +45,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.70" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

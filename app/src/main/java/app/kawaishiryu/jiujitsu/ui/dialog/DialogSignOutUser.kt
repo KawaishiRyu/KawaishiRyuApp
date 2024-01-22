@@ -52,9 +52,8 @@ class DialogSignOutUser: DialogFragment() {
         viewModel.signOutUser()
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.prueba3.collect(){
+                viewModel._signOutUserState.collect(){
                 try {
-
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
                 }catch (e: Exception){

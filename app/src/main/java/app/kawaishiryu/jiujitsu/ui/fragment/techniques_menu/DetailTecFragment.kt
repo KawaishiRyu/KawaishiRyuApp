@@ -1,5 +1,6 @@
 package app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebChromeClient
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.databinding.FragmentDetailTecBinding
+import app.kawaishiryu.jiujitsu.util.ColorUtils
 
 class DetailTecFragment : Fragment(R.layout.fragment_detail_tec) {
 
@@ -21,14 +23,17 @@ class DetailTecFragment : Fragment(R.layout.fragment_detail_tec) {
         binding = FragmentDetailTecBinding.bind(view)
 
         binding.tvMain.text = args.nameMovArg
-        binding.tvDetailName.text = "Nombre de tecnica: ${args.modelMovArg?.nameTec}"
-        binding.tvTranslate.text = "Traduccion: ${args.modelMovArg?.transalteTec}"
-        binding.tvDescription.text = "Descripcion: ${args.modelMovArg?.description}"
+        binding.tvDetailName.text = "${args.modelMovArg?.nameTec}"
+        binding.tvTranslate.text = " ${args.modelMovArg?.transalteTec}"
+        binding.tvDescription.text = "${args.modelMovArg?.description}"
+        binding.tvDif.text = "${args.modelMovArg?.grado}"
 
+        args.modelMovArg?.grado?.let {
+            ColorUtils.setColorForCardView(binding, it)
+        }
+
+        binding.webView.setBackgroundColor(Color.TRANSPARENT)
         binding.webView.visibility = View.GONE
-
-        binding.webView.visibility = View.GONE
-
         if (args.modelMovArg != null && args.modelMovArg.toString().isNotEmpty()) {
             binding.webView.visibility = View.VISIBLE
 
@@ -50,11 +55,12 @@ class DetailTecFragment : Fragment(R.layout.fragment_detail_tec) {
             }
 
             nuevoCodigo?.let {
-                val baseUrl = "https://www.youtube.com" // Establecer el valor base según sea necesario
-                binding.webView.loadDataWithBaseURL(baseUrl, it, "text/html", "utf-8", null)
+                binding.webView.loadData(it, "text/html", "utf-8")
+            } ?: run {
+                // En caso de que nuevoCodigo sea nulo, ocultar el WebView
+                binding.webView.visibility = View.GONE
             }
         }
-
     }
 
 }

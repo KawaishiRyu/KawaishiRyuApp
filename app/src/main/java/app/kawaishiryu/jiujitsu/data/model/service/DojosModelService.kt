@@ -1,10 +1,8 @@
 package app.kawaishiryu.jiujitsu.data.model.service
 
-import android.graphics.Bitmap
 import android.util.Log
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.repository.firebase.cloudfirestore.CloudFileStoreWrapper
-import app.kawaishiryu.jiujitsu.repository.firebase.storage.FirebaseStorageManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
@@ -14,7 +12,7 @@ import kotlinx.coroutines.withContext
 
 object DojosModelService {
 
-    suspend fun recordWithJson(dojosModel: DojosModel, data: HashMap<String, String>): Void =
+    suspend fun registerWithJson(dojosModel: DojosModel, data: HashMap<String, String>): Void =
         withContext(Dispatchers.IO) {
             return@withContext CloudFileStoreWrapper.replaceWithJson(
                 DojosModel.CLOUD_FIRE_STORE_PATH,
@@ -39,17 +37,6 @@ object DojosModelService {
         )
     }
 
-    //Sube una imagen a firebase
-    suspend fun uploadImageFile(uri: Bitmap, fileName: String, folderName: String): String =
-        withContext(Dispatchers.IO) {
-            return@withContext FirebaseStorageManager.uploadImage(
-                bitmap = uri,
-                folderName,
-                fileName = fileName
-            )
-        }
-
-
     suspend fun getListFromFirebase(): MutableList<DojosModel> = withContext(Dispatchers.IO) {
         val db = Firebase.firestore
         val data = mutableListOf<DojosModel>()
@@ -60,7 +47,6 @@ object DojosModelService {
             for (document in result) {
 
                 val jsonField = document.getString("jsonData") ?: "{}" // Puedes proporcionar un JSON vacío como valor predeterminado
-
                 val gson = Gson()
                 val jsonData: DojosModel = gson.fromJson(jsonField, DojosModel::class.java)
 

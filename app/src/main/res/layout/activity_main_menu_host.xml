@@ -15,19 +15,18 @@
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            tools:ignore="MissingConstraints">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
+                android:background="@color/C7"
                 app:navigationIcon="@drawable/ic_menu"
                 app:title="Pantalla incio"
                 android:gravity="center"/>
 
         </com.google.android.material.appbar.AppBarLayout>
-
 
         <include layout="@layout/content_main_menu_host" />
 
@@ -40,6 +39,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header_layout"
+        android:background="@color/C2"
+        app:itemTextColor="@color/C1"
+        app:itemShapeFillColor="@color/C2"
         app:menu="@menu/menu_navigation" />
 
 

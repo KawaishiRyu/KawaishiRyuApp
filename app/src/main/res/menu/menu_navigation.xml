@@ -3,22 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/ic_home"
         android:title="Inicio"
+        android:icon="@drawable/ic_home"
         />
 
     <item
-        android:title="Menu principal">
+        android:title="Menu principal"
+        >
         <menu>
 
             <item
-                android:id="@+id/menuTecFragment"
+                android:id="@+id/menuJiuJitsuFragment"
                 android:icon="@drawable/artes_marciales"
                 android:title="Tecnicas Jiu Jitsu"
                 />
 
             <item
-                android:id="@+id/jiuJitsuMenuFragment"
+                android:id="@+id/menuJudoFragment"
                 android:icon="@drawable/icons8_judo_90"
                 android:title="Tecnicas Judo"
                 />

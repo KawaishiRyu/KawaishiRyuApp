@@ -3,27 +3,39 @@ package app.kawaishiryu.jiujitsu.ui.adapter.adaptecnicas
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.tecnicas.SubItemModelTec
 import app.kawaishiryu.jiujitsu.databinding.SubListItemBinding
-import app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.MenuTecFragmentDirections
+import app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.MenuJiuJitsuFragmentDirections
+import app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.MenuJudoFragmentDirections
 
 
 class SubItemAdapterTec(
     private val subItemModel: List<SubItemModelTec>,
     private val bool: Boolean,
-    private val part1Translate: String
+    private val part1Translate: String,
+    private val kanji: String,
+    private val description: Int,
+    private val tecnica: String,
+    private val optionMenu: String
 ) : RecyclerView.Adapter<SubItemAdapterTec.ViewHolder>() {
-
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val binding = SubListItemBinding.bind(itemView)
 
-        fun render(subItem: SubItemModelTec, bool: Boolean, part1Translate: String) {
+        fun render(
+            subItem: SubItemModelTec,
+            bool: Boolean,
+            part1Translate: String,
+            kanji: String,
+            description: Int,
+            tecnica: String,
+            optionMenu: String
+        ) {
+
             binding.apply {
 
                 if (!bool) {
@@ -32,22 +44,34 @@ class SubItemAdapterTec(
                     tvSubItemTitle.text = subItem.translateTitle.toString()
                 }
 
-                val word = subItem.subItemTitle
+                val nameComplte = "$tecnica: ${subItem.subItemTitle}"
 
                 itemView.setOnClickListener {
-                    val subItemTitle = binding.tvSubItemTitle.text.toString()
-                    val context = itemView.context
-
-                    Toast.makeText(context, "Clicked: $subItemTitle", Toast.LENGTH_SHORT).show()
+                    binding.tvSubItemTitle.text.toString()
 
                     val navController = Navigation.findNavController(itemView)
 
-                    val action = MenuTecFragmentDirections.actionMenuTecFragmentToTecnicasFragment(
-                        null,
-                        word,
-                        "$part1Translate: ${subItem.translateTitle}"
-                    )
-                    navController.navigate(action)
+                    if (optionMenu == "jiujitsu") {
+                        val action =
+                            MenuJiuJitsuFragmentDirections.actionMenuJiuJitsuFragmentToTecnicasFragment(
+                                null,
+                                nameComplte,
+                                "$part1Translate: ${subItem.translateTitle}",
+                                description,
+                                kanji,
+                            )
+                        navController.navigate(action)
+                    }else{
+                        val action =
+                            MenuJudoFragmentDirections.actionMenuJudoFragmentToTecnicasFragment(
+                                null,
+                                nameComplte,
+                                "$part1Translate: ${subItem.translateTitle}",
+                                description,
+                                kanji,
+                            )
+                        navController.navigate(action)
+                    }
                 }
             }
 
@@ -63,11 +87,9 @@ class SubItemAdapterTec(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val subItem = subItemModel[position]
 
-        holder.render(subItem, bool, part1Translate)
+        holder.render(subItem, bool, part1Translate, kanji, description, tecnica, optionMenu)
 
     }
 
     override fun getItemCount() = subItemModel.size
-
-
 }

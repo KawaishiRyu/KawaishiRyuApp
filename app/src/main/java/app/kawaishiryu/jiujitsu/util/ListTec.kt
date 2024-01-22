@@ -1,14 +1,22 @@
 package app.kawaishiryu.jiujitsu.util
 
+import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.tecnicas.MainModelTec
 import app.kawaishiryu.jiujitsu.data.model.tecnicas.SubItemModelTec
 
 object ListTec {
 
+    private val hapoNoSabaki = mutableListOf(
+        SubItemModelTec("Sono ichi", "Primera forma"),
+        SubItemModelTec("Sono ni", "Segunda forma"),
+        SubItemModelTec("Sono san", "Tercera forma")
+    )
+
     private val kataList = mutableListOf(
         SubItemModelTec("Kata Bukinobu", "Con armas"),
         SubItemModelTec("Kata Toshunobu", "Sin armas")
     )
+
     private val atemiWazaList = mutableListOf(
         SubItemModelTec("Ken waza", "Puño"),
         SubItemModelTec("Kaisho Waza", "Mano abierta"),
@@ -16,7 +24,7 @@ object ListTec {
         SubItemModelTec("Wanto Waza", "Antebrazo"),
         SubItemModelTec("Hiji Waza", "Codo"),
         SubItemModelTec("Ashi Waza", "Pierna"),
-        SubItemModelTec("Hiza Waza","Rodilla"),
+        SubItemModelTec("Hiza Waza", "Rodilla"),
         SubItemModelTec("Kobore Waza", "Tibia"),
         SubItemModelTec("Atama Waza", "Cabeza"),
     )
@@ -28,42 +36,90 @@ object ListTec {
         SubItemModelTec("Ten Atsu", "Presion con manos"),
         SubItemModelTec("Ashi Atsu", "Presion con pierna")
     )
-    private val nageWazaList = mutableListOf(
-        SubItemModelTec("Ashi Waza", "Tecnica de pierna"),
-        SubItemModelTec("Koshi Waza", "Tecnica de cadera"),
-        SubItemModelTec("Kata Waza", "Tecnica de hombro"),
-        SubItemModelTec("Te Waza", "Tecnica de brazo"),
-        SubItemModelTec("Sutemi Waza", "Tecnica de sacrificio"),
+
+    //JUDO
+    private val kumiKataList = mutableListOf(
+        SubItemModelTec("Hon kumi kata", "Forma de agarre fundamental"),
+        SubItemModelTec("Kuzure kumi kata", "Forma de agarre alternativa ")
     )
     private val shimeWazaList = mutableListOf(
-        SubItemModelTec("1° Serie", "1° Serie"),
-        SubItemModelTec("2° Serie", "2° Serie"),
+        SubItemModelTec("SAISHO NO SHIRĪZU", "Primera serie"),
+        SubItemModelTec("NIBANME NO SHIRĪZU", "Segunda serie"),
     )
     private val kansetsuWazaList = mutableListOf(
         SubItemModelTec("1° Posicion", "1° Posicion"),
-        SubItemModelTec("2° Posicion","2° Posicion"),
-        SubItemModelTec("3° Posicion","3° Posicion"),
-        SubItemModelTec("4° Posicion","4° Posicion"),
-        SubItemModelTec("5° Posicion","5° Posicion"),
-        SubItemModelTec("6° Posicion","6° Posicion"),
+        SubItemModelTec("2° Posicion", "2° Posicion"),
+        SubItemModelTec("3° Posicion", "3° Posicion"),
+        SubItemModelTec("4° Posicion", "4° Posicion"),
+        SubItemModelTec("5° Posicion", "5° Posicion"),
+        SubItemModelTec("6° Posicion", "6° Posicion"),
     )
 
     val collectionTec = listOf(
-        MainModelTec("Shisei", "Posturas"),
-        MainModelTec("Happo no Sabaki", "Ocho desplazamientos"),
-        MainModelTec("Happo no Kusushi", "Ocho desequilibrios"),
-        MainModelTec("Kata", "Forma prediseñada", kataList),
-        MainModelTec("Atemi Waza", "Tecnica de golpeo", atemiWazaList),
-        MainModelTec("Atsu Komi Waza", "Tecnica de presion", atzuKomiWazaList),
-        MainModelTec("Yubi Basami Waza", "Tecnica de pinzamiento"),
-        MainModelTec("Fumi Waza", "Tecnica de pisoton"),
-        MainModelTec("Ukemi Waza", "Tecnica de caida"),
-        MainModelTec("Kumi Kata", "Forma de agarre"),
-        MainModelTec("Nage Waza", "Tecnica de proyeccion", nageWazaList),
-        MainModelTec("Osea Komi Waza", "Tecnica de retencion"),
-        MainModelTec("Shime Waza", "Tecnica de estrangulacion", shimeWazaList),
-        MainModelTec("Kansetsu Waza", "Tecnica de palanca", kansetsuWazaList),
+        MainModelTec("SHISEI", "Posturas del cuerpo", "姿勢", R.string.Shisei_def),
+        MainModelTec("SHINTAI WAZA", "Técnicas de Desplazamiento", "身体技", R.string.SHINTAI_WAZA),
+        MainModelTec(
+            "HAPPO NO SABAKI",
+            "Ocho desplazamientos",
+            "八方の捌き",
+            R.string.HAPPO_NO_SABAKI,
+            hapoNoSabaki
+        ),
+        MainModelTec("KAMAE", "Guardias", "構え", R.string.KAMAE),
+        MainModelTec("KATA", "Formas", "型", R.string.KATA, kataList),
+        MainModelTec("UKE WAZA", "Tecnica de bloqueo", "受け技", R.string.UKE_WAZA),
+        MainModelTec(
+            "ATEMI WAZA",
+            "Técnicas de golpeo",
+            "当て身技",
+            R.string.ATEMI_WAZA,
+            atemiWazaList
+        ),
+        MainModelTec(
+            "ATSU KOMI WAZA",
+            "Técnicas de presión",
+            "圧込技",
+            R.string.ATSU_KOMI_WAZA,
+            atzuKomiWazaList
+        ),
+        MainModelTec("FUMI WAZA", "Tecnica de pisoton", "踏み技", R.string.FUMI_WAZA),
+        MainModelTec("KANSETSU WAZA", "Tecnica de palanca", "関節技", R.string.KANSETSU_WAZA),
+        MainModelTec("UKEMI WAZA", "Tecnica de caida", "受け身技", R.string.UKE_WAZA),
     )
 
+    val collectionTecJudo = listOf(
+        MainModelTec("SHISEI", "Posturas del cuerpo", "姿勢", R.string.Shisei_def),
+        MainModelTec("SHINTAI WAZA", "Técnicas de Desplazamiento", "身体技", R.string.SHINTAI_WAZA),
+        MainModelTec(
+            "HAPPO NO KUSUSHI",
+            "Ocho desplazamientos",
+            "八方の捌き",
+            R.string.HAPPO_NO_SABAKI,
+            hapoNoSabaki
+        ),
+        MainModelTec("KATA", "Formas", "型", R.string.KATA, kataList),
+        MainModelTec("KUMI KATA", "Forma de agarre", "組み", R.string.KUMI_KATA, kumiKataList),
+        MainModelTec("NAGE WAZA", "Tecnicas de proyeccion", "投げ技", R.string.NAGE_WAZA),//Falta
+        MainModelTec(
+            "OSAE KOMI WAZA",
+            "Tecnicas de retencion",
+            "押し込み技",
+            R.string.OSEA_KOMI_WAZA
+        ),//Falta
+        MainModelTec(
+            "SHIME WAZA",
+            "Tecnicas de estrangulacion",
+            "絞め技",
+            R.string.SHIME_WAZA,
+            shimeWazaList
+        ),//Falta
+        MainModelTec("KANSETSU WAZA", "Tecnicas de palanca","関節技", R.string.KANSETSU_WAZA, kansetsuWazaList)
+    )
+
+
+    val cinturones = arrayOf(
+        "Cinturon blanco", "Cinturon amarillo", "Cinturon naranja",
+        "Cinturon verde", "Cinturon azul", "Cinturon marron", "Cinturon negro"
+    )
 
 }

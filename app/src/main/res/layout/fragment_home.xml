@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.fragment.home.HomeFragment">
 
@@ -14,35 +13,76 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            style="@style/Theme.KawaishiRyu.AppBarOverlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            style="@style/Theme.KawaishiRyu.AppBarOverlay">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <!-- Agrega aquí cualquier contenido que quieras que se colapse -->
-
-            <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-                android:id="@+id/carousel"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="70dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                app:showCaption="true"
-                app:captionMargin="0dp"
-                app:captionTextSize="14sp"
-                app:imageScaleType="center"
-                app:carouselBackground="#00000000"
-                app:showNavigationButtons="false"
-                app:carouselGravity="CENTER"
-                app:scaleOnScroll="true"
-                app:scalingFactor="0.15"
-                app:autoWidthFixing="true"
-                app:autoPlay="true"
-                app:autoPlayDelay="4000"
-                app:infiniteCarousel="true"
-                app:touchToPause="true" />
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:cardCornerRadius="16dp">
+
+                    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                        android:id="@+id/carousel"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        app:autoPlay="true"
+                        app:autoPlayDelay="4000"
+                        app:autoWidthFixing="true"
+                        app:captionMargin="0dp"
+                        app:captionTextSize="14sp"
+                        app:carouselBackground="#00000000"
+                        app:carouselGravity="CENTER"
+                        app:imageScaleType="fitCenter"
+                        app:infiniteCarousel="true"
+                        app:scaleOnScroll="true"
+                        app:scalingFactor="0.15"
+                        app:showCaption="true"
+                        app:showNavigationButtons="false"
+                        app:touchToPause="true" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:cardCornerRadius="8dp"
+                    android:backgroundTint="@color/C2"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="346dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="
+Bienvenido a nuestra plataforma, donde la destreza del Judo y la agudeza del Jiu Jitsu se unen para formar una experiencia única en el mundo de las artes marciales."
+                            android:textColor="@color/C1"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -56,17 +96,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardViewPrueba"
+                android:id="@+id/cvJiujitsu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="@color/C7"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -75,45 +118,260 @@
                     android:padding="16dp">
 
                     <TextView
-                        android:id="@+id/textViewTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jiu Jitsu"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
+                        android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_gravity="center"/>
+                        android:text="Jiu jitsu"
+                        android:textColor="@color/C1"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textViewDefinition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jiu-Jitsu Tradicional:
+                        android:layout_gravity="center"
+                        android:text="@string/Home_Jiu_jitsu_def"
+                        android:textColor="@color/C6"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="15dp"/>
 
-El jiu-jitsu tradicional, también conocido como jujutsu o jiu-jitsu japonés, es un antiguo arte marcial japonés que se enfoca en las técnicas de autodefensa y combate cuerpo a cuerpo. A diferencia del Brazilian Jiu-Jitsu (BJJ), que se ha desarrollado en Brasil y se centra en el combate en el suelo, el jiu-jitsu tradicional abarca una gama más amplia de técnicas que incluyen lanzamientos, bloqueos articulares, estrangulaciones y golpes.
+                    <LinearLayout
+                        android:id="@+id/expansionLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-Principios Básicos del Jiu-Jitsu Tradicional:
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
 
-Técnicas de Lanzamiento: El jiu-jitsu tradicional incluye una variedad de técnicas de lanzamiento y derribo diseñadas para desequilibrar y arrojar a tu oponente al suelo.
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 1 - "
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:textColor="@color/C1"
+                                />
 
-Bloqueos Articulares: Se enseñan técnicas de bloqueo articular que permiten controlar y someter a tu oponente al aplicar presión a las articulaciones, como muñecas, codos y rodillas.
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/Home_Jiu_jitsu_1"
+                                android:textColor="@color/C6"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
 
-Estrangulaciones: Se practican técnicas de estrangulación que buscan sofocar al oponente al aplicar presión sobre su cuello, lo que puede llevarlo a rendirse.
+                        <LinearLayout
+                            android:layout_marginTop="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
 
-Golpes y Patadas: Aunque no es el enfoque principal, el jiu-jitsu tradicional también incluye algunas técnicas de golpes y patadas que se pueden usar en situaciones de combate.
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 2 - "
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:textColor="@color/C1"
+                                />
 
-Defensa Personal: El jiu-jitsu tradicional se considera una forma efectiva de defensa personal, ya que enseña cómo enfrentar y neutralizar a un oponente en situaciones de peligro.
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/Home_Jiu_jitsu_2"
+                                android:textColor="@color/C6"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
 
-Randori: Similar al sparring en BJJ, en el jiu-jitsu tradicional, se realizan ejercicios de randori, que son enfrentamientos controlados con múltiples oponentes para practicar las técnicas aprendidas en situaciones más realistas.
+                        <LinearLayout
+                            android:layout_marginTop="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
 
-En resumen, el jiu-jitsu tradicional es un arte marcial japonés que abarca una amplia gama de técnicas, incluyendo lanzamientos, bloqueos articulares, estrangulaciones y golpes. Se centra en la autodefensa y el combate cuerpo a cuerpo, y es una disciplina marcial rica en historia y tradición."
-                        android:textSize="14sp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 3 - "
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:textColor="@color/C1"
+                                />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/Home_Jiu_jitsu_3"
+                                android:textColor="@color/C6"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvMoreJiuJitsu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/C1"
+                        android:text="Leer mas..." />
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvJudo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:cardBackgroundColor="@color/C7"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Judo"
+                        android:textColor="@color/C1"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/Home_Judo_Def"
+                        android:textColor="@color/C6"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="15dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/expansionLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 1 - "
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:textColor="@color/C1"
+                                />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/Home_judo_1"
+                                android:textColor="@color/C6"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 2 - "
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:textColor="@color/C1"
+                                />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/Home_judo_2"
+                                android:textColor="@color/C6"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 3 - "
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:textColor="@color/C1"
+                                />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/Home_judo_3"
+                                android:textColor="@color/C6"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvMoreJudo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/C1"
+                        android:text="Leer mas..." />
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
-
     </androidx.core.widget.NestedScrollView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

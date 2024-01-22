@@ -15,14 +15,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.core.ViewModelState
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterDojoBinding
 import app.kawaishiryu.jiujitsu.util.ImageManipulationUtil
-import app.kawaishiryu.jiujitsu.util.LocationPermission
-import app.kawaishiryu.jiujitsu.util.StoragePermission
+import app.kawaishiryu.jiujitsu.util.permission.LocationPermission
+import app.kawaishiryu.jiujitsu.util.permission.StoragePermission
 import app.kawaishiryu.jiujitsu.viewmodel.dojos.LocationViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -73,10 +74,9 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         binding = FragmentRegisterDojoBinding.bind(view)
 
         updateAndCreate()
-        initFlows()
+        startFlows()
         clickableEvent()
         checKIsValidNumber()
-
     }
 
     //Funcion q observa si se hace un update o create
@@ -119,42 +119,43 @@ class RegisterDojoFragment : Fragment(R.layout.fragment_register_dojo), OnMapRea
         }
     }
 
-    private fun initFlows() {
+    private fun startFlows() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.dojosViewModelState.collect {
-                    // Process item
+                viewModel.locationViewModelState.collect {
                     when (it) {
-                        is ViewModelState.Loading -> {
-                            //show progresss here
-                            Log.d("???", "Cargando")
+                        is ViewModelState.Loading2 -> {
+                            Log.d("???","Loading... : ")
                             showProgres()
                         }
 
-                        is ViewModelState.RegisterSuccessfullyDojo -> {
+                        is ViewModelState.Success2 -> {
+                            Log.d("???", "Register Succes: ")
                             hideProgress()
-                            //Register succes
-                            Log.d("???", "fue exitoso ${it.dojoModel}")
-                            Toast.makeText(context, "Register succes", Toast.LENGTH_SHORT)
-                                .show()
+
+                            val directions =
+                                RegisterDojoFragmentDirections.actionRegisterDojoFragmentToLocationFragment()
+                            findNavController().navigate(directions)
                         }
 
                         is ViewModelState.Empty -> {
-                            //Selected is empty
-                            Log.d("???", "Vacio")
+                            Log.d("???", "ViewModelState Empty")
                             hideProgress()
                         }
 
-                        is ViewModelState.Error -> {
-                            Log.d("???", "Error")
+                        is ViewModelState.Error2 -> {
+                            Log.d("???", "ViewModelState Error")
                             hideProgress()
                         }
+
+                        else -> {}
                     }
                 }
             }
         }
 
     }
+
 
     //Obtener y registrar datos
     private fun registerData() {

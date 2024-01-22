@@ -70,7 +70,7 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="14dp"
         android:gravity="center"
-        android:text="Descubre las tecnicas y los dojos que la enseñan"
+        android:text="Jiu Jitsu-Judo"
         android:textAlignment="inherit"
         android:textColor="@color/C6"
         android:textSize="24sp"
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:gravity="center"
-        android:text="Averigua sobre las tecnicas del Jiu Jutsu y sobre los dojos que enseñan esas tecnicas en Salta(Argentina)"
+        android:text="Explora sobre las técnicas de Jiu Jitsu y Judo en Salta, Argentina, y obtén detalles acerca de los dojos donde puedes aprender y perfeccionar estas disciplinas."
         android:textAlignment="inherit"
         android:textColor="@color/C6"
         android:textSize="12sp"
@@ -181,5 +181,13 @@
             app:strokeWidth="2dp" />
     </LinearLayout>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimation2"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:visibility="gone"
+        app:lottie_autoPlay="false"
+        app:lottie_rawRes="@raw/loaging2"
+        app:lottie_loop="true"/>
 
 </LinearLayout>

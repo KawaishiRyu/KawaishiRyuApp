@@ -1,10 +1,7 @@
 package app.kawaishiryu.jiujitsu.ui.fragment.login
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -19,30 +16,29 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import app.kawaishiryu.jiujitsu.ui.MainMenuHostActivity
 import app.kawaishiryu.jiujitsu.R
-import app.kawaishiryu.jiujitsu.core.RegisterViewModel
+import app.kawaishiryu.jiujitsu.core.RegisterUserViewModel
 import app.kawaishiryu.jiujitsu.core.ViewModelState
 import app.kawaishiryu.jiujitsu.data.model.user.UserModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentRegisterBinding
-import app.kawaishiryu.jiujitsu.util.CamarePermission
+import app.kawaishiryu.jiujitsu.util.ImageManipulationUtil
+import app.kawaishiryu.jiujitsu.util.permission.StoragePermission
 import app.kawaishiryu.jiujitsu.util.getRandomUUIDString
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
-import java.io.FileNotFoundException
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     private lateinit var binding: FragmentRegisterBinding
-    private val viewModel: RegisterViewModel by viewModels()
+    private val viewModel: RegisterUserViewModel by viewModels()
     private val currentUserRegister = UserModel()
 
     private var imageSelectedUri: Uri? = null
 
-    //Seleccionar imagen
+    //Seleccionar imagen ELIMINADO
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 imageSelectedUri = it.data?.data
-                binding.ivUser.setImageURI(imageSelectedUri)
+                //binding.ivUser.setImageURI(imageSelectedUri)
             }
         }
 
@@ -54,9 +50,10 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             registerUser()
         }
 
-        binding.ivUser.setOnClickListener {
-            permissiones()
-        }
+        //SAQUE LA IMAGEN DE USUARIO
+//        binding.ivUser.setOnClickListener {
+//            permissiones()
+//        }
 
         startFlow()
     }
@@ -67,22 +64,21 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         currentUserRegister.email = binding.etEmail.text.toString().trim()
         currentUserRegister.password = binding.etPassword.text.toString().trim()
         currentUserRegister.id = getRandomUUIDString()
+        currentUserRegister.rol = "Alumno"
 
-        val bitmap = getBitmapFromUri(imageSelectedUri!!, requireContext(), quality = 10)
-
+        val compressedBitmap = imageSelectedUri?.let { ImageManipulationUtil.compressBitmap(it, requireContext(), quality = 10) }
 
         viewModel.registrarUsuario(currentUserRegister)
     }
 
 
     private fun startFlow() {
-        Log.i("registro", "Se Largo la corrutina la corrutina")
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.registerUserViewModelState.collect() {
                     when (it) {
                         is ViewModelState.Loading -> {
+                            Log.d("???","RegisterFragment: Registering user please wait")
                             binding.tvRegistrarse.visibility = View.GONE
                             binding.circularProgressIndicator.visibility = View.VISIBLE
                             binding.tvWaiting.visibility = View.VISIBLE
@@ -90,6 +86,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
                         is ViewModelState.UserRegisterSuccesfully -> {
                             viewModel.profileUserDb.collect() { userId ->
+                                Log.d("???","RegisterFragment: Registered user successfully")
 
                                 currentUserRegister.id = userId
                                 viewModel.registerUserCollectionDb(currentUserRegister)
@@ -102,9 +99,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                         }
 
                         is ViewModelState.Error -> { it
-                            Log.d("???", "$it")
-                            Toast.makeText(context, "Error $it", Toast.LENGTH_SHORT).show()
+                            Log.d("???","RegisterFragment: Error-> $it")
                         }
+                        else -> {}
                     }
                 }
             }
@@ -113,45 +110,23 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
 
     private fun permissiones() {
-        if (CamarePermission.hasPermission(requireContext())) {
-            Toast.makeText(context, "Tiene permisos", Toast.LENGTH_SHORT).show()
+        if (StoragePermission.hasPermission(requireContext())) {
+            //Tiene permisos
             val intent =
-                Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             resultLauncher.launch(intent)
 
         } else {
-            CamarePermission.requestPermission(requireContext())
-            if (!CamarePermission.shouldShowRequestPermissionRationale(requireContext())) {
-                CamarePermission.explainPermission(requireContext())
+            StoragePermission.requestPermission(requireContext())
+            if (!StoragePermission.shouldShowRequestPermissionRationale(requireContext())) {
+                StoragePermission.explainPermission(requireContext())
             }
         }
-
     }
-
 
     private fun navigationUp() {
         val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
         startActivity(intent)
     }
 
-    //    BitMapFromUri
-    private fun getBitmapFromUri(uri: Uri, context: Context, quality: Int = 100): Bitmap? {
-        return try {
-            val inputStream = context.contentResolver.openInputStream(uri)
-            val options = BitmapFactory.Options()
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888
-            BitmapFactory.decodeStream(inputStream, null, options)?.let { bitmap ->
-                val outputStream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
-                BitmapFactory.decodeByteArray(
-                    outputStream.toByteArray(),
-                    0,
-                    outputStream.toByteArray().size
-                )
-            }
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-            null
-        }
-    }
 }

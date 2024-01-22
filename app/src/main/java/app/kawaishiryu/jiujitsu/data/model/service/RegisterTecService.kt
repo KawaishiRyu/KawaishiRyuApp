@@ -1,7 +1,6 @@
 package app.kawaishiryu.jiujitsu.data.model.service
 
 import android.util.Log
-import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
 import app.kawaishiryu.jiujitsu.repository.firebase.cloudfirestore.CloudFileStoreWrapper
 import com.google.firebase.firestore.ktx.firestore
@@ -40,8 +39,7 @@ object RegisterTecService {
                         ?: "{}" // Puedes proporcionar un JSON vacío como valor predeterminado
 
                     val gson = Gson()
-                    val jsonData: MoviemientosModel =
-                        gson.fromJson(jsonField, MoviemientosModel::class.java)
+                    val jsonData: MoviemientosModel = gson.fromJson(jsonField, MoviemientosModel::class.java)
 
                     data.add(
                         MoviemientosModel(

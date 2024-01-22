@@ -17,27 +17,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentHomeBinding.bind(view)
-// Register lifecycle. For activity this will be lifecycle/getLifecycle() and for fragment it will be viewLifecycleOwner/getViewLifecycleOwner().
+
+        // Register lifecycle. For activity this will be lifecycle/getLifecycle() and for fragment it will be viewLifecycleOwner/getViewLifecycleOwner().
         binding.carousel.registerLifecycle(lifecycle)
         val list = mutableListOf<CarouselItem>()
-// Image URL with caption
+
+        // Image URL with caption
         list.add(
             CarouselItem(
-                imageUrl = "https://i.pinimg.com/564x/d6/e4/8c/d6e48ccad26a1821dbfa2d187aee3ab2.jpg"
+                imageUrl = "https://i.pinimg.com/564x/aa/59/66/aa59662edd4769d4e05cde07a80473c5.jpg"
                 //caption = "Photo by Aaron Wu on Unsplash"
             )
         )
 
         list.add(
             CarouselItem(
-                imageUrl = "https://i.pinimg.com/564x/e1/0a/d9/e10ad96b5b0811a064e30b72d77e78af.jpg"
+                imageUrl = "https://i.pinimg.com/564x/90/9e/7b/909e7b85b60eccdf4bb3ca63aa88c7dc.jpg"
                     //caption = "Photo by Aaron Wu on Unsplash"
             )
         )
 
         list.add(
             CarouselItem(
-                imageUrl = "https://i.pinimg.com/564x/d7/10/b5/d710b5e6ff6547ef0b406d17006a9471.jpg"
+                imageUrl = "https://i.pinimg.com/564x/d8/67/f9/d867f94e8ab32bdd37efc52742671e0b.jpg"
              //caption = "Photo by Aaron Wu on Unsplash"
             )
         )
@@ -45,14 +47,33 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.carousel.setData(list)
         binding.carousel.infiniteCarousel = true
 
-        binding.textViewDefinition
         // Carga la animación de desvanecimiento desde el archivo XML
         val fadeInAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.anim_three)
 
         // Aplica la animación al CardView
-        binding.cardViewPrueba.startAnimation(fadeInAnimation)
+        //binding.cardViewPrueba.startAnimation(fadeInAnimation)
+
+
+        binding.tvMoreJiuJitsu.setOnClickListener {
+            toggleExpansion(binding.expansionLayout2)
+        }
+
+        binding.tvMoreJudo.setOnClickListener {
+            toggleExpansion(binding.expansionLayout)
+        }
+
     }
 
+    private fun toggleExpansion(layout: View) {
+        val isExpanding = layout.visibility != View.VISIBLE
 
+        if (isExpanding) {
+            binding.tvMoreJiuJitsu.text = "Leer menos..."
+            layout.visibility = View.VISIBLE
+        } else {
+            binding.tvMoreJiuJitsu.text = "Leer mas..."
+            layout.visibility = View.GONE
+        }
+    }
 
 }

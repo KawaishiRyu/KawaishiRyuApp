@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/custom_snackbar_layout.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#009688"
+    android:gravity="center"
+    android:minHeight="45dp">
+
+    <LinearLayout
+        android:layout_marginStart="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:srcCompat="@drawable/ic_check"
+            app:tint="@color/C6" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="0dp" />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Registro exitoso"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/C6" />
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="0dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

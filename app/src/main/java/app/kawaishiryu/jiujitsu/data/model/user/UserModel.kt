@@ -13,7 +13,8 @@ data class UserModel(
     var password:String = "",
     var email:String = "",
     var pictureProfile:String = "",
-    var pathPictureProfile: String = ""
+    var pathPictureProfile: String = "",
+    var rol: String = ""
 
 ) : Parcelable {
 
@@ -25,19 +26,6 @@ data class UserModel(
         const val PASSWORD_USER_KEY = "PASSWORD_USER"
         const val EMAIL_USER_KEY = "EMAIL_USER"
         const val PICTURE_PROFILE_USER_KEY = "PICTURE_PROFILE_USER"
-    }
-
-    fun toDictionary(): MutableMap<String, Any> {
-
-        val map = mutableMapOf<String, Any>()
-
-        map[ID_KEY] = id
-        map[NAME_USER_KEY] = name
-        map[PASSWORD_USER_KEY] = password
-        map[EMAIL_USER_KEY] = email
-        //Esta en formato bit
-        map[PICTURE_PROFILE_USER_KEY] = pictureProfile
-        return map
     }
 
 }

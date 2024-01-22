@@ -2,7 +2,6 @@ package app.kawaishiryu.jiujitsu.viewmodel.dojos
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,92 +11,89 @@ import app.kawaishiryu.jiujitsu.core.ViewModelState
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
 import app.kawaishiryu.jiujitsu.data.model.service.DojosModelService
 import app.kawaishiryu.jiujitsu.data.model.service.DojosModelService.getListFromFirebase
+import app.kawaishiryu.jiujitsu.data.model.service.ImageService
 import app.kawaishiryu.jiujitsu.util.ModelToJson.toHashMap
 import app.kawaishiryu.jiujitsu.util.ModelToJson.toJson
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LocationViewModel : ViewModel() {
 
-    private val _locationViewModelState = MutableStateFlow<ViewModelState>(ViewModelState.None)
-    val viewModelState: StateFlow<ViewModelState> = _locationViewModelState
-
+    //Get MutableList
     private val _dojosData = MutableLiveData<MutableList<DojosModel>>()
     val dojosData: LiveData<MutableList<DojosModel>> = _dojosData
 
-    private val _deleteDojoState = MutableStateFlow<ViewModelState>(ViewModelState.None)
-    val deleteDojoState: StateFlow<ViewModelState> = _deleteDojoState
-
-    private val _dojosViewModelState =
-        MutableStateFlow<ViewModelState>(ViewModelState.Empty)
-    val dojosViewModelState: StateFlow<ViewModelState> = _dojosViewModelState
+    //State Register Or Update
+    private val _locationViewModelState = MutableStateFlow<ViewModelState>(ViewModelState.Empty)
+    val locationViewModelState: StateFlow<ViewModelState> = _locationViewModelState
 
     //Ubicacion
     private val _locationUser = MutableStateFlow<LatLng>(LatLng(0.0, 0.0))
     val locationUser: StateFlow<LatLng> = _locationUser
 
-    fun registerOrUpdate(imageUri: Bitmap?, imageFileName: String, dojoModel: DojosModel, createOrUpdate: Boolean) =
-        viewModelScope.launch {
+    fun registerOrUpdate(
+        imageUri: Bitmap?,
+        imageFileName: String,
+        dojoModel: DojosModel,
+        createOrUpdate: Boolean
+    ) = viewModelScope.launch {
+        _locationViewModelState.value = ViewModelState.Loading2()
 
-            _dojosViewModelState.value = ViewModelState.Loading
-
-            try {
-                if (imageUri != null) {
-                    val uploadImage = async {
-                        DojosModelService.uploadImageFile(imageUri, imageFileName,
-                            DojosModel.DOJOS_IMAGE_FOLDER
-                        )
-                    }
-                    val imageUrl = uploadImage.await() //Obtiene el url de la imagen
-                    val imagePath = "${DojosModel.DOJOS_IMAGE_FOLDER}$imageFileName" //Obtiene la ruta donde se guardo la imagen
-
-                    //update image url and image path of the member model
-                    dojoModel.dojoUrlImage = imageUrl
-                    dojoModel.imagePathUrl = imagePath
-
+        runCatching {
+            val imageUrl = imageUri?.let {
+                withContext(Dispatchers.IO) {
+                    ImageService.uploadImageFile(it, imageFileName, DojosModel.DOJOS_IMAGE_FOLDER)
                 }
-                val register = async {
-                    dojoModel.toJson()      // Convierte el modelo en JSON
-                    val data = dojoModel.toHashMap()// Convierte el modelo en un HashMap con la clave "jsonData"
-
-                    if (createOrUpdate){                                    //Actualiza un dojo
-                        DojosModelService.updateDojoFromFirebase(dojoModel,data)
-                    }else{                                                  //Crea un dojo
-                        DojosModelService.recordWithJson(dojoModel, data)
-                    }
-                }
-                _dojosViewModelState.value = ViewModelState.RegisterSuccessfullyDojo(dojoModel)
-                register.await()
-
-            } catch (e: java.lang.Exception) {
-                _dojosViewModelState.value = ViewModelState.Error(e.message.toString())
             }
+            imageUrl?.let {
+                dojoModel.dojoUrlImage = it
+                dojoModel.imagePathUrl = "${DojosModel.DOJOS_IMAGE_FOLDER}$imageFileName"
+            }
+            val data = withContext(Dispatchers.Default) {
+                dojoModel.toJson()
+                dojoModel.toHashMap()
+            }
+            if (createOrUpdate) {
+                DojosModelService.updateDojoFromFirebase(dojoModel, data)
+            } else {
+                DojosModelService.registerWithJson(dojoModel, data)
+            }
+        }.onSuccess {
+            _locationViewModelState.value = ViewModelState.Success2()
+        }.onFailure { e ->
+            _locationViewModelState.value = ViewModelState.Error(e.message.toString())
         }
+    }
 
-    //Buscar Dojos o Trael la lista de dojos
+    //GetListDojo
     fun fetchDojosData() {
         viewModelScope.launch {
+            _locationViewModelState.value = ViewModelState.Loading2()
             try {
                 val data = getListFromFirebase()
                 _dojosData.value = data
+                _locationViewModelState.value = ViewModelState.GetListSuccessfullyDojo(data)
             } catch (e: Exception) {
                 // Manejar la excepción
-                Log.d("???", "Error")
+                _locationViewModelState.value = ViewModelState.Error2()
             }
         }
     }
-    fun deleteDojoFirebase(uuid: DojosModel){
+
+    fun deleteDojoFirebase(uuid: DojosModel) {
         viewModelScope.launch {
+            _locationViewModelState.value = ViewModelState.Loading2()
             try {
                 DojosModelService.deleteDojoFromFirebase(uuid)
                 fetchDojosData()             //Actualizar estado con exito
-                _deleteDojoState.value = ViewModelState.Succes("Dojo eleminado")
-            }catch (e:Exception){
-                Log.d("???", "Error")
-                _deleteDojoState.value = ViewModelState.Error(e.message ?: "Error al eliminar")
+                _locationViewModelState.value = ViewModelState.Success2()
+            } catch (e: Exception) {
+                _locationViewModelState.value = ViewModelState.Error2(e.message ?: "Error al eliminar")
             }
         }
     }

@@ -18,7 +18,7 @@ class CreateTecViewModel: ViewModel() {
 
     fun register(model: MoviemientosModel, PATH: String) =
         viewModelScope.launch {
-            _tecViewModelState.value = ViewModelState.Loading
+            _tecViewModelState.value = ViewModelState.Loading2()
 
             try {
                 val register = async {
@@ -30,8 +30,11 @@ class CreateTecViewModel: ViewModel() {
 
                     RegisterTecService.recordWithJson(PATH, model, data)
                 }
-                _tecViewModelState.value = ViewModelState.RegisterSuccessfullyMovTec(movModel = model)
-                register.await()
+
+                register.await() //Una vez obtenemos la respuesta obtenemos el estado
+                //_tecViewModelState.value = ViewModelState.RegisterSuccessfullyMovTec(movModel = model)
+                _tecViewModelState.value = ViewModelState.Success2()
+
             }catch (e: java.lang.Exception){
                 _tecViewModelState.value = ViewModelState.Error(e.message.toString())
             }

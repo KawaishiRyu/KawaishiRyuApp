@@ -6,4 +6,6 @@ interface OnItemClickTec {
 
     fun deleteTec(tec: MoviemientosModel)
 
+    fun editTec(tec: MoviemientosModel)
+
 }

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="@color/C7"
+    app:strokeColor="@color/C1"
+    app:strokeWidth="3dp"
     >
 
     <LinearLayout
@@ -22,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="Estas seguro de cerrar sesion?"
             android:textAlignment="center"
-            android:textColor="@color/C6"
+            android:textColor="@color/C1"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +37,18 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnNoSignOut"
+                android:layout_width="wrap_content"
+                android:layout_weight="@integer/material_motion_duration_medium_1"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/C7"
+                android:textColor="@color/C1"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/C1"
+                android:text="NO"/>
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnYesSignOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,18 +58,8 @@
                 android:layout_weight="@integer/material_motion_duration_medium_1"
                 android:text="Si" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnNoSignOut"
-                android:layout_width="wrap_content"
-                android:layout_weight="@integer/material_motion_duration_medium_1"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:backgroundTint="@color/C1"
-                android:textColor="@color/C4"
-                android:text="NO"/>
-
         </LinearLayout>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -7,4 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class SubItemModelTec(
     val subItemTitle: String,
     val translateTitle: String?
+
 ) : Parcelable

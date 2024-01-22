@@ -1,78 +1,99 @@
 package app.kawaishiryu.jiujitsu.ui.dialog
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
-import androidx.lifecycle.Lifecycle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import app.kawaishiryu.jiujitsu.core.ViewModelState
 import app.kawaishiryu.jiujitsu.databinding.ActivitySplashScreenBinding
-import app.kawaishiryu.jiujitsu.viewmodel.auth.LoginScreenViewModel
 import app.kawaishiryu.jiujitsu.ui.MainActivity
 import app.kawaishiryu.jiujitsu.ui.MainMenuHostActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import app.kawaishiryu.jiujitsu.util.SnackbarUtils
+import app.kawaishiryu.jiujitsu.viewmodel.auth.LoginScreenViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class SplashScreenActivity : AppCompatActivity() {
 
-    //Instanciamos la clase del viewModel
-    private val viewModel by viewModels<LoginScreenViewModel>()
     private lateinit var binding: ActivitySplashScreenBinding
+    private val viewModel by viewModels<LoginScreenViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
 
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
-        val view = binding.root
+        setContentView(binding.root)
 
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             delay(3000L)
-            isUserLoggedIn()
-            startFlow()
-            finish()
+            checkUserLoggedIn()
         }
-        setContentView(view)
     }
 
+    private suspend fun checkUserLoggedIn() {
+        viewModel.userLogged()
 
-    private fun startFlow() {
+        viewModel.loggedInUser.collect { result ->
+            when (result) {
+                is ViewModelState.Loading2 -> {
+                    Log.d("???", "SplashScreenAct: Loading user... : ")
+                }
 
-        lifecycleScope.launch  {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.prueba.collect(){
-                    if(it){
-                        //Tiramos el intent
-                        val intent = Intent(this@SplashScreenActivity, MainMenuHostActivity::class.java)
-                        startActivity(intent)
-                        Toast.makeText(this@SplashScreenActivity, "Bienvenido de nuevo :)", Toast.LENGTH_SHORT).show()
+                is ViewModelState.Success2 -> {
+                    Log.d("???", "SplashScreenAct: User found... : ${result.message}")
+                    navigateToNextActivity(true)
+                }
 
-                    }else{
-                        //Le mandamos al login
-                        navigationUp()
-                    }
+                is ViewModelState.Empty -> {
+                    Log.d("???", "SplashScreenAct: User not logged in")
+                    navigateToNextActivity(false)
+                }
 
+                is ViewModelState.Error2 -> {
+                    Log.d("???", "SplashScreenAct: Error: ${result}")
+                    navigateToNextActivity(false)
+                }
+
+                else -> {
+                    Log.d("???", "SplashScreenAct: Unknown Error")
+                    navigateToNextActivity(false)
                 }
             }
         }
-
     }
 
-    private fun navigationUp() {
-        val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
-        startActivity(intent)
-        Toast.makeText(this@SplashScreenActivity, "Registrate)", Toast.LENGTH_SHORT).show()
+    private fun navigateToNextActivity(isLoggedIn: Boolean) {
+        if (isLoggedIn) {
+            showWelcomeSnackbar(binding.root)
+            navigateToMainMenu()
+        } else {
+            navigateToMainActivity()
+        }
     }
 
+    private fun navigateToMainMenu() {
+        startActivity(Intent(this@SplashScreenActivity, MainMenuHostActivity::class.java))
+        finish()
+    }
 
-    //Verificamos si existe una cuenta
-    private fun isUserLoggedIn() {
-        //----------------------------------------------------------------------
-        viewModel.userLogged()
-        //----------------------------------------------------------------------
+    private fun navigateToMainActivity() {
+        startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
+        finish()
+    }
+
+    private fun showWelcomeSnackbar(view: View) {
+        SnackbarUtils.showCustomSnackbar(view, layoutInflater, 1, "Bienvenido de nuevo")
     }
 }
+
+
+
+
+
+
 

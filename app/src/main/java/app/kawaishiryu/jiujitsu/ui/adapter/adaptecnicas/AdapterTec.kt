@@ -1,8 +1,8 @@
 package app.kawaishiryu.jiujitsu.ui.adapter.adaptecnicas
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import app.kawaishiryu.jiujitsu.R
@@ -12,19 +12,17 @@ import app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.TecnicasFragmentDire
 import app.kawaishiryu.jiujitsu.util.OnItemClickTec
 
 class AdapterTec(
-    private val list: MutableList<MoviemientosModel>,
+    private val list: List<MoviemientosModel>,
     private val nameFinal: String,
-    private val listener: OnItemClickTec?
+    private val listener: OnItemClickTec
 ) : RecyclerView.Adapter<AdapterTec.TecViewHolder>() {
 
-    class TecViewHolder(val itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
+    inner class TecViewHolder(private val binding: ItemTechinqueBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        val binding = ItemTechinqueBinding.bind(itemView)
-
-        fun render(model: MoviemientosModel, nameFinal: String) {
+        fun bind(model: MoviemientosModel) {
             binding.apply {
-                tvTecnica.text = "${model.nameTec}"
+                tvTecnica.text = model.nameTec
 
                 itemView.setOnClickListener {
                     val navController = Navigation.findNavController(itemView)
@@ -35,27 +33,33 @@ class AdapterTec(
                         )
                     navController.navigate(action)
                 }
-            }
 
+                imgDeleteTec.setOnClickListener {
+                    listener.deleteTec(model)
+                }
+
+                imgEditTec.setOnClickListener{
+                    listener.editTec(model)
+                }
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TecViewHolder {
-        return TecViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_techinque, parent, false)
-        )
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemTechinqueBinding.inflate(inflater, parent, false)
+        val viewHolder = TecViewHolder(binding)
+
+        // Aplicar la animación cuando se crea el ViewHolder
+        val scaleAnimation = AnimationUtils.loadAnimation(parent.context, R.anim.anim_one)
+        viewHolder.itemView.startAnimation(scaleAnimation)
+
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: TecViewHolder, position: Int) {
-        val item = list[position]
-        holder.render(item, nameFinal)
-
-        holder.binding.imgDeleteTec.setOnClickListener {
-            listener?.deleteTec(list[position])
-        }
-
+        holder.bind(list[position])
     }
 
     override fun getItemCount(): Int = list.size
-
 }

@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.location.LocationFragment"
     android:background="@color/C2"
-    >
+    tools:context=".ui.fragment.location.LocationFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLocation"
@@ -27,9 +26,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Agregar dojo"
         android:backgroundTint="@color/C1"
+        android:text="Agregar dojo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <FrameLayout
+        android:id="@+id/animationFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/C2"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loaging2" />
+
+            <TextView
+                android:textStyle="italic"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Espere un momento..."
+                android:textColor="@color/C6"
+                android:textSize="30sp"
+                />
+        </LinearLayout>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

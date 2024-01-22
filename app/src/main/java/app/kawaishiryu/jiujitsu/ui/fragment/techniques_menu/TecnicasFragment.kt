@@ -21,11 +21,13 @@ import app.kawaishiryu.jiujitsu.util.OnItemClickTec
 import kotlinx.coroutines.launch
 
 
-class TecnicasFragment : Fragment(R.layout.fragment_tecnicas), OnItemClick, OnItemClickTec {
+class TecnicasFragment : Fragment(R.layout.fragment_tecnicas), OnItemClickTec {
 
     private lateinit var binding: FragmentTecnicasBinding
     private val viewModel: TecnicasViewModel by viewModels()
+
     private val args by navArgs<TecnicasFragmentArgs>()
+
     private lateinit var adapterTec: AdapterTec
 
     private var nameFinal: String = ""
@@ -33,59 +35,60 @@ class TecnicasFragment : Fragment(R.layout.fragment_tecnicas), OnItemClick, OnIt
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         binding = FragmentTecnicasBinding.bind(view)
 
         val nameTecnica = args.nameTec
         val subTec = args.nameTecSec
+        nameFinal = nameTecnica ?: subTec ?: ""
 
-        if (nameTecnica != null && subTec == null) {
-            nameFinal = nameTecnica
-        } else if (nameTecnica == null && subTec != null) {
-            nameFinal = subTec
-        }
-
-        binding.nameTec.text = nameFinal
-        binding.textView5.text = args.tanslateTec
+        setupUI(nameFinal)
 
         binding.floatingActionButton.setOnClickListener {
-            val navController = Navigation.findNavController(view)
-            val action = TecnicasFragmentDirections.actionTecnicasFragmentToCreateTecFragment(
-                nameFinal
-            )
-            navController.navigate(action)
+            navigateToCreateTecFragment(nameFinal)
         }
+
         binding.rvTecnicas.layoutManager = LinearLayoutManager(context)
 
         startFlow()
     }
 
+    private fun setupUI(nameFinal: String) {
+        binding.nameTec.text = nameFinal
+        binding.tvTransalte.text = args.tanslateTec
+        binding.tvDescription.text = getString(args.descriptionTec)
+        binding.tvKanji.text = args.kanjiTec
+    }
+
     private fun startFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.tecData.observe(viewLifecycleOwner){data->
-                    adapterTec = AdapterTec(data,nameFinal, this@TecnicasFragment)
-                    binding.rvTecnicas.adapter = adapterTec
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.tecData.observe(viewLifecycleOwner) { data ->
+                    updateAdapter(data)
+
                 }
                 viewModel.fetchTecData(nameFinal)
             }
         }
     }
 
-    override fun setOnItemClickListener(dojo: DojosModel) {
-        TODO("Not yet implemented")
+    private fun navigateToCreateTecFragment(nameFinal: String) {
+        val navController = Navigation.findNavController(requireView())
+        val action = TecnicasFragmentDirections.actionTecnicasFragmentToCreateTecFragment(nameFinal)
+        navController.navigate(action)
     }
 
-    override fun onDeleteClick(dojosModel: DojosModel) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onEditClick(dojosModel: DojosModel) {
-        TODO("Not yet implemented")
+    private fun updateAdapter(data: List<MoviemientosModel>) {
+        adapterTec = AdapterTec(data, nameFinal, this@TecnicasFragment)
+        binding.rvTecnicas.adapter = adapterTec
     }
 
     override fun deleteTec(tec: MoviemientosModel) {
         viewModel.deleteDojoFirebase(tec,nameFinal)
     }
 
+    override fun editTec(tec: MoviemientosModel) {
+        //Editar tect
+    }
 
 }

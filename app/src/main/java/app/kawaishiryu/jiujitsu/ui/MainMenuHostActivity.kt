@@ -2,9 +2,11 @@ package app.kawaishiryu.jiujitsu.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,7 +14,6 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.databinding.ActivityMainMenuHostBinding
-import com.google.android.material.navigation.NavigationView
 
 class MainMenuHostActivity : AppCompatActivity() {
 
@@ -29,10 +30,11 @@ class MainMenuHostActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment,
+                R.id.menuJiuJitsuFragment,
+                R.id.menuJudoFragment,
                 R.id.locationFragment,
                 R.id.profileUserFragment,
-                R.id.dialogSignOutUser,
-                R.id.menuTecFragment
+                R.id.dialogSignOutUser
             ), binding.drawer
         )
 
@@ -41,6 +43,13 @@ class MainMenuHostActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
+
+        // Aplicar el selector de color a los elementos de menú en el NavigationView
+        val navView = binding.navView
+        val navMenu = navView.menu
+        val navMenuItemColors = ContextCompat.getColorStateList(this, R.color.colorSelected)
+
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -1,10 +1,9 @@
-package app.kawaishiryu.jiujitsu.util
+package app.kawaishiryu.jiujitsu.util.permission
 
 import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 

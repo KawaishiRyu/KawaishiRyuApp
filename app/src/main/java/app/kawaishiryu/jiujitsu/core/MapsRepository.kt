@@ -35,7 +35,6 @@ object MapsRepository {
                     continuation.resume(LatLng(location.latitude, location.longitude))
                 }
             }
-
         }
     }
 }

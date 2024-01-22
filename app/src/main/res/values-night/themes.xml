@@ -3,7 +3,7 @@
     <style name="Theme.KawaishiRyu" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
 
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/C2</item>
+        <item name="colorPrimary">@color/C1</item><!-- Primary brand color. -->
         <item name="colorPrimaryVariant">@color/C7</item>
         <item name="colorOnPrimary">@color/C2</item>
 
@@ -12,6 +12,50 @@
         <item name="android:navigationBarColor">@color/C3</item>
         <item name="android:actionMenuTextColor">@color/C3</item>
 
-
     </style>
+
+    <style name="MaterialAutoCompleteTextViewStyle" parent="Widget.MaterialComponents.AutoCompleteTextView.FilledBox">
+        <!-- Ajustes generales -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <!-- Ajustes específicos del MaterialAutoCompleteTextView -->
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:hint">Seleccione una opción</item>
+        <item name="android:inputType">none</item>
+        <item name="android:textColor">@color/C6</item>
+        <item name="android:background">@null</item> <!-- Elimina el fondo para que se vea como un cuadro de texto normal -->
+        <item name="android:focusable">false</item> <!-- Hace que no sea editable directamente -->
+    </style>
+
+    <style name="AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">15dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginEnd">15dp</item>
+        <item name="android:textColorHint">@color/C6</item>
+        <item name="boxBackgroundColor">@color/C7</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="endIconDrawable">@drawable/ic_clear</item>
+    </style>
+
+    <style name="AppTheme.TextInputEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:hint">Nombre de tecnica</item>
+        <item name="android:textColor">@color/C6</item>
+    </style>
+
+
+
+
+
+
 </resources>

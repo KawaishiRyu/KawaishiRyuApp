@@ -7,6 +7,8 @@ import kotlinx.parcelize.Parcelize
 data class MainModelTec(
     val title: String,
     val translate: String,
+    val kanji: String?,
+    val description: Int? = null,
     val subItemModel: List<SubItemModelTec>?= null
 ) : Parcelable {
 

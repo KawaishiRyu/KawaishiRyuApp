@@ -2,9 +2,9 @@ package app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Toast
+import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,14 +14,18 @@ import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.core.ViewModelState
 import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentCreateTecBinding
+import app.kawaishiryu.jiujitsu.util.ListTec
+import app.kawaishiryu.jiujitsu.util.SnackbarUtils
 import app.kawaishiryu.jiujitsu.viewmodel.tec.CreateTecViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 
 
 class CreateTecFragment : Fragment(R.layout.fragment_create_tec) {
 
     private lateinit var binding: FragmentCreateTecBinding
+
     private val viewModel: CreateTecViewModel by viewModels()
 
     private val args by navArgs<CreateTecFragmentArgs>()
@@ -31,17 +35,27 @@ class CreateTecFragment : Fragment(R.layout.fragment_create_tec) {
 
         binding = FragmentCreateTecBinding.bind(view)
 
+        val adapter =
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                ListTec.cinturones
+            )
+
+        binding.grado.setAdapter(adapter)
+        binding.grado.threshold = 1
+
         binding.tvTecPrincipal.text = args.pathFb
 
-        initFlows()
-
-        binding.button5.setOnClickListener {
-            createCollectionTec()
+        binding.createTec.setOnClickListener {
+            createCollectionTec(view)
         }
+
+        initFlows(view)
     }
 
 
-    private fun createCollectionTec(){
+    private fun createCollectionTec(view: View) {
         val movModel = MoviemientosModel()
         val uuidRandom = getRandomUUIDString()
 
@@ -52,32 +66,72 @@ class CreateTecFragment : Fragment(R.layout.fragment_create_tec) {
         movModel.description = binding.descripcionTec.text.toString()
         movModel.grado = binding.grado.text.toString()
 
-        viewModel.register(movModel, args.pathFb)
+        // Verifica si los campos obligatorios están vacíos
+        when {
+            movModel.nameTec.isEmpty() -> SnackbarUtils.showCustomSnackbar(
+                view,
+                layoutInflater,
+                2,
+                "Debes colocar un nombre en tecnica"
+            )
+
+            movModel.transalteTec.isEmpty() -> SnackbarUtils.showCustomSnackbar(
+                view,
+                layoutInflater,
+                2,
+                "Debes completar el campo de traducción"
+            )
+
+            movModel.grado.isEmpty() -> SnackbarUtils.showCustomSnackbar(
+                view,
+                layoutInflater,
+                2,
+                "Debes seleccionar una opción en grado de dificultad"
+            )
+
+            else -> {
+                // Todos los campos obligatorios están completos, llama a la función register
+                viewModel.register(movModel, args.pathFb)
+            }
+        }
+
     }
+
     private fun getRandomUUIDString(): String {
         return UUID.randomUUID().toString().replace("-", "")
     }
 
-    private fun initFlows(){
+    private fun initFlows(view: View) {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.tevViewModelState.collect{
-                    when(it){
-                        is ViewModelState.Loading->{
-                            Log.d("???", "Cargando")
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.tevViewModelState.collectLatest { state ->
+                    when (state) {
+                        is ViewModelState.Loading2 -> {
+                            Log.d("???", "CreateTec Cargando")
                         }
-                        is ViewModelState.RegisterSuccessfullyDojo->{
-                            //Register succes
-                            Log.d("???", "fue exitoso ${it.dojoModel}")
-                            Toast.makeText(context, "Register succes", Toast.LENGTH_SHORT)
-                                .show()
+
+                        is ViewModelState.Success2 -> {
+                            Log.d("???", "CreateTec Exitoso")
+
+                            val message: String = "Registro exitoso."
+
+                            SnackbarUtils.showCustomSnackbar(
+                                view,
+                                layoutInflater,
+                                1,
+                                message
+                            )
                         }
-                        is ViewModelState.Empty->{
-                            Log.d("???", "Vacio")
+
+                        is ViewModelState.Empty -> {
+                            Log.d("???", "CreateTec Vacio")
                         }
-                        is ViewModelState.Error->{
-                            Log.d("???", "Error")
+
+                        is ViewModelState.Error -> {
+                            Log.d("???", "CreateTec Error")
                         }
+
+                        else -> {}
                     }
                 }
             }

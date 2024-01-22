@@ -1,4 +1,4 @@
-package app.kawaishiryu.jiujitsu.util
+package app.kawaishiryu.jiujitsu.util.permission
 
 import android.Manifest
 import android.app.Activity
