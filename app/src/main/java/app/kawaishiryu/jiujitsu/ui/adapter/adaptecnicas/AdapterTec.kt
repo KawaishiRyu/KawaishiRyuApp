@@ -7,14 +7,14 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
+import app.kawaishiryu.jiujitsu.data.model.tecnicas.MainModelTec
 import app.kawaishiryu.jiujitsu.databinding.ItemTechinqueBinding
 import app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.TecnicasFragmentDirections
 import app.kawaishiryu.jiujitsu.util.OnItemClickTec
 
 class AdapterTec(
     private val list: List<MoviemientosModel>,
-    private val nameFinal: String,
-    private val listener: OnItemClickTec
+    private val movModelMain: MainModelTec
 ) : RecyclerView.Adapter<AdapterTec.TecViewHolder>() {
 
     inner class TecViewHolder(private val binding: ItemTechinqueBinding) :
@@ -29,17 +29,9 @@ class AdapterTec(
                     val action =
                         TecnicasFragmentDirections.actionTecnicasFragmentToDetailTecFragment(
                             model,
-                            nameFinal
+                            movModelMain
                         )
                     navController.navigate(action)
-                }
-
-                imgDeleteTec.setOnClickListener {
-                    listener.deleteTec(model)
-                }
-
-                imgEditTec.setOnClickListener{
-                    listener.editTec(model)
                 }
             }
         }

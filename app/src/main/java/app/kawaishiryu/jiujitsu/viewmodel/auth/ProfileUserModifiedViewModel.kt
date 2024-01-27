@@ -31,13 +31,12 @@ class ProfileUserModifiedViewModel() : ViewModel() {
             val userData = withContext(Dispatchers.Default) {
                 // Mantén la conversión a JSON si es necesaria
                 user.toJson()
-
                 // Convierte el UserModel a un mapa para la actualización
                 user.toHashMap()
             }
 
             // Llama a la función de servicio para modificar el usuario
-            UserModelService.modifiedCurrentUser(user, userId, userData)
+            UserModelService.modifiedCurrentUser(userId, userData)
             _stateUpdateCurrentUserModified.value = ViewModelState.UserModifiedSuccesfully(user)
 
         } catch (e: CancellationException) {

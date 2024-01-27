@@ -19,7 +19,8 @@ class SubItemAdapterTec(
     private val kanji: String,
     private val description: Int,
     private val tecnica: String,
-    private val optionMenu: String
+    private val optionMenu: String,
+
 ) : RecyclerView.Adapter<SubItemAdapterTec.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

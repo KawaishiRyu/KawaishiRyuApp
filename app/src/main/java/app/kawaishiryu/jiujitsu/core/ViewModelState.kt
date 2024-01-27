@@ -1,6 +1,8 @@
 package app.kawaishiryu.jiujitsu.core
 
+import app.kawaishiryu.jiujitsu.data.model.datastore.UserModelDataStore
 import app.kawaishiryu.jiujitsu.data.model.dojos.DojosModel
+import app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel
 import app.kawaishiryu.jiujitsu.data.model.user.UserModel
 
 sealed class ViewModelState {
@@ -10,6 +12,10 @@ sealed class ViewModelState {
     data class SignInUserSuccesfully(val user: UserModel) : ViewModelState()
     data class UserRegisterDbSyccesfully(val userModel: UserModel) : ViewModelState()
     data class UserModifiedSuccesfully(val userModel: UserModel) : ViewModelState()
+    data class UserDataStoreSuccesfully(val userDataModel : UserModelDataStore): ViewModelState()
+
+    //TecState
+    data class TecModifiedSuccesfully(val model: MoviemientosModel): ViewModelState()
 
     data class Error(val message: String) : ViewModelState() //Register Or Update
     data class Logged(val boolean: Boolean) : ViewModelState()

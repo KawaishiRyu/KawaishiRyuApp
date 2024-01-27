@@ -127,6 +127,11 @@
             app:argType="app.kawaishiryu.jiujitsu.data.model.tecnicas.SubItemModelTec"
             app:nullable="true"
             android:defaultValue="@null" />
+        <argument
+            android:name="movModelMain"
+            app:argType="app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
@@ -147,8 +152,18 @@
         android:label="fragment_create_tec"
         tools:layout="@layout/fragment_create_tec">
         <argument
-            android:name="path_fb"
-            app:argType="string" />
+            android:name="movModelArg"
+            app:argType="app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="mainModelTecArg"
+            app:argType="app.kawaishiryu.jiujitsu.data.model.tecnicas.MainModelTec"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="editOrCreate"
+            app:argType="boolean" />
     </fragment>
 
     <fragment
@@ -157,15 +172,18 @@
         android:label="fragment_detail_tec"
         tools:layout="@layout/fragment_detail_tec">
         <argument
-            android:name="modelMovArg"
+            android:name="movModelArg"
             app:argType="app.kawaishiryu.jiujitsu.data.model.movimientos.MoviemientosModel"
             app:nullable="true" />
         <argument
-            android:name="nameMovArg"
-            app:argType="string" />
+            android:name="mainModelTecArg"
+            app:argType="app.kawaishiryu.jiujitsu.data.model.tecnicas.MainModelTec"
+            app:nullable="true"
+            android:defaultValue="@null" />
         <action
             android:id="@+id/action_detailTecFragment_to_createTecFragment"
             app:destination="@id/createTecFragment" />
+
     </fragment>
 
     <fragment

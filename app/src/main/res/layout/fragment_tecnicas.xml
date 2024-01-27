@@ -111,17 +111,18 @@
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.button.MaterialButton
-                app:strokeColor="@color/C1"
-                app:strokeWidth="2dp"
                 android:id="@+id/floatingActionButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/C2"
                 android:text="Agregar tecnica"
-                android:textColor="@color/C1" />
+                android:textColor="@color/C1"
+                app:strokeColor="@color/C1"
+                app:strokeWidth="2dp" />
 
         </LinearLayout>
 

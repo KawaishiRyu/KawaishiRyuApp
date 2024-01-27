@@ -21,7 +21,6 @@ class ProfileUserViewModel() : ViewModel() {
     fun getUserDb(uuid: String) = viewModelScope.launch {
         try {
             _profileUserDbState.value = ViewModelState.Loading2("Cargando usuario...")
-
             val user = UserModelService.getUserFromFirebaseById(uuid)
 
             _profileUserDbState.value = ViewModelState.UserLoaded(user)

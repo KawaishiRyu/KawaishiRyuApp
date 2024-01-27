@@ -229,6 +229,26 @@ object CloudFileStoreWrapper {
                 }
         }
     }
+
+    //Corutina que actualiza cualquier dato
+    suspend fun modifiedCurrentTec(
+        collectionPath: String,
+        documentPath: String,
+        map: HashMap<String, String>
+    ): Void {
+        return suspendCoroutine { continuation ->
+            Firebase.firestore.collection(collectionPath)
+                .document(documentPath)
+                .set(
+                    map,
+                    SetOptions.merge()
+                ).addOnSuccessListener {
+                    continuation.resume(it)
+                }.addOnFailureListener {
+                    continuation.resumeWithException(it)
+                }
+        }
+    }
 }
 
 

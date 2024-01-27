@@ -67,35 +67,32 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tvMain"
+                            android:id="@+id/tvTitleMain"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Shisei"
                             android:textColor="@color/C1"
                             android:textSize="20sp" />
 
                         <TextView
-                            android:id="@+id/tvKanji"
+                            android:id="@+id/tvKanjiMain"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:text="姿勢"
                             android:textColor="@color/C6"
                             android:textSize="18sp" />
 
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/tvTranslteMain"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
-                        android:text="Posturas del cuerpo"
                         android:textAlignment="center"
                         android:textColor="@color/C6"
                         android:textSize="18sp" />
@@ -119,12 +116,11 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/tvDetailName"
+                    android:id="@+id/tvTitleTec"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:text="Shisei"
                     android:textColor="@color/C6"
                     android:textSize="18sp" />
 
@@ -146,26 +142,24 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/tvTranslate"
+                    android:id="@+id/tvTranslateTec"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:text="Posturas"
                     android:textColor="@color/C6"
                     android:textSize="18sp" />
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tvDescription"
+                android:id="@+id/tvDescriptionTec"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
-                android:text="@string/Shisei_def"
-                android:textColor="@color/C6"/>
+                android:textColor="@color/C6" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -230,13 +224,12 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tvDif"
+                        android:id="@+id/tvDifTec"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
-                        android:text="Posturas del cuerpo"
                         android:textAlignment="center"
                         android:textColor="@color/C6"
                         android:textSize="18sp" />
@@ -248,15 +241,33 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEditProfileUser"
+                android:id="@+id/btnEditTec"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_margin="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/C1"
                 android:text="Editar"
                 app:cornerRadius="10dp"
                 app:elevation="10dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEliminar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/C2"
+                android:text="Eliminar"
+                android:textColor="@color/white"
+                app:cornerRadius="10dp"
+                app:elevation="10dp"
+                app:strokeColor="@color/C1"
+                app:strokeWidth="2dp" />
 
         </LinearLayout>
 

@@ -21,6 +21,7 @@ data class UserModel(
     companion object {
         val  userRegister = UserModel()
         const val CLOUD_FIRE_STORE_PATH = "USER"
+        const val ROL_ADMIN = "Admin"
         const val ID_KEY = "ID"
         const val NAME_USER_KEY = "NAME_USER"
         const val PASSWORD_USER_KEY = "PASSWORD_USER"

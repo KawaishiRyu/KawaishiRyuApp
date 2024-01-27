@@ -39,7 +39,8 @@ object RegisterTecService {
                         ?: "{}" // Puedes proporcionar un JSON vacío como valor predeterminado
 
                     val gson = Gson()
-                    val jsonData: MoviemientosModel = gson.fromJson(jsonField, MoviemientosModel::class.java)
+                    val jsonData: MoviemientosModel =
+                        gson.fromJson(jsonField, MoviemientosModel::class.java)
 
                     data.add(
                         MoviemientosModel(
@@ -66,4 +67,16 @@ object RegisterTecService {
             )
         }
 
+    suspend fun modifiedCurrentTec(
+        path: String,
+        user: MoviemientosModel,
+        data: HashMap<String, String>
+    ): Void =
+        withContext(Dispatchers.IO) {
+            return@withContext CloudFileStoreWrapper.modifiedCurrentUser(
+                path,
+                user.uuId,
+                data
+            )
+        }
 }

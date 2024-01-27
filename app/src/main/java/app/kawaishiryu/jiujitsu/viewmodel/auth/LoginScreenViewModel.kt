@@ -41,7 +41,6 @@ class LoginScreenViewModel() : ViewModel() {
             val isUserLogged = withContext(Dispatchers.IO) {
                 UserModelService.loggedInUser()
             }
-
             // Use la información obtenida para determinar el estado
             if (isUserLogged) {
                 _loggedInUser.value = ViewModelState.Success2()

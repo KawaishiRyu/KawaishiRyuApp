@@ -12,7 +12,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:backgroundTint="@color/C7"
         android:elevation="4dp"
@@ -25,19 +25,24 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="70dp"
+                android:id="@+id/tvEditOrCreate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
                 android:gravity="center"
-                android:text="Vas a crear una tecnica en:"
+                android:text="Vas a crear una tecnica en el menu:"
                 android:textColor="@color/C1"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -45,7 +50,6 @@
                     android:id="@+id/tvTecPrincipal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Shisei"
                     android:textColor="@color/C6"
                     android:textSize="20sp" />
 
@@ -54,11 +58,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="八方の捌き"
                     android:textColor="@color/C6"
                     android:textSize="20sp" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvTransalte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="15dp"
+                android:textAlignment="center"
+                android:textColor="@color/C6"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -82,11 +97,10 @@
     <com.google.android.material.textfield.TextInputLayout
         style="@style/AppTheme.TextInputLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nombreTraduccionTec"
+            android:id="@+id/nameTranslateTec"
             style="@style/AppTheme.TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

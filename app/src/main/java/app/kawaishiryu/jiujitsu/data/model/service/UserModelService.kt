@@ -64,7 +64,7 @@ object UserModelService {
     }
 
 
-    suspend fun modifiedCurrentUser(user: UserModel, id: String, data: HashMap<String, String>): Void =
+    suspend fun modifiedCurrentUser(id: String, data: HashMap<String, String>): Void =
         withContext(Dispatchers.IO) {
             return@withContext CloudFileStoreWrapper.modifiedCurrentUser(
                 UserModel.CLOUD_FIRE_STORE_PATH,

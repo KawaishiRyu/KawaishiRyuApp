@@ -14,7 +14,6 @@ import app.kawaishiryu.jiujitsu.data.model.tecnicas.MainModelTec
 import app.kawaishiryu.jiujitsu.databinding.ItemMenuTechniqueBinding
 import app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.MenuJiuJitsuFragmentDirections
 import app.kawaishiryu.jiujitsu.ui.fragment.techniques_menu.MenuJudoFragmentDirections
-import app.kawaishiryu.jiujitsu.util.OnItemClick
 
 
 class MainAdapterTec(
@@ -64,45 +63,48 @@ class MainAdapterTec(
 
                 //CardView Expandible
                 itemView.setOnClickListener {
-
-                    if (menuTec == "jiujitsu"){
-                        if (collection.subItemModel != null) {
-                            rvSubItem.visibility = if (rvSubItem.isShown) View.GONE else View.VISIBLE
-                        } else {
-                            val navController = Navigation.findNavController(itemView)
-
-                            val action = MenuJiuJitsuFragmentDirections
-                                .actionMenuJiuJitsuFragmentToTecnicasFragment(
-                                    collection.title,
-                                    null,
-                                    collection.translate,
-                                    collection.description!!,
-                                    collection.kanji
-                                )
-                            navController.navigate(action)
-                        }
-                    }else if (menuTec == "judo"){
-
-                        if (collection.subItemModel != null) {
-                            rvSubItem.visibility = if (rvSubItem.isShown) View.GONE else View.VISIBLE
-                        } else {
-                            val navController = Navigation.findNavController(itemView)
-
-                            val action = MenuJudoFragmentDirections
-                                .actionMenuJudoFragmentToTecnicasFragment(
-                                    collection.title,
-                                    null,
-                                    collection.translate,
-                                    collection.description!!,
-                                    collection.kanji
-                                )
-                            navController.navigate(action)
-                        }
-                    }else{
-                        Toast.makeText(context,"Error", Toast.LENGTH_SHORT).show()
-                    }
+                    handleCardViewClick(collection, menuTec, context)
                 }
             }
+        }
+        private fun handleCardViewClick(collection: MainModelTec, menuTec: String, context: Context) {
+            when (menuTec) {
+                "jiujitsu", "judo" -> {
+                    if (collection.subItemModel != null) {
+                        binding.rvSubItem.visibility =
+                            if (binding.rvSubItem.isShown) View.GONE else View.VISIBLE
+                    } else {
+                        navigateToTecnicasFragment(collection, menuTec, context)
+                    }
+                }
+                else -> {
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        private fun navigateToTecnicasFragment(collection: MainModelTec, menuTec: String, context: Context) {
+            val navController = Navigation.findNavController(itemView)
+            val action = when (menuTec) {
+                "jiujitsu" -> MenuJiuJitsuFragmentDirections
+                    .actionMenuJiuJitsuFragmentToTecnicasFragment(
+                        collection.title,
+                        null,
+                        collection.translate,
+                        collection.description!!,
+                        collection.kanji?.toString() ?: ""
+                    )
+                "judo" -> MenuJudoFragmentDirections
+                    .actionMenuJudoFragmentToTecnicasFragment(
+                        collection.title,
+                        null,
+                        collection.translate,
+                        collection.description!!,
+                        collection.kanji?.toString() ?: ""
+                    )
+                else -> null
+            }
+            action?.let { navController.navigate(it) }
         }
     }
 

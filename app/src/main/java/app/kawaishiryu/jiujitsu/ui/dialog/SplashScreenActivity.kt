@@ -46,6 +46,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
                 is ViewModelState.Success2 -> {
                     Log.d("???", "SplashScreenAct: User found... : ${result.message}")
+                    //CREATE A DATASTORE
                     navigateToNextActivity(true)
                 }
 

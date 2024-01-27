@@ -46,5 +46,11 @@
     <string name="NAGE_WAZA"> Estas técnicas se centran en proyectar al oponente al suelo mediante el uso de la fuerza y el equilibrio. El objetivo es desequilibrar al oponente y llevarlo al suelo de una manera controlada y eficiente. </string>
     <string name="OSEA_KOMI_WAZA">Estas técnicas están diseñadas para controlar al oponente en el suelo después de haber sido lanzado o derribado. El objetivo es mantener al oponente inmovilizado en el tatami (la estera de judo) durante un período de tiempo específico, lo que lleva a la victoria en un combate.</string>
 
+    <string name="error_name_required">Debes colocar un nombre en la técnica</string>
+    <string name="error_translation_required">Debes completar el campo de traducción</string>
+    <string name="error_grado_required">Debes seleccionar una opción en grado de dificultad</string>
+
+    <string name="success_register">Registro exitoso.</string>
+    <string name="modified_succes">Modificacion exitosa.</string>
 
 </resources>

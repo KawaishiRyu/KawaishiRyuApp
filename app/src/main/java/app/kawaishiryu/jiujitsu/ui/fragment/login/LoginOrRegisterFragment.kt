@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,14 +12,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
+import app.kawaishiryu.jiujitsu.viewmodel.datastore.UserViewModelFactory
 import app.kawaishiryu.jiujitsu.R
 import app.kawaishiryu.jiujitsu.core.RegisterUserViewModel
 import app.kawaishiryu.jiujitsu.core.ViewModelState
 import app.kawaishiryu.jiujitsu.data.model.user.UserModel
 import app.kawaishiryu.jiujitsu.databinding.FragmentLoginOrRegisterBinding
+import app.kawaishiryu.jiujitsu.repository.datastore.data.DefaultUserRepository
 import app.kawaishiryu.jiujitsu.ui.MainMenuHostActivity
 import app.kawaishiryu.jiujitsu.util.SnackbarUtils
 import app.kawaishiryu.jiujitsu.viewmodel.auth.LoginScreenViewModel
+import app.kawaishiryu.jiujitsu.viewmodel.datastore.UserViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -35,6 +37,7 @@ class LoginOrRegisterFragment : Fragment(R.layout.fragment_login_or_register) {
     private val viewModel by viewModels<LoginScreenViewModel>()
     private val viewModel2 by viewModels<RegisterUserViewModel>()
 
+    //GMAIL
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -54,37 +57,45 @@ class LoginOrRegisterFragment : Fragment(R.layout.fragment_login_or_register) {
                                     Log.d("???", "LoadingOrRegisterGoogle: SignInSuccessfully")
 
                                     val idUser = signInState.user.id
-
                                     val isExist = viewModel2.checkUserExistence(idUser)
 
                                     Log.d("???", "LoginOrRegister: val isExist $isExist")
-                                    if (isExist){
-                                        val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
+                                    if (isExist) {
+                                        val intent = Intent(
+                                            requireContext(),
+                                            MainMenuHostActivity::class.java
+                                        )
                                         startActivity(intent)
                                         requireActivity().finish()
 
-                                    }else{
+                                    } else {
                                         val model = UserModel(
-                                        name = signInState.user.name,
-                                        apellido = signInState.user.apellido,
-                                        email = signInState.user.email,
-                                        id = signInState.user.id,
-                                        rol = "Alumno"
+                                            name = signInState.user.name,
+                                            apellido = signInState.user.apellido,
+                                            email = signInState.user.email,
+                                            id = signInState.user.id,
+                                            rol = "Alumno"
                                         )
                                         viewModel2.registerUserCollectionDb(model)
 
-                                        val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
+                                        val intent = Intent(
+                                            requireContext(),
+                                            MainMenuHostActivity::class.java
+                                        )
                                         startActivity(intent)
                                         requireActivity().finish()
                                     }
                                 }
+
                                 is ViewModelState.Loading2 -> {
                                     Log.d("???", "LoadingOrRegisterGoogle: Loading User...")
                                 }
+
                                 is ViewModelState.Error2 -> {
                                     Log.d("???", "LoadingOrRegisterGoogle: User not found...")
                                     //SnackbarUtils.showCustomSnackbar(view, layoutInflater, 2, "Usuario o contraseña incorrecta")
                                 }
+
                                 else -> {}
                             }
                         }
@@ -113,7 +124,12 @@ class LoginOrRegisterFragment : Fragment(R.layout.fragment_login_or_register) {
                     when (it) {
                         is ViewModelState.SignInUserSuccesfully -> {
                             Log.d("???", "LoadingOrRegister: SignInSuccesfully")
-                            SnackbarUtils.showCustomSnackbar(view, layoutInflater, 1, "Usuario cargado con exito")
+                            SnackbarUtils.showCustomSnackbar(
+                                view,
+                                layoutInflater,
+                                1,
+                                "Usuario cargado con exito"
+                            )
 
                             // Agrega un retraso antes de iniciar la nueva actividad
                             delay(1500) // Ajusta el tiempo de espera según sea necesario
@@ -121,14 +137,21 @@ class LoginOrRegisterFragment : Fragment(R.layout.fragment_login_or_register) {
                             val intent = Intent(requireContext(), MainMenuHostActivity::class.java)
                             startActivity(intent)
                         }
+
                         is ViewModelState.Loading2 -> {
-                            Log.d("???","LoadingOrRegister: Loading User...")
+                            Log.d("???", "LoadingOrRegister: Loading User...")
                         }
 
                         is ViewModelState.Error2 -> {
                             Log.d("???", "LoadingOrRegister: User not found...")
-                            SnackbarUtils.showCustomSnackbar(view, layoutInflater, 2, "Usuario o contraseña incorrecta")
+                            SnackbarUtils.showCustomSnackbar(
+                                view,
+                                layoutInflater,
+                                2,
+                                "Usuario o contraseña incorrecta"
+                            )
                         }
+
                         else -> {}
                     }
                 }
